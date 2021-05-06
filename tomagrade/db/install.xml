@@ -1,0 +1,42 @@
+<XMLDB xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" PATH="plagiarism/tomagrade/db" VERSION="20171010" COMMENT="XMLDB file for Moodle plagiarism/tomagrade" xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
+  <TABLES>
+    <TABLE NAME="plagiarism_tomagrade" COMMENT="Toma Grade table. It stores information about the submissions" NEXT="plagiarism_tomagrade_config">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="userid" />
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="id" NEXT="pid" />
+        <FIELD NAME="groupid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="userid" NEXT="pid" />
+        <FIELD NAME="status" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="pstatus" NEXT="cmid" />
+        <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="status" NEXT="filehash" />
+        <FIELD NAME="filehash" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" PREVIOUS="cmid" NEXT="updatestatus" />
+        <FIELD NAME="updatestatus" TYPE="int" LENGTH="2" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Flag to identify that this file has been updated on tomagrade server - need to ask for details" PREVIOUS="filehash" />
+        <FIELD NAME="finishrender" TYPE="int" LENGTH="2" NOTNULL="false" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Flag to identify that this file has been Rendered on tomagrade server - need to ask for details" PREVIOUS="updatestatus" />
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="cmid" />
+        <KEY NAME="cmid" TYPE="foreign" FIELDS="cmid" REFTABLE="course_modules" REFFIELDS="id" PREVIOUS="primary" NEXT="userid" />
+        <KEY NAME="userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" PREVIOUS="cmid" />
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="cm_user" UNIQUE="true" FIELDS="cmid, userid" />
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="plagiarism_tomagrade_config" COMMENT="contains tomagrade specific settings for each course module" PREVIOUS="plagiarism_tomagrade">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="cm" />
+        <FIELD NAME="cm" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="upload" />
+        <FIELD NAME="upload" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="false" DEFAULT="0" SEQUENCE="false" COMMENT="When to upload to tomagrade (never, manually, automatically)" PREVIOUS="cm" NEXT="complete" />
+        <FIELD NAME="complete" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="false" DEFAULT="0" SEQUENCE="false" COMMENT="The timestamp of when the automatic upload was last done" PREVIOUS="upload" NEXT="username" />
+        <FIELD NAME="username" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The username of the user whose account should be used for uploading files from this assignment" PREVIOUS="complete" NEXT="nondisclosure" />
+        <FIELD NAME="nondisclosure" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Flag to mark nondisclosure documents." PREVIOUS="username" NEXT="show_report_to_students" />
+        <FIELD NAME="show_report_to_students" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="Flag to show the report to students" PREVIOUS="nondisclosure" NEXT="idmatchontg" />
+        <FIELD NAME="idmatchontg" TYPE="char" LENGTH="255" NOTNULL="false" UNSIGNED="false" DEFAULT="0" SEQUENCE="false" COMMENT="id match on tomagrade" PREVIOUS="show_report_to_students"  NEXT="share_teachers"/>
+        <FIELD NAME="share_teachers" TYPE="char" LENGTH="255" NOTNULL="false" UNSIGNED="false" DEFAULT="0" SEQUENCE="false" COMMENT="ids of users to share the exam" PREVIOUS="idmatchontg" NEXT="examid"/>
+        <FIELD NAME="examid" TYPE="char" LENGTH="255" NOTNULL="false" UNSIGNED="false" DEFAULT="0" SEQUENCE="false" COMMENT="exam id in tomagrade" PREVIOUS="share_teachers" />
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="cm" />
+        <KEY NAME="cm" TYPE="foreign" FIELDS="cm" REFTABLE="course_modules" REFFIELDS="id" PREVIOUS="primary" />
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>
