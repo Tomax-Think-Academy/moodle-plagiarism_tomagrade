@@ -649,7 +649,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data,$course)
         $oldInformation = tomagrade_get_instance_config($cmid);
         if (isset($data->tomagrade_upload)) {
             if ($oldInformation->new == true && $data->tomagrade_upload == 0) {
-                return;
+                return $data;
             }
             $connection = new tomagrade_connection;
             $connection->do_login();
@@ -676,14 +676,14 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data,$course)
                         $isExamIDTafus = isExamExistsInTG($examIDinTG);
                         if ($isExamIDTafus) {
                             \core\notification::error('Tomagrade error, try again later');
-                            return; 
+                            return $data; 
                         } else if ($isExamIDTafus == -1) {
                             \core\notification::error('Tomagrade server is not avaiable right now, try again later');
-                            return;
+                            return $data;
                         }
                     } else if ($isExamIDTafus == -1) {
                         \core\notification::error('Tomagrade server is not avaiable right now, try again later');
-                        return;
+                        return $data;
                     }
                 }
             } else {
@@ -1183,6 +1183,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data,$course)
             tomagrade_set_instance_config($cmid, $config);
         }
     }
+    return $data;
 }
 
 function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mform)
