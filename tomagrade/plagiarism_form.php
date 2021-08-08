@@ -78,7 +78,7 @@ function definition () {
 
     //build form
     $mform->addElement('html');
-    $mform->addElement('checkbox', 'tomagrade_use', "Enable TomaGrade");
+    $mform->addElement('checkbox', 'enabled', "Enable TomaGrade");
 
     $mform->addElement('text', 'tomagrade_server', get_string('tomagradeserver', 'plagiarism_tomagrade'), array('size' => '40', 'style' => 'height: 33px'));
     $mform->addRule('tomagrade_server', null, 'required', null, 'client');

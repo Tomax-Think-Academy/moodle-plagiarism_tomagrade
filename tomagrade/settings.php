@@ -53,8 +53,7 @@
         if (!isset($data->tomagrade_use)) {
             $data->tomagrade_use = 0;
         }
-        set_config('tomagrade_use', $data->tomagrade_use, 'plagiarism'); // This needs to be set differently (as used by Moodle core code)
-        set_config('tomagrade_use', $data->tomagrade_use, 'plagiarism_tomagrade');
+        set_config('enabled', $data->tomagrade_use, 'plagiarism_tomagrade');
 
         $tomagrade_userRolesToDisplayRelatedAssign = "";
         $tomagrade_userRolesToDisplayRelatedAssign_isFirst = true;
