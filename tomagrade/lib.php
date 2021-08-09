@@ -53,7 +53,7 @@ function checkEnabled()
 {
 
     $cfg = get_config('plagiarism_tomagrade');
-    var_dump($cfg);
+    // var_dump($cfg);
     if (isset($cfg->enabled) && $cfg->enabled) {
         return true;
     }
