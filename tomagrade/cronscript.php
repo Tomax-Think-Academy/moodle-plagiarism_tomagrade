@@ -1,6 +1,5 @@
 <?php
-
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -13,18 +12,16 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * automatically submit a files to plagscan for analysis
- * (when assignment deadline is reached)
+ * cronscript.php - A file which runs by a task definition. It syncs the files from Moodle to the TomaGrade system, and also reads the grades back.
  *
- * @since 2.0
  * @package    plagiarism_tomagrade
- * @author     Ruben Olmedo based on work by Davo Smith
- * @copyright  @2012 Synergy Learning
+ * @subpackage plagiarism
+ * @copyright  2021 Tomax ltd <roy@tomax.co.il> 
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+*/
 
 mtrace("Define INTERNAL");
 defined('MOODLE_INTERNAL') || die();
@@ -47,7 +44,7 @@ mtrace("Starting the TomaGrade cron");
  }
 
  
-if (checkEnabled()) {
+if (check_enabled()) {
 
     $connection = new tomagrade_connection;
    
@@ -129,7 +126,7 @@ if (checkEnabled()) {
                     try {
 
 
-                        $connection->checkCourse($exam);
+                        $connection->check_course($exam);
             
                         $res = $connection->get_request("SaveDownloadDate", "/$exam");
                         $res = json_decode($res,true);
@@ -140,7 +137,7 @@ if (checkEnabled()) {
                         }
 
                     } catch (Exception $e) {
-                        logAndPrint('happend in checkCourse - for ' . $currentCmid . " cmid.",$log);
+                        logAndPrint('happend in check_course - for ' . $currentCmid . " cmid.",$log);
                         logAndPrint($e,$log);
                     }
                 }
@@ -195,7 +192,7 @@ select * from {plagiarism_tomagrade_config} as config
                 case plagiarism_plugin_tomagrade::RUN_IMMEDIATLY:
                     // mtrace("Should upload immediately.");
                     logAndPrint("Should upload immediately.",$log);
-                    $tmpLog = $connection->uploadExam($contextid, $value,$sendMail);
+                    $tmpLog = $connection->upload_exam($contextid, $value,$sendMail);
                     logAndPrint($tmpLog,$log);
                     break;
                 case plagiarism_plugin_tomagrade::RUN_MANUAL:
@@ -207,7 +204,7 @@ select * from {plagiarism_tomagrade_config} as config
                     logAndPrint("Should be uploaded at first due date.",$log);
                     $checkdate = $DB->get_record("event", array('id' => $value->cmid));
                     if ($checkdate->timestart < time()) {
-                        $tmpLog = $connection->uploadExam($contextid, $value,$sendMail);
+                        $tmpLog = $connection->upload_exam($contextid, $value,$sendMail);
                         logAndPrint($tmpLog,$log);
                     }
                     break;

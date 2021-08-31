@@ -14,19 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 /**
- * events.php - Used to call the event when a new file will be uploaded to assignment.
+ * provider.php - Provides information about privacy.
  *
  * @package    plagiarism_tomagrade
  * @subpackage plagiarism
  * @copyright  2021 Tomax ltd <roy@tomax.co.il> 
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
-$observers = array(
-    array(
-        'eventname'   => 'assignsubmission_file\event\assessable_uploaded',
-        'callback'    => 'new_event_file_uploaded',
-        'priority'    => 200,
-        'internal'    => false,
-        'includefile' => '/plagiarism/tomagrade/lib.php'
-    )
-);
+
+namespace plagiarism_tomagrade\privacy;
+
+class provider implements
+    // This plugin does not store any personal user data.
+    \core_privacy\local\metadata\null_provider {
+
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
+}

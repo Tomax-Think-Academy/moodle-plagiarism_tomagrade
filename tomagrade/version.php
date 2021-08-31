@@ -14,8 +14,16 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+/**
+ * version.php - version information.
+ *
+ * @package    plagiarism_tomagrade
+ * @subpackage plagiarism
+ * @copyright  2021 Tomax ltd <roy@tomax.co.il> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+*/
 
-$plugin->version =  2020220302;
+$plugin->version =  2021083100;
 //                  YYYYMMDDXX
 $plugin->requires = 2010042803;
 $plugin->component = 'plagiarism_tomagrade';

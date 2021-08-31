@@ -13,14 +13,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
  *
- * @package   plagiarism_tomagrade
- * @copyright 1999 onwards Martin Dougiamas  {@link http://moodle.com}
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */ 
-
+ * @package    plagiarism_tomagrade
+ * @subpackage plagiarism
+ * @copyright  2021 Tomax ltd <roy@tomax.co.il> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+*/
 $string['studentdisclosuredefault']  ='All files uploaded will be submitted to a plagiarism detection service';
 $string['pluginname'] = 'TomaGrade';
 $string['studentdisclosure'] = 'Student Disclosure';
@@ -93,3 +92,7 @@ $string['moed'] = "מועד";
 $string['tomagrade_keepBlindMarking'] = "Keep \"Blind marking\" setting on TomaGrade";
 $string['tomagrade_DaysDisplayBeforeExamDate'] = "Number of days to display before exam date";
 $string['tomagrade_DaysDisplayAfterExamDate'] = "Number of days to display after exam date";
+$string['tomagrade_notAllowedToView'] = "רק הסטודנט יוכל לראות את המטלה הזו.";
+$string['tomagrade_contactAdmin'] = "הייתה שגיאה, יש ליצור קשר עם אחראי המערכת.";
+$string['tomagrade_id_email_incorrect'] = "המזהה או האימייל לא נמצאו במערכת ה TomaGrade.";
+$string['privacy:metadata'] = "לא שומרת שום מידע פרטי על המשתמשים.";

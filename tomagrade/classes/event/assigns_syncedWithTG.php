@@ -13,14 +13,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
- 
 /**
- * The EVENTNAME event.
+ * assigns_syncedWithTG.php - The triggered event which happens when there was a sync with TomaGrade system.
  *
- * @package    FULLPLUGINNAME
- * @copyright  2014 YOUR NAME
+ * @package    plagiarism_tomagrade
+ * @subpackage plagiarism
+ * @copyright  2021 Tomax ltd <roy@tomax.co.il> 
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+*/
 namespace plagiarism_tomagrade\event;
 defined('MOODLE_INTERNAL') || die();
 /**

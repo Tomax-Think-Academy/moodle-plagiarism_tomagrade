@@ -1,4 +1,28 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * getfile.php - Used to get the link to see the graded file for the student.
+ *
+ * @package    plagiarism_tomagrade
+ * @subpackage plagiarism
+ * @copyright  2021 Tomax ltd <roy@tomax.co.il> 
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+*/
+
 global $CFG, $DB, $USER;
 require_once(dirname(dirname(__FILE__)) . '/../config.php');
 require_once($CFG->libdir . '/adminlib.php');
@@ -10,8 +34,8 @@ require_once($CFG->dirroot . '/plagiarism/tomagrade/plagiarism_form.php');
 defined('MOODLE_INTERNAL') || die();
 require_login();
 
-$context = getContextFromCMID($_GET['cmid']);
-// $id = plagiarism_plugin_tomagrade::getUserIdentifier($USER->id);
+$context = get_context_from_cmid($_GET['cmid']);
+// $id = plagiarism_plugin_tomagrade::get_user_identifier($USER->id);
 // DISABLED DUE TO PERMISSIONS ISSUES!!!
 $config = get_config('plagiarism_tomagrade');
 
@@ -19,14 +43,14 @@ $config = get_config('plagiarism_tomagrade');
 
 $permission = false;
 if (isset($_GET['userid'])) { #Check Permissions!!
-    $id = plagiarism_plugin_tomagrade::getUserIdentifier($_GET['userid']);
+    $id = plagiarism_plugin_tomagrade::get_user_identifier($_GET['userid']);
     if ($_GET['userid'] == $USER->id){
         $permission = true;
 
     }
 } elseif (isset($_GET['group'])) {
-    $id = tomagrade_connection::formatGroupName($_GET['group']);
-    $permission = in_array($USER->id, plagiarism_plugin_tomagrade::getUserIDByGroupIdentifier($id));
+    $id = tomagrade_connection::format_group_name($_GET['group']);
+    $permission = in_array($USER->id, plagiarism_plugin_tomagrade::get_user_id_by_group_identifier($id));
 }
 if ($permission == false) {
     if (isset($config->tomagrade_userRolesPermissionGradedExam) == true && $config->tomagrade_userRolesPermissionGradedExam != "") {
@@ -50,7 +74,7 @@ if ($permission == false) {
     }
 }
 if ($permission === false){
-    echo ("<script>alert('Only the student who submitted this work is allowed to view this!');</script>");
+    echo ("<script>alert('".get_string('tomagrade_notAllowedToView', 'plagiarism_tomagrade')."');</script>");
     echo ("<script>window.close();</script>");
     exit;
 }
@@ -104,7 +128,7 @@ if (isset($_GET['cmid'])) {
             $response = $connection->post_request("GetMoodleExamLink", json_encode($postdata),true);
 
             if ($response == "0" || strpos($response, "Notice") == true) {
-                echo ("<script>alert('There was an error, Please contact a system adminstrator.');</script>");
+                echo ("<script>alert('".get_string('tomagrade_contactAdmin', 'plagiarism_tomagrade')."');</script>");
                 echo ("<script>window.close();</script>");
                 exit;
             }
@@ -121,7 +145,7 @@ if (isset($_GET['cmid'])) {
             $response = $connection->post_request("GetMoodleExamLink", json_encode($postdata),true);
 
             if ($response == "0" || strpos($response, "Notice") == true) {
-                echo ("<script>alert('There was an error, Please contact a system adminstrator.');</script>");
+                echo ("<script>alert('".get_string('tomagrade_contactAdmin', 'plagiarism_tomagrade')."');</script>");
                 echo ("<script>window.close();</script>");
                 exit;
             }
@@ -132,6 +156,6 @@ if (isset($_GET['cmid'])) {
     header('Location: ' . $response);
     exit;
 } else {
-    echo ("<script>alert('There was an error, Please contact a system adminstrator.');</script>");
+    echo ("<script>alert('".get_string('tomagrade_contactAdmin', 'plagiarism_tomagrade')."');</script>");
     echo ("<script>window.close();</script>");
 }
