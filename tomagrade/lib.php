@@ -1661,9 +1661,12 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                                 $stringForExam = $stringForExam . $exam->Exam_Name;
                             }
                             if (isset($exam->Exam_Date)) {
-                                $stringForExam = $stringForExam . " , fff";
+                                $stringForExam = $stringForExam . " ,";
                                 try {
                                     $date = date_create($exam->Exam_Date);
+                                    if($date === false){
+                                        throw new Exception();
+                                    }
                                     $stringForExam = $stringForExam . date_format($date," d/m/Y ");
                                 } catch(Exception $e) {
                                     $stringForExam = $stringForExam . $exam->Exam_Date;
@@ -1730,7 +1733,10 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 echo ("<script>
                 var teachersHashMap = {};
                 var defaultOptionExam = $defaultOptionExam;
-
+                var isAlreadySetInitiallySet = false;
+                if(defaultOptionExam == ''){
+                    isAlreadySetInitiallySet = true;
+                }
 
                     var x = 0;
                 var interval = setInterval( function() { 
@@ -1775,6 +1781,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                                 break;
                         }
                     }
+                    mySelect.disabled = true;
 
                 }
 
