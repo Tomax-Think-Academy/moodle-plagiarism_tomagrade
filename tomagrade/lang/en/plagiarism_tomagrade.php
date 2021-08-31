@@ -96,4 +96,5 @@ $string['tomagrade_DaysDisplayAfterExamDate'] = "Number of days to display after
 $string['tomagrade_notAllowedToView'] = "Only the student who submitted this work is allowed to view this!";
 $string['tomagrade_contactAdmin'] = "There was an error, Please contact a system adminstrator.";
 $string['tomagrade_id_email_incorrect'] = "ID number or Email is not identified in TomaGrade, Please contact support";
+$string['tomagrade_exam_has_hidden_grades'] = "The grade is currently hidden.";
 $string['privacy:metadata'] = "Does not store any personal information in the moodle store";

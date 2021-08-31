@@ -23,7 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
 
-$plugin->version =  2021083100;
+$plugin->version =  2021083102;
 //                  YYYYMMDDXX
 $plugin->requires = 2010042803;
 $plugin->component = 'plagiarism_tomagrade';

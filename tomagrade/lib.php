@@ -444,9 +444,9 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
                 }
                 $instance = $DB->get_record('course_modules', array('id' => $cmid));
                 $matalaSettings = $DB->get_record("assign", array("id" => $instance->instance));
-
+                $isHiddenGrades = is_hidden_grades($cmid);
                 if ( $status->finishrender) { // Check if i can show the new file to the students
-                    if ($matalaSettings->blindmarking == "0" || $matalaSettings->revealidentities == "1") {
+                    if (($matalaSettings->blindmarking == "0" || $matalaSettings->revealidentities == "1") && !$isHiddenGrades) {
                          $result = $result . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/getfile.php' . $urlbuild, "<br>". get_string('Press_here_to_view_the_graded_exam', 'plagiarism_tomagrade'), array("target" => "_blank", "class" => "linkgetfile"));
                     }
                 }
@@ -2023,6 +2023,17 @@ function share_teachers($teachers,$teachersToRemove,$identifyByEmail,$ExamIdInTG
 
     return false;
 
+}
+
+function is_hidden_grades($cmid){
+    global $DB;
+    $current = $DB->get_record('grade_items', array('id' => $cmid));   
+    if ($current){
+        if($current->hidden == "1"){
+            return true;
+        }
+    }
+    return false;
 }
 
 function tomagrade_set_instance_config($cmid, $data)

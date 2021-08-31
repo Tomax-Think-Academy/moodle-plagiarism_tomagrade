@@ -95,4 +95,5 @@ $string['tomagrade_DaysDisplayAfterExamDate'] = "Number of days to display after
 $string['tomagrade_notAllowedToView'] = "רק הסטודנט יוכל לראות את המטלה הזו.";
 $string['tomagrade_contactAdmin'] = "הייתה שגיאה, יש ליצור קשר עם אחראי המערכת.";
 $string['tomagrade_id_email_incorrect'] = "המזהה או האימייל לא נמצאו במערכת ה TomaGrade.";
+$string['tomagrade_exam_has_hidden_grades'] = "הציון כרגע מוסתר.";
 $string['privacy:metadata'] = "לא שומרת שום מידע פרטי על המשתמשים.";

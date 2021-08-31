@@ -86,6 +86,15 @@ if (isset($_GET['cmid'])) {
 
     $matalaSettings = tomagrade_get_instance_config($cmid);
 
+    $isHiddenGrades = is_hidden_grades($cmid);
+    
+    if ($isHiddenGrades){
+        $message = get_string('tomagrade_exam_has_hidden_grades', 'plagiarism_tomagrade');
+        echo ("<script>alert('$message');</script>");
+        echo ("<script>window.close();</script>");
+        exit;
+    }
+
  
     $postdata = array();
     $postdata['id'] = $id;
