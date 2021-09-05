@@ -749,7 +749,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data,$course)
                     $data->tomagrade_upload = "0";
                     
                     \core\notification::error('For TomaGrade settings, please select compatible course on ID Match On TomaGrade ');
-
+                    return null;
     
                 }
             }
@@ -1663,11 +1663,13 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                             if (isset($exam->Exam_Date)) {
                                 $stringForExam = $stringForExam . " ,";
                                 try {
-                                    $date = date_create($exam->Exam_Date);
-                                    if($date === false){
-                                        throw new Exception();
-                                    }
-                                    $stringForExam = $stringForExam . date_format($date," d/m/Y ");
+                                    $date = explode(" ",$exam->Exam_Date);
+                                    // $date = date_create($exam->Exam_Date);
+                                    // var_dump($date );
+                                    // if($date === false){
+                                    //     throw new Exception();
+                                    // }
+                                    $stringForExam = $stringForExam . $date[0];
                                 } catch(Exception $e) {
                                     $stringForExam = $stringForExam . $exam->Exam_Date;
                                 }
@@ -1733,10 +1735,6 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 echo ("<script>
                 var teachersHashMap = {};
                 var defaultOptionExam = $defaultOptionExam;
-                var isAlreadySetInitiallySet = false;
-                if(defaultOptionExam == ''){
-                    isAlreadySetInitiallySet = true;
-                }
 
                     var x = 0;
                 var interval = setInterval( function() { 
@@ -1781,7 +1779,6 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                                 break;
                         }
                     }
-                    mySelect.disabled = true;
 
                 }
 
