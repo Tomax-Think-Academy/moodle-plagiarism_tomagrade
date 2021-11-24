@@ -80,7 +80,7 @@ if (check_enabled()) {
 
 
 
-        $examsCmidsList = "";
+        $examscmidscist = "";
         $examsIDsInCurrentMoodleServer = array();
         if (count($moodleassignsarr)>0) {
             $moodleAssignsStr =  "";
@@ -98,10 +98,10 @@ if (check_enabled()) {
             $isFirst = true;
             foreach ($examsInThisMoodle as $key=>$value) {
                 if ($isFirst) {
-                    $examsCmidsList .= "'".$value->cm."'";
+                    $examscmidscist .= "'".$value->cm."'";
                     $isFirst = false;
                 } else {
-                    $examsCmidsList .= ",'".$value->cm."'";
+                    $examscmidscist .= ",'".$value->cm."'";
                 }
                 array_push($examsIDsInCurrentMoodleServer,$value->examid);
             }
@@ -110,16 +110,16 @@ if (check_enabled()) {
 
 
 
-        if (empty($examsCmidsList) == false) {
+        if (empty($examscmidscist) == false) {
 
                 $NotRendered = $DB->execute("
     update {plagiarism_tomagrade}  set finishrender = 1 where id in (  select id from ( select student.id as id  from {plagiarism_tomagrade_config} as config
      inner join {plagiarism_tomagrade} as student on config.cm = student.cmid
-     where cmid in ($examsCmidsList) ) as x ) ");
+     where cmid in ($examscmidscist) ) as x ) ");
 
             if ($NotRendered == true) {
 
-                logandprint("all the exams $examsCmidsList has been synced and rendered",$log);
+                logandprint("all the exams $examscmidscist has been synced and rendered",$log);
 
                 foreach($examsIDsInCurrentMoodleServer as $exam) {
                     try {
