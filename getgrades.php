@@ -19,7 +19,7 @@
  *
  * @package    plagiarism_tomagrade
  * @subpackage plagiarism
- * @copyright  2021 Tomax ltd <roy@tomax.co.il> 
+ * @copyright  2021 Tomax ltd <roy@tomax.co.il>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
 
@@ -35,10 +35,10 @@ require_login();
 defined('MOODLE_INTERNAL') || die();
 
  require_login();
-    if ($CFG->version < 2011120100) {
-        $context = get_context_instance(CONTEXT_SYSTEM);
-    } else {
-        $context = context_system::instance();
-    }
+if ($CFG->version < 2011120100) {
+    $context = get_context_instance(CONTEXT_SYSTEM);
+} else {
+    $context = context_system::instance();
+}
 
 echo($USER->id);
