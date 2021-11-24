@@ -24,9 +24,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-mtrace("Define INTERNAL");
 defined('MOODLE_INTERNAL') || die();
+mtrace("Define INTERNAL");
 global $DB, $CFG;
+require_login();
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/plagiarism/tomagrade/lib.php');
 
