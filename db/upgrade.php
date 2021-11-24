@@ -66,7 +66,7 @@ function xmldb_plagiarism_tomagrade_upgrade($oldversion) {
         }
 
         $records = $DB->get_records_sql(" select * from {plagiarism_tomagrade_config}  ");
-        foreach($records as $record) {
+        foreach ($records as $record) {
             if ($record->idmatchontg == "0") {
                  $update = " update {plagiarism_tomagrade_config} set examid = 'Assign$record->cm' where id = $record->id";
             } else {
@@ -82,7 +82,7 @@ function xmldb_plagiarism_tomagrade_upgrade($oldversion) {
 
         $records = $DB->get_records_sql(" select * from {plagiarism_tomagrade_config}  ");
 
-        foreach($records as $record) {
+        foreach ($records as $record) {
             if (strpos($record->username, '@') !== false) {
                 $update = " update {plagiarism_tomagrade_config} set username = ( select id from {user}
                  where email = '$record->username' limit 1 ) where id = $record->id";
@@ -104,8 +104,6 @@ function xmldb_plagiarism_tomagrade_upgrade($oldversion) {
 
         upgrade_plugin_savepoint(true, 2020220301, 'plagiarism', 'tomagrade');
     }
-
-
 
     return true;
 }
