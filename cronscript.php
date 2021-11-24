@@ -82,19 +82,19 @@ if (check_enabled()) {
 
         $examscmidscist = "";
         $examsIdsIncurrentmoodlesserver = array();
-        if (count($moodleassignsarr)>0) {
-            $moodleAssignsStr =  "";
-            $isFirst = true;
-            foreach($moodleassignsarr as $examid) {
-                if ($isFirst) {
-                    $moodleAssignsStr .= "'".$examid."'";
-                    $isFirst = false;
-                } else {
-                    $moodleAssignsStr .= ",'".$examid."'";
-                }
+    if (count($moodleassignsarr) > 0) {
+        $moodleassignsstr =  "";
+        $isFirst = true;
+        foreach($moodleassignsarr as $examid) {
+            if ($isFirst) {
+                $moodleassignsstr .= "'".$examid."'";
+                $isFirst = false;
+            } else {
+                $moodleassignsstr .= ",'".$examid."'";
             }
+        }
 
-            $examsInThisMoodle = $DB->get_records_sql(" select cm,examid from {plagiarism_tomagrade_config} where examid in ($moodleAssignsStr) ");
+            $examsInThisMoodle = $DB->get_records_sql(" select cm,examid from {plagiarism_tomagrade_config} where examid in ($moodleassignsstr) ");
             $isFirst = true;
             foreach ($examsInThisMoodle as $key=>$value) {
                 if ($isFirst) {
