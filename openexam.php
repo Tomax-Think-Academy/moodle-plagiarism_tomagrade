@@ -69,7 +69,7 @@ if ($isexam) {
     }
 }
 
-$json =$connection->teacher_login($USER->id);
+$json = $connection->teacher_login($USER->id);
 
 
 
