@@ -18,7 +18,7 @@
  * plagiarism.php - allows the admin to configure plagiarism stuff
  *
  * @package   plagiarism_tomagrade
- * @copyright  2021 Tomax ltd <roy@tomax.co.il> 
+ * @copyright  2021 Tomax ltd <roy@tomax.co.il>
  * @copyright  based on 2010 Dan Marsden http://danmarsden.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -56,10 +56,10 @@
         set_config('enabled', $data->tomagrade_use, 'plagiarism_tomagrade');
 
         $tomagrade_userRolesToDisplayRelatedAssign = "";
-        $tomagrade_userRolesToDisplayRelatedAssign_isFirst = true;
+        $tomagrade_userRolesToDisplayRelatedAssign_isfirst = true;
 
         $tomagrade_userRolesPermissionGradedExam = "";
-        $tomagrade_userRolesPermissionGradedExam_isFirst = true;
+        $tomagrade_userRolesPermissionGradedExam_isfirst = true;
 
         foreach ($data as $field=>$value) {
             if (isset($plagiarismsettings->$field) && $plagiarismsettings->$field == $value) {
@@ -67,16 +67,16 @@
                 continue; //Setting unchanged
             }
 
-      
-       
+
+
 
             if (strpos($field, 'role_') !== false) {
                 $roleId = str_replace("role_","",$field);
                 if (is_numeric($roleId) == false) { continue; }
 
-                if ($tomagrade_userRolesToDisplayRelatedAssign_isFirst) {
+                if ($tomagrade_userRolesToDisplayRelatedAssign_isfirst) {
                     $tomagrade_userRolesToDisplayRelatedAssign = $roleId;
-                    $tomagrade_userRolesToDisplayRelatedAssign_isFirst = false;
+                    $tomagrade_userRolesToDisplayRelatedAssign_isfirst = false;
                 } else {
                     $tomagrade_userRolesToDisplayRelatedAssign = $tomagrade_userRolesToDisplayRelatedAssign . ",". $roleId;
                 }
@@ -87,16 +87,16 @@
                 $roleId = str_replace("rolePermissionGradedExam_","",$field);
                 if (is_numeric($roleId) == false) { continue; }
 
-                if ($tomagrade_userRolesPermissionGradedExam_isFirst) {
+                if ($tomagrade_userRolesPermissionGradedExam_isfirst) {
                     $tomagrade_userRolesPermissionGradedExam = $roleId;
-                    $tomagrade_userRolesPermissionGradedExam_isFirst = false;
+                    $tomagrade_userRolesPermissionGradedExam_isfirst = false;
                 } else {
                     $tomagrade_userRolesPermissionGradedExam = $tomagrade_userRolesPermissionGradedExam . ",". $roleId;
                 }
                continue;
             }
-          
-          
+
+
 
             // Save the setting
             set_config($field, $value, 'plagiarism_tomagrade');
@@ -137,22 +137,22 @@
     $rolesArrPermissionGradedExam = array();
     if (in_array('tomagrade_userRolesToDisplayRelatedAssign',$settingsKeys)) {
       $rolesArrRelatedUser = explode(",",$plagiarismsettings['tomagrade_userRolesToDisplayRelatedAssign']);
-    } 
+    }
 
     if (in_array('tomagrade_userRolesPermissionGradedExam',$settingsKeys)) {
      $rolesArrPermissionGradedExam = explode(",",$plagiarismsettings['tomagrade_userRolesPermissionGradedExam']);
     }
-   
+
 
     foreach($rolesArrRelatedUser as $role) {
         $plagiarismsettings["role_".$role] = true;
-    } 
+    }
 
     foreach($rolesArrPermissionGradedExam as $role) {
         $plagiarismsettings["rolePermissionGradedExam_".$role] = true;
-    } 
-   
-   
+    }
+
+
 
     $mform->set_data($plagiarismsettings);
 

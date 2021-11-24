@@ -84,22 +84,22 @@ if (check_enabled()) {
         $examsIdsIncurrentmoodlesserver = array();
     if (count($moodleassignsarr) > 0) {
         $moodleassignsstr =  "";
-        $isFirst = true;
+        $isfirst = true;
         foreach($moodleassignsarr as $examid) {
-            if ($isFirst) {
+            if ($isfirst) {
                 $moodleassignsstr .= "'".$examid."'";
-                $isFirst = false;
+                $isfirst = false;
             } else {
                 $moodleassignsstr .= ",'".$examid."'";
             }
         }
 
             $examsInThisMoodle = $DB->get_records_sql(" select cm,examid from {plagiarism_tomagrade_config} where examid in ($moodleassignsstr) ");
-            $isFirst = true;
+            $isfirst = true;
             foreach ($examsInThisMoodle as $key=>$value) {
-                if ($isFirst) {
+                if ($isfirst) {
                     $examscmidscist .= "'".$value->cm."'";
-                    $isFirst = false;
+                    $isfirst = false;
                 } else {
                     $examscmidscist .= ",'".$value->cm."'";
                 }

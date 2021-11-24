@@ -1045,7 +1045,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data,$course)
 
             // share teachers
             $tomagrade_shareAddioionalTeachers = "";
-            $tomagrade_shareAddioionalTeachers_isFirst = true;
+            $tomagrade_shareAddioionalTeachers_isfirst = true;
 
             $changedInSharedTeacher = false;
 
@@ -1066,9 +1066,9 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data,$course)
 
                 if ($teacherId == $idRelatedTgUser) { continue; }
 
-                if ($tomagrade_shareAddioionalTeachers_isFirst) {
+                if ($tomagrade_shareAddioionalTeachers_isfirst) {
                     $tomagrade_shareAddioionalTeachers = $teacherId;
-                    $tomagrade_shareAddioionalTeachers_isFirst = false;
+                    $tomagrade_shareAddioionalTeachers_isfirst = false;
                 } else {
                     $tomagrade_shareAddioionalTeachers = $tomagrade_shareAddioionalTeachers . ",". $teacherId;
                 }
