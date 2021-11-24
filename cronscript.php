@@ -36,7 +36,7 @@ mtrace("Starting the TomaGrade cron");
 
  $log = "cron job log: ";
 
-function logandprint($msg,&$log) {
+function logandprint($msg, &$log) {
     echo $msg;
     echo "\n";
 
