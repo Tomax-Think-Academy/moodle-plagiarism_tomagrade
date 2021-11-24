@@ -28,7 +28,7 @@ require_once('./lib.php');
 class plagiarism_setup_form extends moodleform {
 
     // Define the form!
-    function definition () {
+    public function definition () {
         global $CFG, $DB;
 
         $tomaplagopts = array( plagiarism_plugin_tomagrade::RUN_NO => "No",
@@ -91,7 +91,7 @@ class plagiarism_setup_form extends moodleform {
         $resultroles = $DB->get_records_sql('SELECT id,shortname FROM {role}');
         $roles = array();
         $stringroles = "";
-        foreach($resultroles as $role) {
+        foreach ($resultroles as $role) {
             // if ($role->shortname == "student") { continue; }
             $roles[$role->id] = $role->shortname;
         }
@@ -167,31 +167,22 @@ class plagiarism_setup_form extends moodleform {
         $mform->addElement('text', 'tomagrade_DaysDisplayAfterExamDate', get_string('tomagrade_DaysDisplayAfterExamDate', 'plagiarism_tomagrade'));
         $mform->setType('tomagrade_DaysDisplayAfterExamDate', PARAM_TEXT);
 
-        // $select = $mform->addElement('select', 'tomagrade_userRolesToDisplayRelatedAssign', get_string('tomagrade_userRolesToDisplayRelatedAssign', 'plagiarism_tomagrade'), $roles, array('style' => 'height:150px; width:150px'));
-        // $select->setMultiple(true);
-
-        // $mform->addElement('header', 'tomagrade_userRolesToDisplayRelatedAssign1',  get_string('tomagrade_userRolesToDisplayRelatedAssign', 'plagiarism_tomagrade'));
-
         $mform->addElement('static', 'tomagrade_userRolesToDisplayRelatedAssign1', get_string('tomagrade_userRolesToDisplayRelatedAssign', 'plagiarism_tomagrade'), null);
 
-        foreach($roles as $id => $name) {
+        foreach ($roles as $id => $name) {
             $mform->addElement('checkbox', "role_".$id, $name, null, array('class' => 'checkboxgroup1'));
         }
 
         $mform->addHelpButton('tomagrade_userRolesToDisplayRelatedAssign1', 'tomagrade_userRolesToDisplayRelatedAssign', 'plagiarism_tomagrade');
-        // $mform->setExpanded('tomagrade_userRolesToDisplayRelatedAssign1');
-        // $mform->closeHeaderBefore('tomagrade_ACL');
         echo "<style>
 .checkboxgroup1 { margin-top:0 !important;  margin-bottom:0 !important; }
 </style>";
 
         $mform->addElement('static', 'tomagrade_userRolesPermissionGradedExam1', get_string('tomagrade_userRolesPermissionGradedExam', 'plagiarism_tomagrade'), null);
 
-        foreach($roles as $id => $name) {
+        foreach ($roles as $id => $name) {
             $mform->addElement('checkbox', "rolePermissionGradedExam_".$id, $name, null, array('class' => 'checkboxgroup1'));
         }
-
-        // $mform->addHelpButton('tomagrade_userRolesPermissionGradedExam', 'tomagrade_userRolesPermissionGradedExam', 'plagiarism_tomagrade');
 
         $mform->addElement('select', 'tomagrade_createUsers', get_string('tomagrade_createUsers', 'plagiarism_tomagrade'), $createusersoptions);
 
