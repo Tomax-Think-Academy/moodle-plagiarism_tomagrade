@@ -18,9 +18,9 @@
  *
  * @package    plagiarism_tomagrade
  * @subpackage plagiarism
- * @copyright  2021 Tomax ltd <roy@tomax.co.il> 
+ * @copyright  2021 Tomax ltd <roy@tomax.co.il>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
+ */
 
 namespace plagiarism_tomagrade\task;
 
@@ -30,7 +30,7 @@ class sendfiles extends \core\task\scheduled_task {
     }
 
     public function execute() {
-      global $CFG;
-      require_once($CFG->dirroot.'/plagiarism/tomagrade/cronscript.php');
+        global $CFG;
+        require_once($CFG->dirroot.'/plagiarism/tomagrade/cronscript.php');
     }
 }
