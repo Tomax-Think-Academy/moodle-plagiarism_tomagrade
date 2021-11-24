@@ -19,7 +19,7 @@
  *
  * @package    plagiarism_tomagrade
  * @subpackage plagiarism
- * @copyright  2021 Tomax ltd <roy@tomax.co.il> 
+ * @copyright  2021 Tomax ltd <roy@tomax.co.il>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
 
@@ -50,16 +50,16 @@ if (!isset($_GET['studentid']) && !isset($_GET['groupid']) ) {
 $cmid = $_GET['cmid'];
 $config = get_config('plagiarism_tomagrade');
 
-$isExam = false;
+$isexam = false;
 $matalaInfo = tomagrade_get_instance_config($cmid);
 if (isset($matalaInfo->idmatchontg) && $matalaInfo->idmatchontg != '0' && $matalaInfo->idmatchontg != '' && is_null($matalaInfo->idmatchontg) == false) {
-    $isExam = true;
+    $isexam = true;
 }
 
 $connection = new tomagrade_connection;
 //$connection->do_login();
 
-if ($isExam) {
+if ($isexam) {
     $studentidInTG = plagiarism_plugin_tomagrade::get_taodat_zaot($_GET['studentid']);
 } else {
     if (!isset($_GET['groupid'])) {

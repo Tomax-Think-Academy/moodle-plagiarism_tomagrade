@@ -645,9 +645,9 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data,$course)
             $dt = $dt->format('d/m/y');
             $id = "";
 
-            $isExam = false;
+            $isexam = false;
             if (isset($data->tomagrade_idmatchontg) && $data->tomagrade_idmatchontg != '0' && $data->tomagrade_idmatchontg != '' && is_null($data->tomagrade_idmatchontg) == false) {
-                $isExam = true;
+                $isexam = true;
             }
 
 
@@ -655,20 +655,20 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data,$course)
                 $examIDinTG = calc_exam_id_in_tg($cmid,isset($data->tomagrade_idmatchontg) ? $data->tomagrade_idmatchontg : "0");
 
 
-                if ($isExam == false) {
-                    $isExamIDTafus = is_exam_exists_in_tg($examIDinTG);
-                    if ($isExamIDTafus) {
+                if ($isexam == false) {
+                    $isexamIDTafus = is_exam_exists_in_tg($examIDinTG);
+                    if ($isexamIDTafus) {
                         $examIDinTG = calc_exam_id_in_tg($cmid,$data->tomagrade_idmatchontg);
 
-                        $isExamIDTafus = is_exam_exists_in_tg($examIDinTG);
-                        if ($isExamIDTafus) {
+                        $isexamIDTafus = is_exam_exists_in_tg($examIDinTG);
+                        if ($isexamIDTafus) {
                             \core\notification::error('Tomagrade error, try again later');
                             return $data;
-                        } else if ($isExamIDTafus == -1) {
+                        } else if ($isexamIDTafus == -1) {
                             \core\notification::error('Tomagrade server is not avaiable right now, try again later');
                             return $data;
                         }
-                    } else if ($isExamIDTafus == -1) {
+                    } else if ($isexamIDTafus == -1) {
                         \core\notification::error('Tomagrade server is not avaiable right now, try again later');
                         return $data;
                     }
@@ -2055,12 +2055,12 @@ function calc_exam_id_in_tg($cmid,$idmatchontg) {
     global $DB;
     $examIDinTG = "";
 
-    $isExam = false;
+    $isexam = false;
     if (isset($idmatchontg) && $idmatchontg != '0' && $idmatchontg != '' && is_null($idmatchontg) == false) {
-        $isExam = true;
+        $isexam = true;
     }
 
-    if ($isExam == false) {
+    if ($isexam == false) {
         $uniqid = uniqid();
         $examIDinTG = "Assign$cmid-$uniqid";
 
@@ -2076,8 +2076,8 @@ function calc_exam_id_in_tg($cmid,$idmatchontg) {
 function is_exam_exists_in_tg($ExamID) {
     $connection = new tomagrade_connection;
 
-    $isExamExistsRequest = $connection->get_request("MoodleGetExamDetails", "/$ExamID");
-    $responseDecoded = json_decode($isExamExistsRequest);
+    $isexamExistsRequest = $connection->get_request("MoodleGetExamDetails", "/$ExamID");
+    $responseDecoded = json_decode($isexamExistsRequest);
 
     if (isset($responseDecoded->Response) == true && isset($responseDecoded->GetExamDetail->Exam_Name) == false) {
         // exam 100% not exists
@@ -2457,10 +2457,10 @@ class tomagrade_connection
     {
         $log = "";
         try {
-            $isExam = false;
+            $isexam = false;
             $matalaInfo = tomagrade_get_instance_config($row->cmid);
             if (isset($matalaInfo->idmatchontg) && $matalaInfo->idmatchontg != '0' && $matalaInfo->idmatchontg != '' && is_null($matalaInfo->idmatchontg) == false) {
-                $isExam = true;
+                $isexam = true;
             }
 
             $doNotSendMail = !$sendMail;
@@ -2505,13 +2505,13 @@ class tomagrade_connection
             $examIDinTG = $matalaInfo->examid;
 
 
-            $isExamExist = is_exam_exists_in_tg($examIDinTG);
+            $isexamExist = is_exam_exists_in_tg($examIDinTG);
 
 
-            if ($isExamExist == -1) {
+            if ($isexamExist == -1) {
                 $log .= '######### skipped, error in tomagrade or tomagrade is not responding right now ';
                 return;
-            }else if ($isExamExist == 0) {
+            }else if ($isexamExist == 0) {
                 $DB->execute('UPDATE {plagiarism_tomagrade_config} SET upload = 0 WHERE cm = ?',array($cmid));
                 $log .= '######### skipped, exam not found in tomagrade. ';
                 return;
@@ -2529,7 +2529,7 @@ class tomagrade_connection
 
 
 
-            if ($isExam) {
+            if ($isexam) {
                 if (isset($config->tomagrade_zeroComplete)) {
                     if (is_numeric($config->tomagrade_zeroComplete)) {
                         $zeros = intval($config->tomagrade_zeroComplete);
@@ -2570,7 +2570,7 @@ class tomagrade_connection
                 //var_dump($response);
                 $DB->execute('UPDATE {plagiarism_tomagrade_config} SET complete = 0 WHERE cm = ?',array($cmid));
                 $tempdir = "TempDir_" . time();
-                if ($isExam == true) {
+                if ($isexam == true) {
                   $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/libs/fileUploader/uploadManagerZip.php?Exam_ID=" . $examIDinTG . "&TempDirName=" . $tempdir;
                 } else {
                     $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/libs/fileUploader/uploadManagerZip.php?Exam_ID=" . $examIDinTG . "&TempDirName=" . $tempdir;
@@ -2607,7 +2607,7 @@ class tomagrade_connection
                         )]
                     ];
 
-                    if ($isExam) {
+                    if ($isexam) {
 
                         $idMatch = plagiarism_plugin_tomagrade::get_id_match_on_tg();
 
