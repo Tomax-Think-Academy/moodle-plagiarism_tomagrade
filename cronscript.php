@@ -15,13 +15,14 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * cronscript.php - A file which runs by a task definition. It syncs the files from Moodle to the TomaGrade system, and also reads the grades back.
+ * cronscript.php - A file which runs by a task definition.It syncs the files from Moodle to the TomaGrade system,
+ *                  and also reads the grades back.
  *
  * @package    plagiarism_tomagrade
  * @subpackage plagiarism
- * @copyright  2021 Tomax ltd <roy@tomax.co.il> 
+ * @copyright  2021 Tomax ltd <roy@tomax.co.il>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
+ */
 
 mtrace("Define INTERNAL");
 defined('MOODLE_INTERNAL') || die();
@@ -30,25 +31,23 @@ require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/plagiarism/tomagrade/lib.php');
 
 mtrace("Starting the TomaGrade cron");
-// $data = $DB->get_records("plagiarism_tomagrade", array("status" => 0, "updatestatus" => 0));
-
 
 
  $log = "cron job log: ";
 
- function logAndPrint($msg,&$log) {
+function logAndPrint($msg,&$log) {
     echo $msg;
     echo "\n";
 
     $log .=  "\n" . $msg;
- }
+}
 
- 
+
 if (check_enabled()) {
 
     $connection = new tomagrade_connection;
-   
-  
+
+
 
     echo ("TomaConnection:");
 
@@ -59,14 +58,14 @@ if (check_enabled()) {
         $response = $connection->get_request("GetUnDownloadedCourses", "/assigns");
         $response = json_decode($response, true);
         if (isset($response['Exams'])) {
-             $exams = $response['Exams']; 
+             $exams = $response['Exams'];
         } else {
             logAndPrint("error in tomagrade server, GetUnDownloadedCourses did not response",$log);
 
             $exams = array();
         }
-    
-    
+
+
 
         $moodleAssignsArr = array();
         foreach($exams as $exam) {
@@ -74,13 +73,13 @@ if (check_enabled()) {
                 // this is not a moodle assignment
                 continue;
             }
-          
+
             array_push($moodleAssignsArr,$exam['ExamID']);
         }
 
 
 
-  
+
         $examsCmidsList = "";
         $examsIDsInCurrentMoodleServer = array();
         if (count($moodleAssignsArr)>0) {
@@ -108,30 +107,30 @@ if (check_enabled()) {
             }
         }
 
-    
-    
-    
+
+
+
         if (empty($examsCmidsList) == false) {
 
                 $NotRendered = $DB->execute("
     update {plagiarism_tomagrade}  set finishrender = 1 where id in (  select id from ( select student.id as id  from {plagiarism_tomagrade_config} as config
-     inner join {plagiarism_tomagrade} as student on config.cm = student.cmid 
+     inner join {plagiarism_tomagrade} as student on config.cm = student.cmid
      where cmid in ($examsCmidsList) ) as x ) ");
-    
+
             if ($NotRendered == true) {
 
                 logAndPrint("all the exams $examsCmidsList has been synced and rendered",$log);
-                
+
                 foreach($examsIDsInCurrentMoodleServer as $exam) {
                     try {
 
 
                         $connection->check_course($exam);
-            
+
                         $res = $connection->get_request("SaveDownloadDate", "/$exam");
                         $res = json_decode($res,true);
                         $result = $res['Response'];
-    
+
                         if ($result == 'Failed') {
                             logAndPrint("error in SaveDownloadDate for exam $exam",$log);
                         }
@@ -149,18 +148,18 @@ if (check_enabled()) {
 
         $data = $DB->get_records_sql("
 select * from {plagiarism_tomagrade_config} as config
- inner join {plagiarism_tomagrade} as student on config.cm = student.cmid 
+ inner join {plagiarism_tomagrade} as student on config.cm = student.cmid
  where complete = 0 and upload != 0 and status = 0 and updatestatus = 1 order by cmid");
 
 
     // foreach ($data as $key=>$value) {
     //     var_dump($key);
     $keys = array_keys($data);
-    foreach(array_keys($keys) as $index){       
+    foreach(array_keys($keys) as $index){
         $current_key = current($keys); // or $current_key = $keys[$index];
         $value = $data[$current_key]; // or $current_value = $a[$keys[$index]];
 
-        $next_key = next($keys); 
+        $next_key = next($keys);
         $next_value = $data[$next_key] ?? null; // for php version >= 7.0
 
         $sendMail = false;
@@ -171,7 +170,7 @@ select * from {plagiarism_tomagrade_config} as config
                 $sendMail = true;
             }
         }
-      
+
 
 
 
@@ -182,7 +181,7 @@ select * from {plagiarism_tomagrade_config} as config
             continue;
         }
         if (empty($context) || $context == null) {
-    
+
             logAndPrint("context is empty.. -",$log);
             continue;
         }
@@ -224,7 +223,7 @@ select * from {plagiarism_tomagrade_config} as config
     //     'other' => $log
     // ));
     // $event->trigger();
- 
+
 
 
     function resetforDev()
