@@ -40,7 +40,7 @@ function logandprint($msg, &$log) {
     echo $msg;
     echo "\n";
 
-    $log .=  "\n" . $msg;
+    $log .= "\n" . $msg;
 }
 
 
@@ -55,16 +55,16 @@ if (check_enabled()) {
     $DB->execute(" delete FROM {plagiarism_tomagrade_config} where cm not in ( SELECT id from {course_modules} )");
 
 
-        // #### UPDATE RENDERING  - START
+        // UPDATE RENDERING  - START
         $response = $connection->get_request("GetUnDownloadedCourses", "/assigns");
         $response = json_decode($response, true);
-        if (isset($response['Exams'])) {
+    if (isset($response['Exams'])) {
              $exams = $response['Exams'];
-        } else {
-            logandprint("error in tomagrade server, GetUnDownloadedCourses did not response",$log);
+    } else {
+        logandprint("error in tomagrade server, GetUnDownloadedCourses did not response",$log);
 
-            $exams = array();
-        }
+        $exams = array();
+    }
 
 
 
