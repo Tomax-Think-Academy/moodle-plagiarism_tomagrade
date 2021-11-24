@@ -18,8 +18,8 @@
  * plagiarism.php - allows the admin to configure plagiarism stuff
  *
  * @package   plagiarism_tomagrade
- * @author    Dan Marsden <dan@danmarsden.com>
- * @copyright 1999 onwards Martin Dougiamas  {@link http://moodle.com}
+ * @copyright  2021 Tomax ltd <roy@tomax.co.il> 
+ * @copyright  based on 2010 Dan Marsden http://danmarsden.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

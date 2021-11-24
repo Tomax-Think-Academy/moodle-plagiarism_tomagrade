@@ -19,7 +19,7 @@
  *
  * @package    plagiarism_tomagrade
  * @subpackage plagiarism
- * @copyright  2021 Tomax ltd <roy@tomax.co.il> 
+ * @copyright  2021 Tomax ltd <roy@tomax.co.il>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
 
@@ -44,7 +44,6 @@ if (isset($res)) {
 } else {
     write("It seems you do not have an open connection to TomaGrade");
 }
-// echo ("<script>alert('There was an error, Please contact a system adminstrator.');</script>");
 echo ("<script>window.close();</script>");
 
 
