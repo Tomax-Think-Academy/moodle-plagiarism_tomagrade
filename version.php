@@ -20,10 +20,9 @@
  * @subpackage plagiarism
  * @copyright  2021 Tomax ltd <roy@tomax.co.il>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
-
-$plugin->version =  2021083103;
-//                  YYYYMMDDXX
+ */
+defined('MOODLE_INTERNAL') || die();
+$plugin->version = 2021083103;
 $plugin->requires = 2010042803;
 $plugin->component = 'plagiarism_tomagrade';
 $plugin->maturity = MATURITY_STABLE;
