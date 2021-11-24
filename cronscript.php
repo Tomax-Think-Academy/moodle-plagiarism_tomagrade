@@ -81,7 +81,7 @@ if (check_enabled()) {
 
 
         $examscmidscist = "";
-        $examsIDsInCurrentMoodleServer = array();
+        $examsIdsIncurrentmoodlesserver = array();
         if (count($moodleassignsarr)>0) {
             $moodleAssignsStr =  "";
             $isFirst = true;
@@ -103,7 +103,7 @@ if (check_enabled()) {
                 } else {
                     $examscmidscist .= ",'".$value->cm."'";
                 }
-                array_push($examsIDsInCurrentMoodleServer,$value->examid);
+                array_push($examsIdsIncurrentmoodlesserver,$value->examid);
             }
         }
 
@@ -121,7 +121,7 @@ if (check_enabled()) {
 
                 logandprint("all the exams $examscmidscist has been synced and rendered",$log);
 
-                foreach($examsIDsInCurrentMoodleServer as $exam) {
+                foreach($examsIdsIncurrentmoodlesserver as $exam) {
                     try {
 
 
