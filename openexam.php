@@ -21,7 +21,7 @@
  * @subpackage plagiarism
  * @copyright  2021 Tomax ltd <roy@tomax.co.il>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
+ */
 
 require_once(dirname(dirname(__FILE__)) . '/../config.php');
 require_once($CFG->libdir . '/adminlib.php');
@@ -37,7 +37,6 @@ if ($CFG->version < 2011120100) {
 } else {
     $context = context_system::instance();
 }
-#echo($USER->id."<br>");
 
 if (!isset($_GET['cmid'])) {
     echo ("<script>alert('".get_string('tomagrade_contactAdmin', 'plagiarism_tomagrade').");</script>");
@@ -57,17 +56,16 @@ if (isset($matalainfo->idmatchontg) && $matalainfo->idmatchontg != '0' && $matal
 }
 
 $connection = new tomagrade_connection;
-//$connection->do_login();
 
 if ($isexam) {
-    $studentidInTG = plagiarism_plugin_tomagrade::get_taodat_zaot($_GET['studentid']);
+    $studentidintg = plagiarism_plugin_tomagrade::get_taodat_zaot($_GET['studentid']);
 } else {
     if (!isset($_GET['groupid'])) {
         $studentid = $_GET['studentid'];
-        $studentidInTG = plagiarism_plugin_tomagrade::get_user_identifier($studentid);
+        $studentidintg = plagiarism_plugin_tomagrade::get_user_identifier($studentid);
     } else {
         $groupid = $_GET['groupid'];
-        $studentidInTG = tomagrade_connection::format_group_name($groupid);
+        $studentidintg = tomagrade_connection::format_group_name($groupid);
     }
 }
 
