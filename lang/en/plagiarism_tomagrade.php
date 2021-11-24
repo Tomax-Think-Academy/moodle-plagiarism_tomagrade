@@ -17,16 +17,16 @@
  *
  * @package    plagiarism_tomagrade
  * @subpackage plagiarism
- * @copyright  2021 Tomax ltd <roy@tomax.co.il> 
+ * @copyright  2021 Tomax ltd <roy@tomax.co.il>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
-$string['studentdisclosuredefault']  ='All files uploaded will be submitted to a plagiarism detection service';
+ */
+$string['studentdisclosuredefault']  = 'All files uploaded will be submitted to a plagiarism detection service';
 $string['pluginname'] = 'TomaGrade';
 $string['studentdisclosure'] = 'Student Disclosure';
 $string['studentdisclosure_help'] = 'This text will be displayed to all students on the file upload page.';
 $string['newexplain'] = 'For more information on this plugin see: ';
 $string['new'] = 'New template plagiarism plugin';
-$string['usenew'] ='Enable New';
+$string['usenew'] = 'Enable New';
 $string['savedconfigsuccess'] = 'Plagiarism Settings Saved';
 $string['tomagradeserver'] = 'TomaGrade domain name:';
 $string['tomagradeserver_help'] = 'Set your client subdomain server for the TomaGrade service.';
@@ -36,9 +36,9 @@ $string['tomagradepassword'] = 'TomaGrade Password:';
 $string['tomagradepassword_help'] = 'Set your administrator account password from TomaGrade.';
 $string['tomagrade:EditTomagradeMainSettings'] = "Edit Tomagrade Main permissions.";
 $string['tomagrade_DefaultUseTomax'] = "Set the Default field for Tomax Use";
-$string['tomagrade_DefaultShareTomax'] ="Set the default field for sharing with students";
+$string['tomagrade_DefaultShareTomax'] = "Set the default field for sharing with students";
 $string['tomagrade_ACL'] = "Allow Tomagrade plugin";
-$string['tomagrade_ACL_help'] ="Should use ACL or not to block";
+$string['tomagrade_ACL_help'] = "Should use ACL or not to block";
 $string['tomagrade_DefaultUseTomax_help'] = "This field is for setting the default field for 'Using Tomagrade' for teachers who will start a moodle excercise.";
 $string['tomagrade_DefaultShareTomax_help'] = "This field is for setting the default field for 'Share with students' for teachers who will start a moodle excercise.";
 $string['tomagrade_DefaultIdentifier'] = "Set the Default identifier:";
@@ -47,7 +47,7 @@ $string['tomagrade_DefaultIdentifier_help'] = "Set the default identifier for th
 $string['tomagrade_DefaultIdentifier_TEACHER'] = "Set the Default identifier for Teachers";
 $string['tomagrade_IDMatchOnTomagrade'] = "ID Match on TomaGrade";
 $string['tomagrade_DefaultIdentifier_TEACHER_help'] = "This setting will set the default identefier which uploads the asssignments to the teacher, If you do not use a default ID, please use the email option.";
-$string['tomagrade_MatchingDue'] =  "Matching Due date for ID Match On TomaGrade(Days +/-)";
+$string['tomagrade_MatchingDue'] = "Matching Due date for ID Match On TomaGrade(Days +/-)";
 $string['tomagrade_AllowOnlyIdMatchOnTG'] = "Allow only ID Match On TomaGrade";
 $string['tomagarde_DisplayStudentNameOnTG'] = "Display student name on TomaGrade";
 $string['Enable_TomaGrade'] = "Enable TomaGrade";
