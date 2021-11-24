@@ -61,32 +61,31 @@ if (check_enabled()) {
     if (isset($response['Exams'])) {
              $exams = $response['Exams'];
     } else {
-        logandprint("error in tomagrade server, GetUnDownloadedCourses did not response",$log);
+        logandprint("error in tomagrade server, GetUnDownloadedCourses did not response", $log);
 
         $exams = array();
     }
 
 
 
-        $moodleAssignsArr = array();
-        foreach($exams as $exam) {
-            if (strpos($exam['ExamID'], '_') !== false) {
-                // this is not a moodle assignment
-                continue;
-            }
-
-            array_push($moodleAssignsArr,$exam['ExamID']);
+        $moodleassignsarr = array();
+    foreach($exams as $exam) {
+        if (strpos($exam['ExamID'], '_') !== false) {
+             // This is not a moodle assignment!
+            continue;
         }
+        array_push($moodleassignsarr, $exam['ExamID']);
+    }
 
 
 
 
         $examsCmidsList = "";
         $examsIDsInCurrentMoodleServer = array();
-        if (count($moodleAssignsArr)>0) {
+        if (count($moodleassignsarr)>0) {
             $moodleAssignsStr =  "";
             $isFirst = true;
-            foreach($moodleAssignsArr as $examid) {
+            foreach($moodleassignsarr as $examid) {
                 if ($isFirst) {
                     $moodleAssignsStr .= "'".$examid."'";
                     $isFirst = false;
