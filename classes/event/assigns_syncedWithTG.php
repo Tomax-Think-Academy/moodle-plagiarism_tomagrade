@@ -18,9 +18,9 @@
  *
  * @package    plagiarism_tomagrade
  * @subpackage plagiarism
- * @copyright  2021 Tomax ltd <roy@tomax.co.il> 
+ * @copyright  2021 Tomax ltd <roy@tomax.co.il>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
+ */
 namespace plagiarism_tomagrade\event;
 defined('MOODLE_INTERNAL') || die();
 /**
@@ -38,20 +38,15 @@ defined('MOODLE_INTERNAL') || die();
  **/
 class assigns_syncedWithTG extends \core\event\base {
     protected function init() {
-        $this->data['crud'] = 'u'; // c(reate), r(ead), u(pdate), d(elete)
+        $this->data['crud'] = 'u';
         $this->data['edulevel'] = self::LEVEL_OTHER;
-        // $this->data['objecttable'] = 'plagiarism_tomagrade';
     }
- 
+
     public static function get_name() {
         return get_string('assigns_syncedWithTG', 'plagiarism_tomagrade');
     }
- 
+
     public function get_description() {
         return  $this->other;
     }
- 
-
- 
-
 }
