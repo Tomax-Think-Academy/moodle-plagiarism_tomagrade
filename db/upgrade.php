@@ -18,12 +18,11 @@
  *
  * @package    plagiarism_tomagrade
  * @subpackage plagiarism
- * @copyright  2021 Tomax ltd <roy@tomax.co.il> 
+ * @copyright  2021 Tomax ltd <roy@tomax.co.il>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
+ */
 
-function xmldb_plagiarism_tomagrade_upgrade($oldversion)
-{
+function xmldb_plagiarism_tomagrade_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
 
@@ -66,20 +65,15 @@ function xmldb_plagiarism_tomagrade_upgrade($oldversion)
             $dbman->add_field($table, $field);
         }
 
-       $records = $DB->get_records_sql(" select * from {plagiarism_tomagrade_config}  ");
-      
-       foreach($records as $record) {
+        $records = $DB->get_records_sql(" select * from {plagiarism_tomagrade_config}  ");
+        foreach($records as $record) {
             if ($record->idmatchontg == "0") {
                  $update = " update {plagiarism_tomagrade_config} set examid = 'Assign$record->cm' where id = $record->id";
             } else {
-                $update = " update {plagiarism_tomagrade_config} set examid = '$record->idmatchontg' where id = $record->id";     
+                $update = " update {plagiarism_tomagrade_config} set examid = '$record->idmatchontg' where id = $record->id";
             }
             $DB->execute($update);
-       }
-
-     
-       
-
+        }
         // Tomagrade savepoint reached.
         upgrade_plugin_savepoint(true, 2020220272, 'plagiarism', 'tomagrade');
     }
@@ -87,17 +81,14 @@ function xmldb_plagiarism_tomagrade_upgrade($oldversion)
     if ($oldversion < 2020220279) {
 
         $records = $DB->get_records_sql(" select * from {plagiarism_tomagrade_config}  ");
-      
+
         foreach($records as $record) {
             if (strpos($record->username, '@') !== false) {
-                $update = " update {plagiarism_tomagrade_config} set username = ( select id from {user} where email = '$record->username' limit 1 ) where id = $record->id";
+                $update = " update {plagiarism_tomagrade_config} set username = ( select id from {user}
+                 where email = '$record->username' limit 1 ) where id = $record->id";
                 $DB->execute($update);
             }
         }
- 
-      
-        
- 
          // Tomagrade savepoint reached.
          upgrade_plugin_savepoint(true, 2020220279, 'plagiarism', 'tomagrade');
 
