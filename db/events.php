@@ -21,6 +21,9 @@
  * @copyright  2021 Tomax ltd <roy@tomax.co.il>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die();
+
 $observers = array(
     array(
         'eventname'   => 'assignsubmission_file\event\assessable_uploaded',
