@@ -2458,8 +2458,8 @@ class tomagrade_connection
         $log = "";
         try {
             $isexam = false;
-            $matalaInfo = tomagrade_get_instance_config($row->cmid);
-            if (isset($matalaInfo->idmatchontg) && $matalaInfo->idmatchontg != '0' && $matalaInfo->idmatchontg != '' && is_null($matalaInfo->idmatchontg) == false) {
+            $matalainfo = tomagrade_get_instance_config($row->cmid);
+            if (isset($matalainfo->idmatchontg) && $matalainfo->idmatchontg != '0' && $matalainfo->idmatchontg != '' && is_null($matalainfo->idmatchontg) == false) {
                 $isexam = true;
             }
 
@@ -2502,7 +2502,7 @@ class tomagrade_connection
 
 
 
-            $examIDinTG = $matalaInfo->examid;
+            $examIDinTG = $matalainfo->examid;
 
 
             $isexamExist = is_exam_exists_in_tg($examIDinTG);
@@ -2711,10 +2711,10 @@ class tomagrade_connection
             $cmidExam = substr($cmidExam, 0, strpos($cmidExam, "-"));
         }
 
-        $matalaInfo = tomagrade_get_instance_config($cmidExam);
+        $matalainfo = tomagrade_get_instance_config($cmidExam);
         $grader = 2; // usually it's the admin
-        if (is_numeric($matalaInfo->username)) {
-            $grader = intval($matalaInfo->username);
+        if (is_numeric($matalainfo->username)) {
+            $grader = intval($matalainfo->username);
         }
 
         if ($response->Response != "Failed") {
