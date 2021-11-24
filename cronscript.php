@@ -85,7 +85,7 @@ if (check_enabled()) {
     if (count($moodleassignsarr) > 0) {
         $moodleassignsstr =  "";
         $isfirst = true;
-        foreach($moodleassignsarr as $examid) {
+        foreach ($moodleassignsarr as $examid) {
             if ($isfirst) {
                 $moodleassignsstr .= "'".$examid."'";
                 $isfirst = false;
@@ -94,9 +94,10 @@ if (check_enabled()) {
             }
         }
 
-            $examsInThisMoodle = $DB->get_records_sql(" select cm,examid from {plagiarism_tomagrade_config} where examid in ($moodleassignsstr) ");
+            $examsinthismoodle = $DB->get_records_sql(" select cm,examid from {plagiarism_tomagrade_config}
+             where examid in ($moodleassignsstr) ");
             $isfirst = true;
-            foreach ($examsInThisMoodle as $key=>$value) {
+            foreach ($examsinthismoodle as $key=>$value) {
                 if ($isfirst) {
                     $examscmidscist .= "'".$value->cm."'";
                     $isfirst = false;
