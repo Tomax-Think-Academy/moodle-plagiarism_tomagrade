@@ -55,7 +55,7 @@ if ($permission == false) {
     if (isset($config->tomagrade_userRolesPermissionGradedExam) == true && $config->tomagrade_userRolesPermissionGradedExam != "") {
 
         // check roles on course level
-        $teachersArr = $DB->get_records_sql("
+        $teachersarr = $DB->get_records_sql("
         SELECT DISTINCT   u.id, u.username, u.firstname, u.lastname, u.email, u.idnumber
         FROM {role_assignments} ra, {user} u, {course} c, {context} cxt
         WHERE ra.userid = u.id
@@ -67,7 +67,7 @@ if ($permission == false) {
         AND roleid in ($config->tomagrade_userRolesPermissionGradedExam); ");
 
 
-        if (count($teachersArr) > 0) {
+        if (count($teachersarr) > 0) {
             $permission = true;
         }
     }
