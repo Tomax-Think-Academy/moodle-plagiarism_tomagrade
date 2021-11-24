@@ -83,7 +83,7 @@ $connection->do_login();
 if (isset($_GET['cmid'])) {
     $cmid = $_GET['cmid'];
 
-    $matalaSettings = tomagrade_get_instance_config($cmid);
+    $matalasettings = tomagrade_get_instance_config($cmid);
 
     $isHiddenGrades = is_hidden_grades($cmid);
 
@@ -97,7 +97,7 @@ if (isset($_GET['cmid'])) {
 
     $postdata = array();
     $postdata['id'] = $id;
-    $postdata['examid'] = $matalaSettings->examid;
+    $postdata['examid'] = $matalasettings->examid;
 
     $response = $connection->post_request("GetMoodleExamLink", json_encode($postdata), true);
 
@@ -115,7 +115,7 @@ if (isset($_GET['cmid'])) {
 
             $postdata = array();
             $postdata['id'] = $id;
-            $postdata['examid'] = $matalaSettings->examid;
+            $postdata['examid'] = $matalasettings->examid;
 
             $response = $connection->post_request("GetMoodleExamLink", json_encode($postdata), true);
 
@@ -132,7 +132,7 @@ if (isset($_GET['cmid'])) {
 
             $postdata = array();
             $postdata['id'] = $id;
-            $postdata['examid'] = $matalaSettings->examid;
+            $postdata['examid'] = $matalasettings->examid;
 
             $response = $connection->post_request("GetMoodleExamLink", json_encode($postdata), true);
 
