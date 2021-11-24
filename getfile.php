@@ -19,9 +19,9 @@
  *
  * @package    plagiarism_tomagrade
  * @subpackage plagiarism
- * @copyright  2021 Tomax ltd <roy@tomax.co.il> 
+ * @copyright  2021 Tomax ltd <roy@tomax.co.il>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
+ */
 
 global $CFG, $DB, $USER;
 require_once(dirname(dirname(__FILE__)) . '/../config.php');
@@ -35,29 +35,28 @@ defined('MOODLE_INTERNAL') || die();
 require_login();
 
 $context = get_context_from_cmid($_GET['cmid']);
-// $id = plagiarism_plugin_tomagrade::get_user_identifier($USER->id);
 // DISABLED DUE TO PERMISSIONS ISSUES!!!
 $config = get_config('plagiarism_tomagrade');
 
 
 
 $permission = false;
-if (isset($_GET['userid'])) { #Check Permissions!!
+if (isset($_GET['userid'])) {
     $id = plagiarism_plugin_tomagrade::get_user_identifier($_GET['userid']);
-    if ($_GET['userid'] == $USER->id){
+    if ($_GET['userid'] == $USER->id) {
         $permission = true;
 
     }
-} elseif (isset($_GET['group'])) {
+} else if (isset($_GET['group'])) {
     $id = tomagrade_connection::format_group_name($_GET['group']);
     $permission = in_array($USER->id, plagiarism_plugin_tomagrade::get_user_id_by_group_identifier($id));
 }
 if ($permission == false) {
     if (isset($config->tomagrade_userRolesPermissionGradedExam) == true && $config->tomagrade_userRolesPermissionGradedExam != "") {
-    
+
         // check roles on course level
         $teachersArr = $DB->get_records_sql("
-        SELECT DISTINCT   u.id, u.username, u.firstname, u.lastname, u.email, u.idnumber 
+        SELECT DISTINCT   u.id, u.username, u.firstname, u.lastname, u.email, u.idnumber
         FROM {role_assignments} ra, {user} u, {course} c, {context} cxt
         WHERE ra.userid = u.id
         AND ra.contextid = cxt.id
@@ -67,13 +66,13 @@ if ($permission == false) {
         AND u.id = '$USER->id'
         AND roleid in ($config->tomagrade_userRolesPermissionGradedExam); ");
 
-    
+
         if (count($teachersArr) > 0) {
             $permission = true;
         }
     }
 }
-if ($permission === false){
+if ($permission === false) {
     echo ("<script>alert('".get_string('tomagrade_notAllowedToView', 'plagiarism_tomagrade')."');</script>");
     echo ("<script>window.close();</script>");
     exit;
@@ -87,36 +86,20 @@ if (isset($_GET['cmid'])) {
     $matalaSettings = tomagrade_get_instance_config($cmid);
 
     $isHiddenGrades = is_hidden_grades($cmid);
-    
-    if ($isHiddenGrades){
+
+    if ($isHiddenGrades) {
         $message = get_string('tomagrade_exam_has_hidden_grades', 'plagiarism_tomagrade');
         echo ("<script>alert('$message');</script>");
         echo ("<script>window.close();</script>");
         exit;
     }
 
- 
+
     $postdata = array();
     $postdata['id'] = $id;
     $postdata['examid'] = $matalaSettings->examid;
 
-    // $postdata = "{\"id\":\"$id\",\"cmid\":\"$cmid\"}";
-
-    $response = $connection->post_request("GetMoodleExamLink", json_encode($postdata),true);
-
-//    $response = $connection->get_request("GetMoodleExamLink", "?id=" . urlencode($id) . "&cmid=" . urlencode($cmid));
-    // $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/Server/php/WS.php/GetMoodleExamLink/Token/UserID?id=".urlencode($id)."&cmid=".urlencode($cmid);
-    // $ch = curl_init($url);
-    // curl_setopt($ch, CURLOPT_URL, $url);
-    // curl_setopt($ch, CURLOPT_POST, 0);
-    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    // curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)');
-    // curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    //     'Content-Type: text/plain',
-    //     'Connection: Keep-Alive'
-    //     ));
-
+    $response = $connection->post_request("GetMoodleExamLink", json_encode($postdata), true);
 
     if ($response == "deleted") {
         $message = get_string('files_were_deleted', 'plagiarism_tomagrade');
@@ -124,7 +107,7 @@ if (isset($_GET['cmid'])) {
         echo ("<script>window.close();</script>");
         exit;
     }
- 
+
     if ($response == "0" || strpos($response, "Notice") == true) {
         if (strpos($id, '---') !== false) {
             $array = explode("---", $id);
@@ -134,7 +117,7 @@ if (isset($_GET['cmid'])) {
             $postdata['id'] = $id;
             $postdata['examid'] = $matalaSettings->examid;
 
-            $response = $connection->post_request("GetMoodleExamLink", json_encode($postdata),true);
+            $response = $connection->post_request("GetMoodleExamLink", json_encode($postdata), true);
 
             if ($response == "0" || strpos($response, "Notice") == true) {
                 echo ("<script>alert('".get_string('tomagrade_contactAdmin', 'plagiarism_tomagrade')."');</script>");
@@ -151,7 +134,7 @@ if (isset($_GET['cmid'])) {
             $postdata['id'] = $id;
             $postdata['examid'] = $matalaSettings->examid;
 
-            $response = $connection->post_request("GetMoodleExamLink", json_encode($postdata),true);
+            $response = $connection->post_request("GetMoodleExamLink", json_encode($postdata), true);
 
             if ($response == "0" || strpos($response, "Notice") == true) {
                 echo ("<script>alert('".get_string('tomagrade_contactAdmin', 'plagiarism_tomagrade')."');</script>");
@@ -161,7 +144,6 @@ if (isset($_GET['cmid'])) {
         }
     }
     $response = trim(preg_replace('/\s+/', ' ', $response));
-    //($resp);
     header('Location: ' . $response);
     exit;
 } else {
