@@ -36,7 +36,7 @@ mtrace("Starting the TomaGrade cron");
 
  $log = "cron job log: ";
 
-function logAndPrint($msg,&$log) {
+function logandprint($msg,&$log) {
     echo $msg;
     echo "\n";
 
@@ -61,7 +61,7 @@ if (check_enabled()) {
         if (isset($response['Exams'])) {
              $exams = $response['Exams'];
         } else {
-            logAndPrint("error in tomagrade server, GetUnDownloadedCourses did not response",$log);
+            logandprint("error in tomagrade server, GetUnDownloadedCourses did not response",$log);
 
             $exams = array();
         }
@@ -120,7 +120,7 @@ if (check_enabled()) {
 
             if ($NotRendered == true) {
 
-                logAndPrint("all the exams $examsCmidsList has been synced and rendered",$log);
+                logandprint("all the exams $examsCmidsList has been synced and rendered",$log);
 
                 foreach($examsIDsInCurrentMoodleServer as $exam) {
                     try {
@@ -133,17 +133,17 @@ if (check_enabled()) {
                         $result = $res['Response'];
 
                         if ($result == 'Failed') {
-                            logAndPrint("error in SaveDownloadDate for exam $exam",$log);
+                            logandprint("error in SaveDownloadDate for exam $exam",$log);
                         }
 
                     } catch (Exception $e) {
-                        logAndPrint('happend in check_course - for ' . $currentCmid . " cmid.",$log);
-                        logAndPrint($e,$log);
+                        logandprint('happend in check_course - for ' . $currentCmid . " cmid.",$log);
+                        logandprint($e,$log);
                     }
                 }
             }
         } else {
-            logAndPrint("there are no exams that rendered since the last sync",$log);
+            logandprint("there are no exams that rendered since the last sync",$log);
         }
         // #### UPDATE RENDERING  - END
 
@@ -183,7 +183,7 @@ select * from {plagiarism_tomagrade_config} as config
         }
         if (empty($context) || $context == null) {
 
-            logAndPrint("context is empty.. -",$log);
+            logandprint("context is empty.. -",$log);
             continue;
         }
         $contextid = $context->id;
@@ -191,27 +191,27 @@ select * from {plagiarism_tomagrade_config} as config
             switch ($value->upload) {
                 case plagiarism_plugin_tomagrade::RUN_IMMEDIATLY:
                     // mtrace("Should upload immediately.");
-                    logAndPrint("Should upload immediately.",$log);
+                    logandprint("Should upload immediately.",$log);
                     $tmpLog = $connection->upload_exam($contextid, $value,$sendMail);
-                    logAndPrint($tmpLog,$log);
+                    logandprint($tmpLog,$log);
                     break;
                 case plagiarism_plugin_tomagrade::RUN_MANUAL:
                     // mtrace("Should be uploaded manual.");
-                    logAndPrint("Should be uploaded manual.",$log);
+                    logandprint("Should be uploaded manual.",$log);
                     break;
                 case plagiarism_plugin_tomagrade::RUN_AFTER_FIRST_DUE_DATE:
                     // mtrace("Should be uploaded at first due date.");
-                    logAndPrint("Should be uploaded at first due date.",$log);
+                    logandprint("Should be uploaded at first due date.",$log);
                     $checkdate = $DB->get_record("event", array('id' => $value->cmid));
                     if ($checkdate->timestart < time()) {
                         $tmpLog = $connection->upload_exam($contextid, $value,$sendMail);
-                        logAndPrint($tmpLog,$log);
+                        logandprint($tmpLog,$log);
                     }
                     break;
             }
         } catch (Exception $e) {
-            logAndPrint("Couldn't Sync Student, Exception:",$log);
-            logAndPrint($e,$log);
+            logandprint("Couldn't Sync Student, Exception:",$log);
+            logandprint($e,$log);
         }
         // }
     }
