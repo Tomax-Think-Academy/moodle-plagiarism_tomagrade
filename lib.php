@@ -366,7 +366,9 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                 $ishiddenhrades = is_hidden_grades($cmid);
                 if ( $status->finishrender) { // Check if i can show the new file to the students.
                     if (($matalasettings->blindmarking == "0" || $matalasettings->revealidentities == "1") && !$ishiddenhrades) {
-                         $result = $result . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/getfile.php' . $urlbuild, "<br>". get_string('Press_here_to_view_the_graded_exam', 'plagiarism_tomagrade'), array("target" => "_blank", "class" => "linkgetfile"));
+                         $result = $result . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/getfile.php' .
+                          $urlbuild, "<br>". get_string('Press_here_to_view_the_graded_exam', 'plagiarism_tomagrade'),
+                           array("target" => "_blank", "class" => "linkgetfile"));
                     }
                 }
                 return $result;
@@ -496,7 +498,8 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                         if (currentUser["status"] == 0){
 
                         }else{
-                            preHTML = \'<div id="TomaGrade"><br><a class="link" href=\'+ urlToOpenGrade +\' target="_blank" >'. get_string('Check_with', 'plagiarism_tomagrade') .'<img style="padding-bottom:15px;" src="' .
+                            preHTML = \'<div id="TomaGrade"><br><a class="link" href=\'+ urlToOpenGrade +\' target="_blank" >'.
+                             get_string('Check_with', 'plagiarism_tomagrade') .'<img style="padding-bottom:15px;" src="' .
                              $CFG->wwwroot . '/plagiarism/tomagrade/pix/icon.png" alt="Go to TomaGrade!"></a></div>\'
                             textToReUpload = "'. get_string('Upload_to_TomaGrade_again', 'plagiarism_tomagrade') .'"
                         }
@@ -593,12 +596,14 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 
             } else if ($config->tomagrade_DefaultIdentifier_TEACHER == plagiarism_plugin_tomagrade::IDENTIFIER_BY_USERNAME) {
 
-                $ownerrow = $DB->get_record_sql(" select username from {user} where lower(email) = ? ", array(strtolower($data->tomagrade_username)));
+                $ownerrow = $DB->get_record_sql(" select username from {user} where lower(email) = ? ",
+                 array(strtolower($data->tomagrade_username)));
                 $id = $ownerrow->username;
 
             } else if ($config->tomagrade_DefaultIdentifier_TEACHER == plagiarism_plugin_tomagrade::IDENTIFIER_BY_HUJIID) {
 
-                $ownerrow = $DB->get_record_sql(" SELECT hujiid FROM {user} u INNER JOIN huji.userdata ON idnumber=tz WHERE lower(u.email) = ?",
+                $ownerrow = $DB->get_record_sql(" SELECT hujiid FROM {user} u
+                 INNER JOIN huji.userdata ON idnumber=tz WHERE lower(u.email) = ?",
                  array(strtolower($data->tomagrade_username)));
                 $id = $ownerrow->hujiid;
             }
@@ -750,8 +755,10 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                                                  empty($user['FirstName']) == true ||
                                                   empty($user['LastName']) == true) {
                                                     \core\notification::error(
-                                                        get_string('error_during_creating_new_user_in_tomagrade_missing_params',
-                                                         'plagiarism_tomagrade') . " " . $emailtodetails[$potentialusertoadd]['username']);
+                                                        get_string(
+                                                            'error_during_creating_new_user_in_tomagrade_missing_params',
+                                                         'plagiarism_tomagrade') . " " .
+                                                         $emailtodetails[$potentialusertoadd]['username']);
                                                     continue;
                                                 }
 
@@ -771,8 +778,10 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                                                     // Error teacher code already exists in TomaGrade for user.
 
                                                     \core\notification::error(
-                                                        get_string('error_during_creating_new_user_in_tomagrade_teacher_code_already_exists',
-                                                         'plagiarism_tomagrade') . " " . $emailtodetails[$potentialusertoadd]['username']);
+                                                    get_string(
+                                                        'error_during_creating_new_user_in_tomagrade_teacher_code_already_exists',
+                                                         'plagiarism_tomagrade') . " " .
+                                                          $emailtodetails[$potentialusertoadd]['username']);
                                                 }
                                             }
                                         }
@@ -784,11 +793,12 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                                                 if (isset($teachercodeexists[$emailtoidnumber[$potentialusertoadd]]) == false) {
                                                     // Teacher code does not exist.
 
-                                                        // Error email already exists in TomaGrade for user.
+                                                    // Error email already exists in TomaGrade for user.
+                                                    \core\notification::error(
+                                                    get_string('error_during_creating_new_user_in_tomagrade_email_already_exists',
+                                                       'plagiarism_tomagrade') . " " .
+                                                        $emailtodetails[$potentialusertoadd]['username']);
 
-                                                        \core\notification::error(
-                                                            get_string('error_during_creating_new_user_in_tomagrade_email_already_exists',
-                                                             'plagiarism_tomagrade') . " " . $emailtodetails[$potentialusertoadd]['username']);
                                                 }
                                             }
                                         }
@@ -1257,7 +1267,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                 $isloggeduserexistsintm = true;
 
-                $select = $mform->createElement('select', 'tomagrade_username', get_string('Related_TomaGrade_User', 'plagiarism_tomagrade'));
+                $select = $mform->createElement('select', 'tomagrade_username',
+                 get_string('Related_TomaGrade_User', 'plagiarism_tomagrade'));
 
                 $iscreateusers = isset($config->tomagrade_createUsers) && $config->tomagrade_createUsers == 1;
 
@@ -1657,7 +1668,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 }
 
                 if ($data->complete > 0) {
-                    $linkcontent = '<span id="changeme"><a id="removeclick" href="' . $CFG->wwwroot . '/plagiarism/tomagrade/resetexam.php?id='
+                    $linkcontent = '<span id="changeme"><a id="removeclick" href="' .
+                     $CFG->wwwroot . '/plagiarism/tomagrade/resetexam.php?id='
                      . $cmid . '" target="_blank" onclick="removebutton()" >'.
                      get_string('Click_here', 'plagiarism_tomagrade') .'</a></span>';
                     $mform->addElement('static', 'mylink', get_string('Reset_the_exam', 'plagiarism_tomagrade'), $linkcontent);
