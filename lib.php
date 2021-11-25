@@ -1872,8 +1872,8 @@ function share_teachers($teachers, $teacherstoremove, $identifybyemail, $examidi
 function is_hidden_grades($cmid) {
     global $DB;
     $current = $DB->get_record('grade_items', array('id' => $cmid));
-    if ($current){
-        if($current->hidden == "1"){
+    if ($current) {
+        if ($current->hidden == "1") {
             return true;
         }
     }
@@ -1921,14 +1921,14 @@ function is_exam_exists_in_tg($examid) {
     $responsedecoded = json_decode($isexamexistsrequest);
 
     if (isset($responsedecoded->Response) == true && isset($responsedecoded->GetExamDetail->Exam_Name) == false) {
-        // exam 100% not exists
+        // Exam 100% not exists!
         return 0;
     } else if (isset($responsedecoded->Response) == false) {
-        // tomagrade server is unavilable right now
+        // Tomagrade server is unavilable right now!
         return -1;
     }
 
-    // exam exists
+    // Exam exists.
     return 1;
 }
 
@@ -1953,24 +1953,17 @@ function new_event_file_uploaded($eventdata) {
     $result = true;
 
     if (check_enabled()) {
-        // var_dump(func_get_args());
-        // print_r($eventdata);
         $eventdata = $eventdata->get_data();
 
         $matalaid = $eventdata['contextinstanceid'];
 
-        // foreach ($eventdata['other']['pathnamehashes'] as $pathnamehash) {
-        // $fs = get_file_storage();
-        // $file = $fs->get_file_by_hash($pathnamehash);
-        // }
-        // var_dump($eventdata);
         $filepathnamehash = array_pop($eventdata['other']['pathnamehashes']);
         $fs = get_file_storage();
         $file = $fs->get_file_by_hash($filepathnamehash);
-        if ($file == false){ // file doesn't exist..
+        if ($file == false) { // File doesn't exist.
             return;
         }
-        $assignsubmission = $DB->get_record('assign_submission', array('id' => $file->get_itemid())); // Get sumbmitted ID
+        $assignsubmission = $DB->get_record('assign_submission', array('id' => $file->get_itemid())); // Get sumbmitted ID.
 
         $mimetype = $file->get_mimetype();
 
@@ -1982,33 +1975,37 @@ function new_event_file_uploaded($eventdata) {
             }
         }
 
-        if (plagiarism_plugin_tomagrade::check_if_good_file($ext) != false || plagiarism_plugin_tomagrade::check_if_good_file(pathinfo($file->get_filename(), PATHINFO_EXTENSION)) != false) {
+        if (plagiarism_plugin_tomagrade::check_if_good_file($ext) != false ||
+         plagiarism_plugin_tomagrade::check_if_good_file(pathinfo($file->get_filename(), PATHINFO_EXTENSION)) != false) {
             $data = new stdClass();
             $data->cmid = $eventdata["contextinstanceid"];
             $data->filehash = $file->get_pathnamehash();
             $data->status = 0;
             $data->updatestatus = 1;
-            // $data->pid = 0;
             if ($assignsubmission->groupid != 0) {
                 $group = $DB->get_record('groups', array('id' => $assignsubmission->groupid));
                 $data->groupid = $assignsubmission->groupid;
-                $current = $DB->get_record('plagiarism_tomagrade', array('cmid' => $eventdata["contextinstanceid"], 'groupid' => $assignsubmission->groupid));
+                $current = $DB->get_record('plagiarism_tomagrade',
+                 array('cmid' => $eventdata["contextinstanceid"], 'groupid' => $assignsubmission->groupid));
             } else {
-                $data->userid = (isset($assignsubmission->userid) && $assignsubmission->userid != 0) ? $assignsubmission->userid : $eventdata["userid"];
-                $current = $DB->get_record('plagiarism_tomagrade', array('cmid' => $eventdata["contextinstanceid"], 'userid' => $assignsubmission->userid));
+                $data->userid = (isset($assignsubmission->userid) && $assignsubmission->userid != 0) ?
+                 $assignsubmission->userid : $eventdata["userid"];
+                $current = $DB->get_record('plagiarism_tomagrade',
+                array('cmid' => $eventdata["contextinstanceid"], 'userid' => $assignsubmission->userid));
             }
-            // $current = $DB->get_record('plagiarism_tomagrade', array('cmid' => $eventdata["contextinstanceid"], 'userid' => $assign_submission->userid));
             if ($current) {
                 $data->id = $current->id;
                 $DB->update_record('plagiarism_tomagrade', $data);
             } else {
                 $DB->insert_record('plagiarism_tomagrade', $data);
             }
-            $DB->execute('UPDATE {plagiarism_tomagrade_config} SET complete = "0" WHERE cm = "' . $eventdata["contextinstanceid"] . '"');
-            // Check completed
+            $DB->execute('UPDATE {plagiarism_tomagrade_config} SET complete = "0" WHERE cm = "'
+            . $eventdata["contextinstanceid"] . '"');
+            // Check completed.
             return $result;
         } else {
-            $checkiftomagradeactive = $DB->get_record_sql('SELECT upload FROM {plagiarism_tomagrade_config} WHERE cm = ?', array($matalaid));
+            $checkiftomagradeactive = $DB->get_record_sql('SELECT upload FROM {plagiarism_tomagrade_config}
+            WHERE cm = ?', array($matalaid));
 
             $printerrmsg = true;
             if (isset($checkiftomagradeactive) == false || $checkiftomagradeactive == false) {
@@ -2021,7 +2018,8 @@ function new_event_file_uploaded($eventdata) {
             }
 
             if ($printerrmsg) {
-                \core\notification::error("The file you have submitted has been uploaded but cannot be checked by the teacher.The files that will be able to be checked with the teacher are: doc, docx, pdf, ttp, ttpx, xls, xlsx, rtf, ppt, jpeg, jpg, png.");
+                \core\notification::error("The file you have submitted has been uploaded but cannot be checked by the teacher.
+                The files that will be able to be checked with the teacher are: doc, docx, pdf, ttp, ttpx, xls, xlsx, rtf, ppt, jpeg, jpg, png.");
             }
         }
     }
@@ -2031,25 +2029,15 @@ function new_event_file_uploaded($eventdata) {
 
 function tomagrade_log($data) {
     global $CFG;
-
-    // // var_dump($CFG->dataroot);
-    // $filename = './tomagrade_log.log';
-    // if (!$fp = fopen($filename, 'a')) {
-    // return;
-    // }
-
-    // fwrite($fp, date('Y/M/j H:i:s') . ' - ' . $data . "\n");
-    // fclose($fp);
 }
 
 function set_grade($cmid, $userid, $grade, $grader) {
     global $DB;
     $instance = $DB->get_record('course_modules', array('id' => $cmid));
 
-    // temp grade
+    // Temp grade.
     $dbrec = $DB->get_record("assign_grades", array("assignment" => $instance->instance, "userid" => $userid));
     if (empty($dbrec)) {
-        // $DB->execute('INSERT INTO {assign_grades} (grade,assignment,userid,timecreated,timemodified,grader) VALUES ("' . $grade . '","' . $instance->instance . '","' . $userid . '","' . time() . '","' . time() . '",' . "2" . ')');
 
         $data = new stdClass();
         $data->grade = $grade;
@@ -2061,15 +2049,16 @@ function set_grade($cmid, $userid, $grade, $grader) {
         $DB->insert_record('assign_grades', $data);
 
     } else {
-        $DB->execute("UPDATE {assign_grades} SET   grade = :grade WHERE assignment = :instance AND userid = :userid", array('grade' => $grade, 'instance' => $instance->instance, 'userid' => $userid));
+        $DB->execute("UPDATE {assign_grades} SET   grade = :grade WHERE assignment = :instance AND
+         userid = :userid", array('grade' => $grade, 'instance' => $instance->instance, 'userid' => $userid));
     }
 
     $matalasettings = $DB->get_record("assign", array("id" => $instance->instance));
     if ($matalasettings->blindmarking == "1" && $matalasettings->revealidentities == "0") {
-        // do not set final grade because this is an anonymous exam and the lecturer have not revealed grades yet
+        // Do not set final grade because this is an anonymous exam and the lecturer have not revealed grades yet.
         return;
     }
-    // final grade
+    // Final grade.
     $gradeobj = array();
     $gradeobj['userid'] = $userid;
     $gradeobj['rawgrade'] = $grade;
@@ -2120,7 +2109,7 @@ class tomagrade_connection
     const REPORT_HTML = 4;
     const REPORT_MATCHES = 5;
     const REPORT_PS = 6;
-    // const REPORT_RESERVED = 7;
+    const REPORT_RESERVED = 7;
     const REPORT_PDFHTML = 8;
     const REPORT_PDFREPORT = 9;
     const REPORT_HIGHLIGHT = 25;
@@ -2134,37 +2123,24 @@ class tomagrade_connection
     protected $username = -1;
     protected $nondisclosure = false;
 
-    function __construct() {
+    public function __construct() {
         $this->config = get_config('plagiarism_tomagrade');
     }
 
     public function do_login() {
         global $CFG;
-        // $config = $this->config;
-        // $postdata = "{\"username\":\"$config->tomagrade_username\",\"password\":\"$config->tomagrade_password\",\"captcha\":\"\"}";
-        // //echo($postdata);
-        // $response_post = $this->post_request("DoLogin", $postdata);
-        // $this->token = json_decode($response_post)->{'Token'};
-        // $this->userID = json_decode($response_post)->{'UserID'};
-        // $CFG->TomaToken = json_decode($response_post)->{'Token'};
-        // $CFG->TomaUser = json_decode($response_post)->{'UserID'};
-
         return 'success';
     }
 
-    function post_request($method, $postdata, $dontdecode=false, $parameters = "") {
+    public function post_request($method, $postdata, $dontdecode=false, $parameters = "") {
         global $CFG;
         $params = null;
         $config = $this->config;
         tomagrade_log("================== post $method to $config->tomagrade_server ====================");
-        // if (isset($CFG->TomaToken) && isset($CFG->TomaUser)) {
         if ($method !== "DoLogin") {
             $params = "TOKEN/" . $config->tomagrade_username;
         }
-        // }
-        // $params = (isset($params)) ? implode('/',$params) : "";
         $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/Server/php/WS.php/$method/" . $params . $parameters;
-        // $url = "https://tomagradedev.tomagrade.com/TomaGrade/Server/php/DoLogout.php/9";
         tomagrade_log("url : " . $url);
         tomagrade_log("postdata : " . json_encode($postdata));
 
@@ -2179,9 +2155,10 @@ class tomagrade_connection
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_POSTFIELDS => $postdata,
             CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_HTTPHEADER => array("cache-control: no-cache", "x-apikey: $config->tomagrade_password", "x-userid: $config->tomagrade_username")
+            CURLOPT_HTTPHEADER => array("cache-control: no-cache", "x-apikey: $config->tomagrade_password",
+             "x-userid: $config->tomagrade_username")
             // CURLOPT_CAPATH => "/etc/apache2/ssl",
-            // CURLOPT_CAINFO => "/etc/apache2/ssl/certificate.ca"
+            // CURLOPT_CAINFO => "/etc/apache2/ssl/certificate.ca".
 
         ));
 
@@ -2189,7 +2166,6 @@ class tomagrade_connection
         $err = curl_error($curl);
         curl_close($curl);
 
-        // echo("response : ".json_encode($response));
         tomagrade_log("response : " . json_encode($response));
         tomagrade_log("================== end post $method to $config->tomagrade_server ====================");
 
@@ -2360,10 +2336,12 @@ class tomagrade_connection
                 $DB->execute('UPDATE {plagiarism_tomagrade_config} SET complete = 0 WHERE cm = ?', array($cmid));
                 $tempdir = "TempDir_" . time();
                 if ($isexam == true) {
-                    $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/libs/fileUploader/uploadManagerZip.php?Exam_ID="
+                    $url = "https://$config->tomagrade_server.
+                    tomagrade.com/TomaGrade/libs/fileUploader/uploadManagerZip.php?Exam_ID="
                      . $examidintg . "&TempDirName=" . $tempdir;
                 } else {
-                    $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/libs/fileUploader/uploadManagerZip.php?Exam_ID="
+                    $url = "https://$config->tomagrade_server.
+                    tomagrade.com/TomaGrade/libs/fileUploader/uploadManagerZip.php?Exam_ID="
                     . $examidintg . "&TempDirName=" . $tempdir;
                 }
                   $ch = curl_init($url);
