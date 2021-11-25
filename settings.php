@@ -38,9 +38,7 @@ if ($CFG->version < 2011120100) {
 }
     require_capability('moodle/site:config', $context, $USER->id, true, "nopermissions");
 
-    // require_once('plagiarism_form.php');
     $mform = new plagiarism_setup_form();
-    // $plagiarismplugin = new plagiarism_plugin_tomagrade();
     $plagiarismsettings = (array)get_config('plagiarism_tomagrade');
 
 if ($mform->is_cancelled()) {
@@ -63,8 +61,8 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
 
     foreach ($data as $field => $value) {
         if (isset($plagiarismsettings->$field) && $plagiarismsettings->$field == $value) {
-            // local property copy is equal to submitted property
-            continue; // Setting unchanged
+            // Local property copy is equal to submitted property!
+            continue; // Setting unchanged!
         }
 
 
@@ -72,7 +70,8 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
 
         if (strpos($field, 'role_') !== false) {
             $roleid = str_replace("role_", "", $field);
-            if (is_numeric($roleid) == false) { continue;
+            if (is_numeric($roleid) == false) {
+                 continue;
             }
 
             if ($tomagradeuserrolestodisplayrelatedassignisfirst) {
@@ -86,7 +85,8 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
 
         if (strpos($field, 'rolePermissionGradedExam_') !== false) {
             $roleid = str_replace("rolePermissionGradedExam_", "", $field);
-            if (is_numeric($roleid) == false) { continue;
+            if (is_numeric($roleid) == false) {
+                continue;
             }
 
             if ($tomagradeuserrolespermissiongradedexamisfirst) {
@@ -100,7 +100,7 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
 
 
 
-        // Save the setting
+        // Save the setting!
         set_config($field, $value, 'plagiarism_tomagrade');
 
         if (strpos($field, 'tomagrade') === 0) {
@@ -131,7 +131,6 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
     echo $OUTPUT->notification(get_string('savedconfigsuccess', 'plagiarism_tomagrade'), 'notifysuccess');
 }
 
-    // cant do isset($plagiarismsettings['tomagrade_userRolesToDisplayRelatedAssign']) because php 5.4 support
 
     $settingskeys = array_keys($plagiarismsettings);
 
@@ -146,11 +145,11 @@ if (in_array('tomagrade_userRolesPermissionGradedExam', $settingskeys)) {
 }
 
 
-foreach($rolesarrrelateduser as $role) {
+foreach ($rolesarrrelateduser as $role) {
     $plagiarismsettings["role_".$role] = true;
 }
 
-foreach($rolesarrpermissiongradedexam as $role) {
+foreach ($rolesarrpermissiongradedexam as $role) {
     $plagiarismsettings["rolePermissionGradedExam_".$role] = true;
 }
 
