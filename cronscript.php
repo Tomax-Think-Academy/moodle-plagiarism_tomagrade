@@ -148,8 +148,8 @@ if (check_enabled()) {
         // UPDATE RENDERING  - END!
 
         $data = $DB->get_records_sql("
-select * from {plagiarism_tomagrade_config} as config
- inner join {plagiarism_tomagrade} as student on config.cm = student.cmid
+select * from {plagiarism_tomagrade_config}
+ inner join {plagiarism_tomagrade} on {plagiarism_tomagrade_config}.cm = {plagiarism_tomagrade}.cmid
  where complete = 0 and upload != 0 and status = 0 and updatestatus = 1 order by cmid");
 
 
