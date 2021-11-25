@@ -281,7 +281,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
         return false;
     }
 
-    static function get_user_id_by_group_identifier($name) {
+    public static function get_user_id_by_group_identifier($name) {
         global $DB;
         $posstart = strrpos($name, "(", -1);
         $posend = strrpos($name, ")", -1);
