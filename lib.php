@@ -2294,7 +2294,7 @@ class tomagrade_connection
             $files = $fs->get_area_files($contextid, $component, $filearea);
             $examid = $cmid;
             $file = $files[$filehash];
-            if(!isset($file) || $file === null ){
+            if (!isset($file) || $file === null ) {
                 $log .= 'There is no file, returning!';
                 return;
             }
@@ -2308,9 +2308,9 @@ class tomagrade_connection
             );
             $curl = curl_init();
             $extensionname = pathinfo($file->get_filename(), PATHINFO_EXTENSION);
-            $stdc = new stdClass; // Make the CURL file
+            $stdc = new stdClass; // Make the CURL file.
             $stdc->_tmp_file_post_params = array();
-            $mainfile->add_to_curl_request($stdc, "Key"); // function to create it
+            $mainfile->add_to_curl_request($stdc, "Key"); // Function to create it.
             $fields['file'] = $stdc->_tmp_file_post_params["Key"];
 
             $examidintg = $matalainfo->examid;
@@ -2320,7 +2320,7 @@ class tomagrade_connection
             if ($isexamexist == -1) {
                 $log .= '######### skipped, error in tomagrade or tomagrade is not responding right now ';
                 return;
-            }else if ($isexamexist == 0) {
+            } else if ($isexamexist == 0) {
                 $DB->execute('UPDATE {plagiarism_tomagrade_config} SET upload = 0 WHERE cm = ?', array($cmid));
                 $log .= '######### skipped, exam not found in tomagrade. ';
                 return;
@@ -2358,7 +2358,7 @@ class tomagrade_connection
                 $originalname = $originalname. "." . $extensionname;
             }
 
-            $namefile = uniqid() . "-" . round(microtime(true)) . ".$extensionname"; // Add the identifier
+            $namefile = uniqid() . "-" . round(microtime(true)) . ".$extensionname"; // Add the identifier.
             $fields['file']->postname = $namefile;
             $fields['file']->mime = $mainfile->get_mimetype();
 
@@ -2366,31 +2366,33 @@ class tomagrade_connection
 
             $response = json_decode($responsedecoded);
             if ($response->Response == "OK") {
-                // var_dump($response);
                 $DB->execute('UPDATE {plagiarism_tomagrade_config} SET complete = 0 WHERE cm = ?', array($cmid));
                 $tempdir = "TempDir_" . time();
                 if ($isexam == true) {
-                    $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/libs/fileUploader/uploadManagerZip.php?Exam_ID=" . $examidintg . "&TempDirName=" . $tempdir;
+                    $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/libs/fileUploader/uploadManagerZip.php?Exam_ID="
+                     . $examidintg . "&TempDirName=" . $tempdir;
                 } else {
-                    $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/libs/fileUploader/uploadManagerZip.php?Exam_ID=" . $examidintg . "&TempDirName=" . $tempdir;
+                    $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/libs/fileUploader/uploadManagerZip.php?Exam_ID="
+                    . $examidintg . "&TempDirName=" . $tempdir;
                 }
                   $ch = curl_init($url);
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: multipart/form-data', "x-apikey: $config->tomagrade_password", "x-userid: $config->tomagrade_username"));
+                curl_setopt($ch, CURLOPT_HTTPHEADER,
+                 array('Content-Type: multipart/form-data', "x-apikey: $config->tomagrade_password",
+                 "x-userid: $config->tomagrade_username"));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
                 $responsedecoded = curl_exec($ch);
                 $requestcontenttype = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
                 curl_close($ch);
-                // echo("Response 2:");
 
                 $response = json_decode($responsedecoded);
                 if ($response->answer == "File transfer completed Success") {
                     // Post upload file.
-                    $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/Server/php/WS.php/PostUploadFile/TOKEN/" . $config->tomagrade_username . "/" . $namefile;
-                    // "Files":[{"OriginalName":"ab95cb5a3b3472ce5491d4dbdec60161ef5ad876 (1).pdf","EncryptedName":"15927245626.pdf"}]}
+                    $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/Server/php/WS.php/PostUploadFile/TOKEN/"
+                    . $config->tomagrade_username . "/" . $namefile;
                     $post = [
                         "fileType" => "AssignZip",
                         "fileName" => $namefile,
@@ -2438,7 +2440,8 @@ class tomagrade_connection
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
                     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("x-apikey: $config->tomagrade_password", "x-userid: $config->tomagrade_username"));
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("x-apikey: $config->tomagrade_password",
+                    "x-userid: $config->tomagrade_username"));
 
                     $responsedecoded = curl_exec($ch);
                     curl_close($ch);
@@ -2446,19 +2449,18 @@ class tomagrade_connection
                     $response = json_decode($responsedecoded);
                     if ($response->Response == "OK") {
                         if (isset($row->id)) {
-                            $DB->execute('UPDATE {plagiarism_tomagrade} SET status = 1, updatestatus = 0 WHERE id = ?', array($row->id));
+                            $DB->execute('UPDATE {plagiarism_tomagrade} SET status = 1, updatestatus = 0 WHERE id = ?'
+                            , array($row->id));
                         } else {
-                            // $DB->execute("INSERT INTO {plagiarism_tomagrade} ( status,updatestatus,userid,cmid,filehash,pid) VALUES (1, 0,'$userid','$cmid','$filehash',0)");
                             $data = new stdClass();
                             $data->status = 1;
                             $data->updatestatus = 0;
                             $data->userid = $useridtable;
                             $data->cmid = $cmid;
                             $data->filehash = $filehash;
-                            // $data->pid = 0;
                             $DB->insert_record('plagiarism_tomagrade', $data);
                         }
-                    }else{
+                    } else {
                         throw new Exception('PostUploadFile Exception is:' . $responsedecoded);
                     }
                 } else {
