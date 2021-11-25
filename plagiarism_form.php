@@ -123,70 +123,81 @@ class plagiarism_setup_form extends moodleform {
         $mform->setType('tomagrade_DefaultUseTomax', PARAM_TEXT);
         $mform->addHelpButton('tomagrade_DefaultUseTomax', 'tomagrade_DefaultUseTomax', 'plagiarism_tomagrade');
 
-        $mform->addElement('select', 'tomagrade_DefaultIdentifier', get_string('tomagrade_DefaultIdentifier', 'plagiarism_tomagrade'), $identifierarray);
+        $mform->addElement('select', 'tomagrade_DefaultIdentifier',
+         get_string('tomagrade_DefaultIdentifier', 'plagiarism_tomagrade'), $identifierarray);
         $mform->addRule('tomagrade_DefaultIdentifier', null, 'required', null, 'client');
         $mform->setType('tomagrade_DefaultIdentifier', PARAM_TEXT);
         $mform->addHelpButton('tomagrade_DefaultIdentifier', 'tomagrade_DefaultIdentifier', 'plagiarism_tomagrade');
 
-        $mform->addElement('text', 'tomagrade_zeroComplete', get_string('tomagrade_zeroComplete', 'plagiarism_tomagrade'), array('style' => 'height:33px'));
-        // $mform->addRule('tomagrade_zeroComplete', null, 'required', null, 'client');
+        $mform->addElement('text', 'tomagrade_zeroComplete',
+         get_string('tomagrade_zeroComplete', 'plagiarism_tomagrade'), array('style' => 'height:33px'));
         $mform->setType('tomagrade_zeroComplete', PARAM_TEXT);
-        // $mform->addHelpButton('tomagrade_zeroComplete', 'tomagrade_zeroComplete', 'plagiarism_tomagrade');
 
-        $mform->addElement('select', 'tomagrade_DefaultIdentifier_TEACHER', get_string('tomagrade_DefaultIdentifier_TEACHER', 'plagiarism_tomagrade'), $identifierarrayteacher);
+        $mform->addElement('select', 'tomagrade_DefaultIdentifier_TEACHER',
+         get_string('tomagrade_DefaultIdentifier_TEACHER', 'plagiarism_tomagrade'), $identifierarrayteacher);
         $mform->addRule('tomagrade_DefaultIdentifier_TEACHER', null, 'required', null, 'client');
         $mform->setType('tomagrade_DefaultIdentifier_TEACHER', PARAM_TEXT);
         $mform->addHelpButton('tomagrade_DefaultIdentifier_TEACHER', 'tomagrade_DefaultIdentifier_TEACHER', 'plagiarism_tomagrade');
 
-        $mform->addElement('text', 'tomagrade_zeroCompleteTeacher', get_string('tomagrade_zeroCompleteTeacher', 'plagiarism_tomagrade'), array('style' => 'height:33px'));
+        $mform->addElement('text', 'tomagrade_zeroCompleteTeacher',
+         get_string('tomagrade_zeroCompleteTeacher', 'plagiarism_tomagrade'), array('style' => 'height:33px'));
         $mform->setType('tomagrade_zeroCompleteTeacher', PARAM_TEXT);
         $mform->addHelpButton('tomagrade_zeroCompleteTeacher', 'tomagrade_zeroCompleteTeacher', 'plagiarism_tomagrade');
 
-        $mform->addElement('text', 'tomagrade_MatchingDue', get_string('tomagrade_MatchingDue', 'plagiarism_tomagrade'), array('style' => 'height:33px'));
-        // $mform->addRule('tomagrade_MatchingDue', null, 'required', null, 'client');
+        $mform->addElement('text', 'tomagrade_MatchingDue',
+         get_string('tomagrade_MatchingDue', 'plagiarism_tomagrade'), array('style' => 'height:33px'));
         $mform->setType('tomagrade_MatchingDue', PARAM_TEXT);
-        // $mform->addHelpButton('tomagrade_IDMatchOnTomagrade', 'tomagrade_IDMatchOnTomagrade', 'plagiarism_tomagrade');
 
-        $mform->addElement('select', 'tomagrade_AllowOnlyIdMatchOnTG', get_string('tomagrade_AllowOnlyIdMatchOnTG', 'plagiarism_tomagrade'), $allowonlyidmatchontg);
+        $mform->addElement('select', 'tomagrade_AllowOnlyIdMatchOnTG',
+         get_string('tomagrade_AllowOnlyIdMatchOnTG', 'plagiarism_tomagrade'), $allowonlyidmatchontg);
         $mform->addRule('tomagrade_AllowOnlyIdMatchOnTG', null, 'required', null, 'client');
         $mform->setType('tomagrade_AllowOnlyIdMatchOnTG', PARAM_TEXT);
 
-        $mform->addElement('select', 'tomagrade_DisplayStudentNameOnTG', get_string('tomagarde_DisplayStudentNameOnTG', 'plagiarism_tomagrade'), $displaystudentnameontg);
+        $mform->addElement('select', 'tomagrade_DisplayStudentNameOnTG',
+         get_string('tomagarde_DisplayStudentNameOnTG', 'plagiarism_tomagrade'), $displaystudentnameontg);
         $mform->addRule('tomagrade_DisplayStudentNameOnTG', null, 'required', null, 'client');
         $mform->setType('tomagrade_DisplayStudentNameOnTG', PARAM_TEXT);
 
-        $mform->addElement('select', 'tomagrade_IDMatchOnTomagrade', get_string('tomagrade_IDMatchOnTomagrade', 'plagiarism_tomagrade'), $idmatchontg);
+        $mform->addElement('select', 'tomagrade_IDMatchOnTomagrade',
+         get_string('tomagrade_IDMatchOnTomagrade', 'plagiarism_tomagrade'), $idmatchontg);
         $mform->addRule('tomagrade_IDMatchOnTomagrade', null, 'required', null, 'client');
         $mform->setType('tomagrade_IDMatchOnTomagrade', PARAM_TEXT);
 
-        $mform->addElement('text', 'tomagrade_DaysDisplayBeforeExamDate', get_string('tomagrade_DaysDisplayBeforeExamDate', 'plagiarism_tomagrade'));
+        $mform->addElement('text', 'tomagrade_DaysDisplayBeforeExamDate',
+         get_string('tomagrade_DaysDisplayBeforeExamDate', 'plagiarism_tomagrade'));
         $mform->setType('tomagrade_DaysDisplayBeforeExamDate', PARAM_TEXT);
 
-        $mform->addElement('text', 'tomagrade_DaysDisplayAfterExamDate', get_string('tomagrade_DaysDisplayAfterExamDate', 'plagiarism_tomagrade'));
+        $mform->addElement('text', 'tomagrade_DaysDisplayAfterExamDate',
+         get_string('tomagrade_DaysDisplayAfterExamDate', 'plagiarism_tomagrade'));
         $mform->setType('tomagrade_DaysDisplayAfterExamDate', PARAM_TEXT);
 
-        $mform->addElement('static', 'tomagrade_userRolesToDisplayRelatedAssign1', get_string('tomagrade_userRolesToDisplayRelatedAssign', 'plagiarism_tomagrade'), null);
+        $mform->addElement('static', 'tomagrade_userRolesToDisplayRelatedAssign1',
+         get_string('tomagrade_userRolesToDisplayRelatedAssign', 'plagiarism_tomagrade'), null);
 
         foreach ($roles as $id => $name) {
             $mform->addElement('checkbox', "role_".$id, $name, null, array('class' => 'checkboxgroup1'));
         }
 
-        $mform->addHelpButton('tomagrade_userRolesToDisplayRelatedAssign1', 'tomagrade_userRolesToDisplayRelatedAssign', 'plagiarism_tomagrade');
+        $mform->addHelpButton('tomagrade_userRolesToDisplayRelatedAssign1',
+         'tomagrade_userRolesToDisplayRelatedAssign', 'plagiarism_tomagrade');
         echo "<style>
 .checkboxgroup1 { margin-top:0 !important;  margin-bottom:0 !important; }
 </style>";
 
-        $mform->addElement('static', 'tomagrade_userRolesPermissionGradedExam1', get_string('tomagrade_userRolesPermissionGradedExam', 'plagiarism_tomagrade'), null);
+        $mform->addElement('static', 'tomagrade_userRolesPermissionGradedExam1',
+         get_string('tomagrade_userRolesPermissionGradedExam', 'plagiarism_tomagrade'), null);
 
         foreach ($roles as $id => $name) {
             $mform->addElement('checkbox', "rolePermissionGradedExam_".$id, $name, null, array('class' => 'checkboxgroup1'));
         }
 
-        $mform->addElement('select', 'tomagrade_createUsers', get_string('tomagrade_createUsers', 'plagiarism_tomagrade'), $createusersoptions);
+        $mform->addElement('select', 'tomagrade_createUsers',
+         get_string('tomagrade_createUsers', 'plagiarism_tomagrade'), $createusersoptions);
 
         $mform->setType('tomagrade_createUsers', PARAM_TEXT);
 
-        $mform->addElement('select', 'tomagrade_keepBlindMarking', get_string('tomagrade_keepBlindMarking', 'plagiarism_tomagrade'), $keepblindmarkingoptions);
+        $mform->addElement('select', 'tomagrade_keepBlindMarking',
+         get_string('tomagrade_keepBlindMarking', 'plagiarism_tomagrade'), $keepblindmarkingoptions);
 
         $mform->setType('tomagrade_keepBlindMarking', PARAM_TEXT);
 
@@ -203,6 +214,7 @@ class plagiarism_setup_form extends moodleform {
 
         $this->add_action_buttons(true);
         $checkconnection = $CFG->wwwroot . '/plagiarism/tomagrade/checkConnection.php';
-        $mform->addElement('button', "onclick='asdfasfd'", "Check Connection", array("onclick" => "window.open('$checkconnection')"));
+        $mform->addElement('button', "onclick='asdfasfd'", "Check Connection",
+         array("onclick" => "window.open('$checkconnection')"));
     }
 }

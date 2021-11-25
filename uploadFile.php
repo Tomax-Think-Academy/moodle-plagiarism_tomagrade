@@ -50,7 +50,6 @@ if (!isset($data) || is_null($data) || $data == false) {
     $data = new stdClass();
     $data->cmid = $cmid;
     $data->filehash = $_GET['filehash'];
-    // $data->userid = $_GET["studentid"];
 
     $fs = get_file_storage();
     $file = $fs->get_file_by_hash($data->filehash);
