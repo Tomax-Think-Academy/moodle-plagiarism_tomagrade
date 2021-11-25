@@ -192,8 +192,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
             }
 
             return $newobject;
-        }
-        else if ($config->tomagrade_DefaultIdentifier_TEACHER == self::IDENTIFIER_BY_USERNAME) {
+        } else if ($config->tomagrade_DefaultIdentifier_TEACHER == self::IDENTIFIER_BY_USERNAME) {
                $newobject->identify = "TeacherID";
                $newobject->data = $user->username;
 
@@ -207,7 +206,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
             }
 
                return $newobject;
-        }  else if ($config->tomagrade_DefaultIdentifier_TEACHER == self::IDENTIFIER_BY_HUJIID) {
+        } else if ($config->tomagrade_DefaultIdentifier_TEACHER == self::IDENTIFIER_BY_HUJIID) {
 
             $newobject->identify = "TeacherID";
 
@@ -239,9 +238,9 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
             $identifiertable = "idnumber";
         } else if ($config->tomagrade_DefaultIdentifier == self::IDENTIFIER_BY_USERNAME) {
             $identifiertable = "username";
-        }else if ($config->tomagrade_DefaultIdentifier == self::IDENTIFIER_BY_ORBITID) {
+        } else if ($config->tomagrade_DefaultIdentifier == self::IDENTIFIER_BY_ORBITID) {
             $identifiertable = "orbitid";
-        }else if ($config->tomagrade_DefaultIdentifier == self::IDENTIFIER_BY_HUJIID) {
+        } else if ($config->tomagrade_DefaultIdentifier == self::IDENTIFIER_BY_HUJIID) {
             $identifiertable = "HUJIID";
         }
 
@@ -252,7 +251,8 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
 
         if ($identifiertable == "orbitid") {
 
-            $orbitiddata = $DB->get_records_sql("select m.id from {import_interface_user} o JOIN {user} m ON o.username=m.username where o.orbitid = ?", array($identifier));
+            $orbitiddata = $DB->get_records_sql("select m.id from {import_interface_user} o
+             JOIN {user} m ON o.username=m.username where o.orbitid = ?", array($identifier));
 
             if (count($orbitiddata) > 0) {
                 $userid = reset($orbitiddata)->id;
@@ -262,7 +262,8 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
             }
 
         } else if ($identifiertable == "HUJIID") {
-             $hujiiddata = $DB->get_records_sql("SELECT u.id FROM {user} as u  INNER JOIN huji.userdata on tz=idnumber where hujiid=?", array($identifier));
+             $hujiiddata = $DB->get_records_sql("SELECT u.id FROM {user} u
+              INNER JOIN huji.userdata on tz=idnumber where hujiid=?", array($identifier));
 
             if (count($hujiiddata) > 0) {
                 $userid = reset($hujiiddata)->id;
