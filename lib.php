@@ -333,16 +333,12 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
     public function get_links($linkarray) {
 
         if (isset($linkarray['file'])) {
-            if ($linkarray['file']->get_filearea() == "introattachment") { return;
+            if ($linkarray['file']->get_filearea() == "introattachment") {
+                return;
             }
         }
 
-        // $userid, $file, $cmid, $course, $module
-        // $file = file_get_contents('http://54.154.199.148/moodle/pluginfile.php/90/assignsubmission_file/submission_files/18/ab95cb5a3b3472ce5491d4dbdec60161ef5ad876.pdf');
-        // echo($file);
         global $DB, $USER, $CFG;
-        // echo 'link array:';
-        // var_dump(array_keys ($linkarray));
         if (check_enabled() && !isset($linkarray["forum"]) && isset($linkarray['file']) && isset($linkarray['cmid']) && isset($linkarray['userid'])) {
 
             $cmid = $linkarray['cmid'];
@@ -2497,7 +2493,7 @@ class tomagrade_connection
 
 
 
-    function check_course($examidintg) {
+    protected function check_course($examidintg) {
         global $DB;
 
         $this->do_login();
@@ -2510,20 +2506,20 @@ class tomagrade_connection
         }
 
         $matalainfo = tomagrade_get_instance_config($cmidexam);
-        $grader = 2; // usually it's the admin
+        $grader = 2; // Usually it's the admin!
         if (is_numeric($matalainfo->username)) {
             $grader = intval($matalainfo->username);
         }
 
         if ($response->Response != "Failed") {
             foreach ($response->CourseParticipant as $value) {
-                if ($value->ParGrade != "" || isset($value->ParGrade) || $value->ParGradeNoFactor != "" || isset($value->ParGradeNoFactor)) {
+                if ($value->ParGrade != "" || isset($value->ParGrade) ||
+                     $value->ParGradeNoFactor != "" || isset($value->ParGradeNoFactor)) {
                     $current = plagiarism_plugin_tomagrade::get_user_id_by_identifier($value->OriginalFileName);
                     if ($current == false) {
                         $current = plagiarism_plugin_tomagrade::get_user_id_by_group_identifier($value->OriginalFileName);
                     }
                     if ($current != false && $value->ParExamStatus == 2) {
-                        // $current = $DB->get_record('user', array('idnumber' => $value->OriginalFileName));
                         foreach ($current as $userid) {
                             if (isset($value->ParGrade)) {
                                 set_grade($cmidexam, $userid, $value->ParGrade, $grader);
@@ -2538,8 +2534,6 @@ class tomagrade_connection
                 $newdb = new stdClass();
                 $DB->execute('UPDATE {plagiarism_tomagrade_config} SET complete = 2 WHERE cm = ?', array($cmidexam));
             }
-        } else {
-            // Check if deleted, if so remove.
         }
     }
 }
