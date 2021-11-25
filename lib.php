@@ -302,7 +302,6 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
     const RUN_MANUAL = 1;
     const RUN_IMMEDIATLY = 2;
     const RUN_AFTER_FIRST_DUE_DATE = 3;
-    // const RUN_AFTER_LAST_DUE_DATE = 4;
 
     const ALL_SITE = false;
     const ACL = true;
@@ -322,8 +321,8 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
     const SHOWSTUDENTS_ACTCLOSED = 2;
 
     const INACTIVE = 0;
-    const IDENTIFIER_BY_CourseID = 1;
-    const IDENTIFIER_BY_ExamID = 2;
+    const IDENTIFIER_BY_COURSEID = 1;
+    const IDENTIFIER_BY_EXAMID = 2;
 
     /**
      * hook to allow plagiarism specific information to be displayed beside a submission

@@ -61,8 +61,8 @@ class plagiarism_setup_form extends moodleform {
 
         $idmatchontg = array(
         plagiarism_plugin_tomagrade::INACTIVE => "Inactive",
-        plagiarism_plugin_tomagrade::IDENTIFIER_BY_CourseID => "CourseID",
-        plagiarism_plugin_tomagrade::IDENTIFIER_BY_ExamID => "ExamID"
+        plagiarism_plugin_tomagrade::IDENTIFIER_BY_COURSEID => "CourseID",
+        plagiarism_plugin_tomagrade::IDENTIFIER_BY_EXAMID => "ExamID"
         );
 
         $allowonlyidmatchontg = array(
