@@ -2202,18 +2202,13 @@ class tomagrade_connection
 
 
 
-    function get_request($method, $getdata) {
+    protected function get_request($method, $getdata) {
         global $CFG;
         $params = null;
         $config = $this->config;
         tomagrade_log("================== get $method to $config->tomagrade_server ====================");
-        // if (isset($CFG->TomaToken) && isset($CFG->TomaUser)) {
         $params = "TOKEN/" . $config->tomagrade_username;
-        // }
-        // $params = (isset($params)) ? implode('/',$params) : "";
         $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/Server/php/WS.php/$method/" . $params . $getdata;
-        // echo($url); exit;
-        // $url = "https://tomagradedev.tomagrade.com/TomaGrade/Server/php/DoLogout.php/9";
         tomagrade_log("url : " . $url);
         tomagrade_log("getdata : " . $getdata);
 
@@ -2225,14 +2220,14 @@ class tomagrade_connection
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_HTTPHEADER => array("cache-control: no-cache", "x-apikey: $config->tomagrade_password", "x-userid: $config->tomagrade_username")
+            CURLOPT_HTTPHEADER => array("cache-control: no-cache", "x-apikey: $config->tomagrade_password",
+             "x-userid: $config->tomagrade_username")
             // CURLOPT_CAPATH => "/etc/apache2/ssl",
-            // CURLOPT_CAINFO => "/etc/apache2/ssl/certificate.ca"
+            // CURLOPT_CAINFO => "/etc/apache2/ssl/certificate.ca".
         ));
         $response = curl_exec($curl);
         $err = curl_error($curl);
         curl_close($curl);
-        // echo("response : ".json_encode($response));
         tomagrade_log("response : " . json_encode($response));
         tomagrade_log("================== get $method to $config->tomagrade_server ====================");
 
@@ -2247,7 +2242,6 @@ class tomagrade_connection
         $config = $this->config;
         $inforamtion = plagiarism_plugin_tomagrade::get_teacher_identifier($id);
         $postdata = "{\"$inforamtion->identify\":\"$inforamtion->data\"}";
-        // exit;//echo("POSRTDATA:".$postdata."<br>");
         $responsepost = $this->post_request("DoLogin", $postdata);
         return $responsepost;
     }
@@ -2256,11 +2250,7 @@ class tomagrade_connection
         global $CFG;
         $config = $this->config;
         $response = $this->get_request("GetTeacherIdMoodle", "/Email/$email");
-        // echo("Response before:\n");
-        // var_dump($response);
         $response = json_decode($response);
-        // echo("Response after:\n");
-        // var_dump($response);
         return $response->Message;
     }
 
@@ -2272,7 +2262,8 @@ class tomagrade_connection
         try {
             $isexam = false;
             $matalainfo = tomagrade_get_instance_config($row->cmid);
-            if (isset($matalainfo->idmatchontg) && $matalainfo->idmatchontg != '0' && $matalainfo->idmatchontg != '' && is_null($matalainfo->idmatchontg) == false) {
+            if (isset($matalainfo->idmatchontg) && $matalainfo->idmatchontg != '0' &&
+             $matalainfo->idmatchontg != '' && is_null($matalainfo->idmatchontg) == false) {
                 $isexam = true;
             }
 
