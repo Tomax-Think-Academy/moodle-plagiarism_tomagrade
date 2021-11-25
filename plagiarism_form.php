@@ -92,38 +92,36 @@ class plagiarism_setup_form extends moodleform {
         $roles = array();
         $stringroles = "";
         foreach ($resultroles as $role) {
-            // if ($role->shortname == "student") { continue; }
             $roles[$role->id] = $role->shortname;
         }
 
-        // build form
+        // Build form.
         $mform->addElement('html');
         $mform->addElement('checkbox', 'enabled', "Enable TomaGrade");
 
-        $mform->addElement('text', 'tomagrade_server', get_string('tomagradeserver', 'plagiarism_tomagrade'), array('size' => '40', 'style' => 'height: 33px'));
+        $mform->addElement('text', 'tomagrade_server',
+         get_string('tomagradeserver', 'plagiarism_tomagrade'), array('size' => '40', 'style' => 'height: 33px'));
         $mform->addRule('tomagrade_server', null, 'required', null, 'client');
         $mform->setType('tomagrade_server', PARAM_TEXT);
         $mform->addHelpButton('tomagrade_server', 'tomagradeserver', 'plagiarism_tomagrade');
 
-        $mform->addElement('text', 'tomagrade_username', get_string('tomagradeusername', 'plagiarism_tomagrade'), array('style' => 'height: 33px'));
+        $mform->addElement('text', 'tomagrade_username',
+         get_string('tomagradeusername', 'plagiarism_tomagrade'), array('style' => 'height: 33px'));
         $mform->addRule('tomagrade_username', null, 'required', null, 'client');
         $mform->setType('tomagrade_username', PARAM_TEXT);
         $mform->addHelpButton('tomagrade_username', 'tomagradeusername', 'plagiarism_tomagrade');
 
-        $mform->addElement('password', 'tomagrade_password', get_string('tomagradepassword', 'plagiarism_tomagrade'), array('style' => 'height: 33px'));
+        $mform->addElement('password', 'tomagrade_password',
+         get_string('tomagradepassword', 'plagiarism_tomagrade'), array('style' => 'height: 33px'));
         $mform->addRule('tomagrade_password', null, 'required', null, 'client');
         $mform->setType('tomagrade_password', PARAM_TEXT);
         $mform->addHelpButton('tomagrade_password', 'tomagradepassword', 'plagiarism_tomagrade');
 
-        $mform->addElement('select', 'tomagrade_DefaultUseTomax', get_string('tomagrade_DefaultUseTomax', 'plagiarism_tomagrade'), $tomaplagopts);
+        $mform->addElement('select', 'tomagrade_DefaultUseTomax',
+         get_string('tomagrade_DefaultUseTomax', 'plagiarism_tomagrade'), $tomaplagopts);
         $mform->addRule('tomagrade_DefaultUseTomax', null, 'required', null, 'client');
         $mform->setType('tomagrade_DefaultUseTomax', PARAM_TEXT);
         $mform->addHelpButton('tomagrade_DefaultUseTomax', 'tomagrade_DefaultUseTomax', 'plagiarism_tomagrade');
-
-        // $mform->addElement('select', 'tomagrade_DefaultShareTomax', get_string('tomagrade_DefaultShareTomax', 'plagiarism_tomagrade'), $showstudentsopt);
-        // $mform->addRule('tomagrade_DefaultShareTomax', null, 'required', null, 'client');
-        // $mform->setType('tomagrade_DefaultShareTomax', PARAM_TEXT);
-        // $mform->addHelpButton('tomagrade_DefaultShareTomax', 'tomagrade_DefaultShareTomax', 'plagiarism_tomagrade');
 
         $mform->addElement('select', 'tomagrade_DefaultIdentifier', get_string('tomagrade_DefaultIdentifier', 'plagiarism_tomagrade'), $identifierarray);
         $mform->addRule('tomagrade_DefaultIdentifier', null, 'required', null, 'client');

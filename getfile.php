@@ -54,7 +54,7 @@ if (isset($_GET['userid'])) {
 if ($permission == false) {
     if (isset($config->tomagrade_userRolesPermissionGradedExam) == true && $config->tomagrade_userRolesPermissionGradedExam != "") {
 
-        // check roles on course level
+        // Check roles on course level.
         $teachersarr = $DB->get_records_sql("
         SELECT DISTINCT   u.id, u.username, u.firstname, u.lastname, u.email, u.idnumber
         FROM {role_assignments} ra, {user} u, {course} c, {context} cxt

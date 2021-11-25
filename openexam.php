@@ -51,7 +51,10 @@ $config = get_config('plagiarism_tomagrade');
 
 $isexam = false;
 $matalainfo = tomagrade_get_instance_config($cmid);
-if (isset($matalainfo->idmatchontg) && $matalainfo->idmatchontg != '0' && $matalainfo->idmatchontg != '' && is_null($matalainfo->idmatchontg) == false) {
+if (isset($matalainfo->idmatchontg) &&
+ $matalainfo->idmatchontg != '0' &&
+  $matalainfo->idmatchontg != '' &&
+   is_null($matalainfo->idmatchontg) == false) {
     $isexam = true;
 }
 
@@ -73,8 +76,8 @@ $json = $connection->teacher_login($USER->id);
 
 
 
-$url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/Server/php/SAMLLogin.php/" . $json["Token"] . "/" . $json["UserID"] . "?coursename=" . $matalainfo->examid;
+$url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/Server/php/SAMLLogin.php/" .
+ $json["Token"] . "/" . $json["UserID"] . "?coursename=" . $matalainfo->examid;
 
 header("Location: $url");
-// echo $url;-
 exit;
