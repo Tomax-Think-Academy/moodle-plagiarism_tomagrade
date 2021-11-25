@@ -34,7 +34,7 @@ require_once($CFG->dirroot . '/plagiarism/lib.php');
 
 require_once($CFG->libdir.'/gradelib.php');
 
-// TomaGrade Class!
+// TomaGradeClass!
 
 function get_context_from_cmid($cmid) {
     try {
@@ -58,7 +58,7 @@ function check_enabled() {
 
 class plagiarism_plugin_tomagrade extends plagiarism_plugin {
 
-    const goodExtensions = array(
+    const GOODEXTENSIONS = array(
         "pdf" => "application/pdf",
         "doc" => "application/msword",
         "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -74,7 +74,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
 
     public static function check_if_good_file($extension) {
         $extension = strtolower($extension);
-        $arr = array_keys(self::goodExtensions);
+        $arr = array_keys(self::GOODEXTENSIONS);
         return in_array($extension, $arr);
 
     }
@@ -90,13 +90,13 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
     public static function get_orbit_id($userid) {
         global $DB;
 
-        $orbitiddata = $DB->get_records_sql("select o.orbitid from {import_interface_user} o JOIN {user} m ON o.username=m.username where m.id = ?", array($userid) );
+        $orbitiddata = $DB->get_records_sql("select o.orbitid from {import_interface_user} o
+        JOIN {user} m ON o.username=m.username where m.id = ?", array($userid) );
 
         if (count($orbitiddata) > 0) {
 
             return reset($orbitiddata)->orbitid;
-        }
-        else {
+        } else {
             return -1;
         }
     }
@@ -139,7 +139,8 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
         } else if ($config->tomagrade_DefaultIdentifier == self::IDENTIFIER_BY_ORBITID) {
             $output = $user->idnumber;
 
-            $orbitiddata = $DB->get_records_sql("select o.orbitid from {import_interface_user} o JOIN {user} m ON o.username=m.username where m.id = ?", array($userid) );
+            $orbitiddata = $DB->get_records_sql("select o.orbitid from {import_interface_user} o
+            JOIN {user} m ON o.username=m.username where m.id = ?", array($userid) );
 
             if (count($orbitiddata) > 0) {
 
@@ -148,7 +149,8 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
 
         } else if ($config->tomagrade_DefaultIdentifier == self::IDENTIFIER_BY_HUJIID) {
 
-              $hujiiddata = $DB->get_records_sql("SELECT hujiid FROM huji.userdata INNER JOIN {user} as u on idnumber=tz WHERE u.id=?", array($userid));
+              $hujiiddata = $DB->get_records_sql("SELECT hujiid FROM huji.userdata INNER JOIN {user} on idnumber=tz WHERE {user}.id=?",
+               array($userid));
 
             if (count($hujiiddata) > 0) {
 
