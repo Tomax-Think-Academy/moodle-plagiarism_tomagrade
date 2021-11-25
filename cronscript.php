@@ -27,10 +27,9 @@
 defined('MOODLE_INTERNAL') || die();
 mtrace("Define INTERNAL");
 global $DB, $CFG;
-require_login();
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/plagiarism/tomagrade/lib.php');
-
+require_login();
 mtrace("Starting the TomaGrade cron");
 
 
@@ -55,7 +54,7 @@ if (check_enabled()) {
     $DB->execute(" delete FROM {plagiarism_tomagrade_config} where cm not in ( SELECT id from {course_modules} )");
 
 
-        // UPDATE RENDERING  - START
+        // UPDATE RENDERING  - START!
         $response = $connection->get_request("GetUnDownloadedCourses", "/assigns");
         $response = json_decode($response, true);
     if (isset($response['Exams'])) {
@@ -69,7 +68,7 @@ if (check_enabled()) {
 
 
         $moodleassignsarr = array();
-    foreach($exams as $exam) {
+    foreach ($exams as $exam) {
         if (strpos($exam['ExamID'], '_') !== false) {
              // This is not a moodle assignment!
             continue;
@@ -81,9 +80,9 @@ if (check_enabled()) {
 
 
         $examscmidscist = "";
-        $examsIdsIncurrentmoodlesserver = array();
+        $examsidsincurrentmoodlesserver = array();
     if (count($moodleassignsarr) > 0) {
-        $moodleassignsstr =  "";
+        $moodleassignsstr = "";
         $isfirst = true;
         foreach ($moodleassignsarr as $examid) {
             if ($isfirst) {
@@ -94,58 +93,59 @@ if (check_enabled()) {
             }
         }
 
-            $examsinthismoodle = $DB->get_records_sql(" select cm,examid from {plagiarism_tomagrade_config}
-             where examid in ($moodleassignsstr) ");
-            $isfirst = true;
-            foreach ($examsinthismoodle as $key=>$value) {
-                if ($isfirst) {
-                    $examscmidscist .= "'".$value->cm."'";
-                    $isfirst = false;
-                } else {
-                    $examscmidscist .= ",'".$value->cm."'";
-                }
-                array_push($examsIdsIncurrentmoodlesserver,$value->examid);
+        $examsinthismoodle = $DB->get_records_sql(" select cm,examid from {plagiarism_tomagrade_config}
+            where examid in ($moodleassignsstr) ");
+        $isfirst = true;
+        foreach ($examsinthismoodle as $key => $value) {
+            if ($isfirst) {
+                $examscmidscist .= "'".$value->cm."'";
+                $isfirst = false;
+            } else {
+                $examscmidscist .= ",'".$value->cm."'";
             }
+                array_push($examsidsincurrentmoodlesserver, $value->examid);
         }
+    }
 
 
 
 
-        if (empty($examscmidscist) == false) {
+    if (empty($examscmidscist) == false) {
 
-                $NotRendered = $DB->execute("
-    update {plagiarism_tomagrade}  set finishrender = 1 where id in (  select id from ( select student.id as id  from {plagiarism_tomagrade_config} as config
+        $notrendered = $DB->execute("
+    update {plagiarism_tomagrade}  set finishrender = 1 where id in (  select id from
+    ( select student.id as id  from {plagiarism_tomagrade_config} as config
      inner join {plagiarism_tomagrade} as student on config.cm = student.cmid
      where cmid in ($examscmidscist) ) as x ) ");
 
-            if ($NotRendered == true) {
+        if ($notrendered == true) {
 
-                logandprint("all the exams $examscmidscist has been synced and rendered",$log);
+                logandprint("all the exams $examscmidscist has been synced and rendered", $log);
 
-                foreach($examsIdsIncurrentmoodlesserver as $exam) {
-                    try {
+            foreach ($examsidsincurrentmoodlesserver as $exam) {
+                try {
 
 
-                        $connection->check_course($exam);
+                    $connection->check_course($exam);
 
-                        $res = $connection->get_request("SaveDownloadDate", "/$exam");
-                        $res = json_decode($res,true);
-                        $result = $res['Response'];
+                    $res = $connection->get_request("SaveDownloadDate", "/$exam");
+                    $res = json_decode($res, true);
+                    $result = $res['Response'];
 
-                        if ($result == 'Failed') {
-                            logandprint("error in SaveDownloadDate for exam $exam",$log);
-                        }
-
-                    } catch (Exception $e) {
-                        logandprint('happend in check_course - for ' . $currentCmid . " cmid.",$log);
-                        logandprint($e,$log);
+                    if ($result == 'Failed') {
+                        logandprint("error in SaveDownloadDate for exam $exam", $log);
                     }
+
+                } catch (Exception $e) {
+                    logandprint('happend in check_course - for ' . $currentcmid . " cmid.", $log);
+                    logandprint($e, $log);
                 }
             }
-        } else {
-            logandprint("there are no exams that rendered since the last sync",$log);
         }
-        // #### UPDATE RENDERING  - END
+    } else {
+        logandprint("there are no exams that rendered since the last sync", $log);
+    }
+        // UPDATE RENDERING  - END!
 
         $data = $DB->get_records_sql("
 select * from {plagiarism_tomagrade_config} as config
@@ -153,29 +153,26 @@ select * from {plagiarism_tomagrade_config} as config
  where complete = 0 and upload != 0 and status = 0 and updatestatus = 1 order by cmid");
 
 
-    // foreach ($data as $key=>$value) {
-    //     var_dump($key);
     $keys = array_keys($data);
-    foreach(array_keys($keys) as $index){
-        $current_key = current($keys); // or $current_key = $keys[$index];
-        $value = $data[$current_key]; // or $current_value = $a[$keys[$index]];
+    foreach (array_keys($keys) as $index) {
+        $currentkey = current($keys);
+        $value = $data[$currentkey];
 
-        $next_key = next($keys);
-        $next_value = $data[$next_key] ?? null; // for php version >= 7.0
+        $nextkey = next($keys);
+        $nextvalue = $data[$nextkey] ?? null; // For php version >= 7.0!
 
-        $sendMail = false;
+        $sendmail = false;
         if (empty($value->share_teachers) == false) {
-            if (isset($next_value) == false) {
-                $sendMail = true;
-            } else if ($value->cmid != $next_value->cmid) {
-                $sendMail = true;
+            if (isset($nextvalue) == false) {
+                $sendmail = true;
+            } else if ($value->cmid != $nextvalue->cmid) {
+                $sendmail = true;
             }
         }
 
 
 
 
-        // if ($value->status == 0 || $value->updatestatus == 1) {
         try {
             $context = context_module::instance($value->cm);
         } catch (Exception $e) {
@@ -183,52 +180,37 @@ select * from {plagiarism_tomagrade_config} as config
         }
         if (empty($context) || $context == null) {
 
-            logandprint("context is empty.. -",$log);
+            logandprint("context is empty.. -", $log);
             continue;
         }
         $contextid = $context->id;
         try {
             switch ($value->upload) {
                 case plagiarism_plugin_tomagrade::RUN_IMMEDIATLY:
-                    // mtrace("Should upload immediately.");
-                    logandprint("Should upload immediately.",$log);
-                    $tmpLog = $connection->upload_exam($contextid, $value,$sendMail);
-                    logandprint($tmpLog,$log);
+                    logandprint("Should upload immediately.", $log);
+                    $tmplog = $connection->upload_exam($contextid, $value, $sendmail);
+                    logandprint($tmplog, $log);
                     break;
                 case plagiarism_plugin_tomagrade::RUN_MANUAL:
-                    // mtrace("Should be uploaded manual.");
-                    logandprint("Should be uploaded manual.",$log);
+                    logandprint("Should be uploaded manual.", $log);
                     break;
                 case plagiarism_plugin_tomagrade::RUN_AFTER_FIRST_DUE_DATE:
-                    // mtrace("Should be uploaded at first due date.");
-                    logandprint("Should be uploaded at first due date.",$log);
+                    logandprint("Should be uploaded at first due date.", $log);
                     $checkdate = $DB->get_record("event", array('id' => $value->cmid));
                     if ($checkdate->timestart < time()) {
-                        $tmpLog = $connection->upload_exam($contextid, $value,$sendMail);
-                        logandprint($tmpLog,$log);
+                        $tmplog = $connection->upload_exam($contextid, $value, $sendmail);
+                        logandprint($tmplog, $log);
                     }
                     break;
             }
         } catch (Exception $e) {
-            logandprint("Couldn't Sync Student, Exception:",$log);
-            logandprint($e,$log);
+            logandprint("Couldn't Sync Student, Exception:", $log);
+            logandprint($e, $log);
         }
-        // }
     }
 
 
-
-    // $event = \plagiarism_tomagrade\event\assigns_syncedWithTG::create(array(
-    //     'context' => context_system::instance(),
-    //     'userid' => -1,
-    //     'other' => $log
-    // ));
-    // $event->trigger();
-
-
-
-    function resetforDev()
-    {
+    function resetfordev() {
         global $DB, $CFG;
         $data = $DB->get_records("plagiarism_tomagrade");
         foreach ($data as $val) {
