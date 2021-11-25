@@ -891,9 +891,8 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
             }
 
             if ($doanonymouscheck) {
-                if ($data->blindmarking == "0" && intval($data->tomagrade_idmatchontg) > 0) {
-                    // in this case, anonymous by agdarot mosad
-                } else {
+                if ($data->blindmarking != "0" || intval($data->tomagrade_idmatchontg) <= 0) {
+
                     $anonymousbool = false;
                     if ($data->blindmarking == "1") {
                         $anonymousbool = true;
@@ -907,7 +906,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     if (isset($result["Response"]) == false || $result["Response"] == "Failed") {
                         \core\notification::error('Error during setting exam anonymous in TomaGrade');
                     }
-                }
+                }  // Otherwise this case, anonymous by agdarot mosad.
             }
 
             // Share teachers.
