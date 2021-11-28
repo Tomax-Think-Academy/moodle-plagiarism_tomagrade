@@ -37,8 +37,11 @@ Go to "Site Administration" > "Plugins" > "Plagiarism" > "Tomagrade"
 8. check the connection to your TomaGrade system if everything is ok a new wintdow/tab will be open and a popup message  will show indicating "Your system is well connected!"
 9. Save changes
 
+# Grading Moodle Assignment 
+please see https://tgsupport.tomaxltd.com/en/support/solutions/articles/249542-grading-moodle-assignment for more information
+
 # Subscription
-This plugin integrates with tomax Tomagrade solutionwhich is provided as a subscription.
+This plugin integrates with tomax Tomagrade solution which is provided as a subscription.
 Receive a free trial with full access to all Tomax’s features.
 For more information please contact us at sales@tomaxltd.com
 for experiencing with a demo version you can use
