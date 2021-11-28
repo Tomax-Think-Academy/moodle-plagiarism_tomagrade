@@ -30,7 +30,7 @@ Go to "Site Administration" > "Plugins" > "Plagiarism" > "Tomagrade"
 1. Enable the plugin 
 2. TomaGrade domain name - the domain name for your TomaGrade subscription e.g. demo
 3. TomaGrade Username - your administrator username at Tomagrade system
-4. TomaGrade Password
+4. TomaGrade Password - your passowrd/API key
 5. Set the default identifier - the default identifier to be used by the TomaGrade system
 6. Set the default identifier for Teacher 
 7. Allow Tomagrade plugin - aloow the plugin on all site or by ACL 
