@@ -1,1 +1,1 @@
-tar.exe -a -c -f TG-moodle.zip tomagrade
+tar.exe -a -c -f TG-moodle.zip *
