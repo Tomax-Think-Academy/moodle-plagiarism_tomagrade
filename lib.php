@@ -2123,7 +2123,7 @@ class tomagrade_connection
 
 
 
-    protected function get_request($method, $getdata) {
+    public function get_request($method, $getdata) {
         global $CFG;
         $params = null;
         $config = $this->config;
@@ -2401,7 +2401,7 @@ class tomagrade_connection
 
 
 
-    protected function get_courses() {
+    public function get_courses() {
         $response = $this->get_request("GetCourses", "");
         $response = json_decode($response, true);
         return $response;
@@ -2409,7 +2409,7 @@ class tomagrade_connection
 
 
 
-    protected function check_course($examidintg) {
+    public function check_course($examidintg) {
         global $DB;
 
         $this->do_login();
