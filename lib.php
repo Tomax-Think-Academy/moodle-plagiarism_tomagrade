@@ -423,7 +423,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
                     $userids->{$exam->userid} = $exam;
                 }
             }
-            $urlOpenExam = $CFG->wwwroot . '/plagiarism/tomagrade/openexam.php';
+            $urlopenexam = $CFG->wwwroot . '/plagiarism/tomagrade/openexam.php';
             $urlReUpload = $CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php';
             return '
         <style>
@@ -444,7 +444,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
             </style>
         <script>
         setTimeout(function(){
-            let urlOpenExam = "' . $urlOpenExam . '"
+            let urlopenexam = "' . $urlopenexam . '"
             let urlReUpload = "' . $urlReUpload . '"
             let cmid = ' . $cm->id . '
             let location = 5;
@@ -472,7 +472,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
                     console.log(userID);
                     if (currentUser){
                         let preHTML = ""
-                        let urlToOpenGrade = urlOpenExam + "?cmid="+cmid
+                        let urlToOpenGrade = urlopenexam + "?cmid="+cmid
                         let urlReUploadTG = urlReUpload + "?cmid="+cmid
                         if(currentUser.groupid != null){
                             urlToOpenGrade += "&groupid="+currentUser.groupid;
