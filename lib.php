@@ -622,14 +622,14 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     \core\notification::error( get_string('exam_is_already_exists_and_in_status_gt_zero', 'plagiarism_tomagrade'));
                     }
 
-                    $isCreateUsers = isset($config->tomagrade_createUsers) && $config->tomagrade_createUsers == 1;
+                    $iscreateusers = isset($config->tomagrade_createUsers) && $config->tomagrade_createUsers == 1;
 
                     $identifyByEmail = true;
                     if ($config->tomagrade_DefaultIdentifier_TEACHER != 0) {
                         $identifyByEmail = false;
                     }
 
-                    if ($isCreateUsers) {
+                    if ($iscreateusers) {
 
                     $checkIDsExists = array();
                     $teachersEmailsArray = array();
@@ -1205,14 +1205,14 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                 $select = $mform->createElement('select', 'tomagrade_username', get_string('Related_TomaGrade_User', 'plagiarism_tomagrade'));
 
-                $isCreateUsers = isset($config->tomagrade_createUsers) && $config->tomagrade_createUsers == 1;
+                $iscreateusers = isset($config->tomagrade_createUsers) && $config->tomagrade_createUsers == 1;
 
                 foreach ($teachers as $value => $label) {
                     $teacherCode = $teachersIDs[$value];
                     if (($identifyByEmail == true && isset($emailTeacherCodeMap[$value]) == false)
                     || ($identifyByEmail == false && isset($teacherCodeExists[$teacherCode]) == false)) {
                         if ($value == strtolower($USER->email)) { $isLoggedUserExistsInTM = false; }
-                        if ($isCreateUsers == false) {
+                        if ($iscreateusers == false) {
                             $select->addOption($label . " - " . get_string('user_does_not_exists_in_tomagrade', 'plagiarism_tomagrade'), $value, array('disabled' => 'disabled'));
                         } else {
                             $select->addOption($label, $value);
@@ -1540,7 +1540,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 foreach($teachersEmailToIDinMoodle as $email => $idInMoodle) {
                     $label = $teachers[$email];
                     $options = array('class' => 'checkboxgroup1');
-                    if (isset($teachersThatExistsInTM[$email]) == false && $isCreateUsers == false) {
+                    if (isset($teachersThatExistsInTM[$email]) == false && $iscreateusers == false) {
                         $label = $label . " - " .  get_string('user_does_not_exists_in_tomagrade', 'plagiarism_tomagrade');
                         $options = array('class' => 'checkboxgroup1', 'disabled' => 'disabled');
                     }
