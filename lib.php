@@ -424,7 +424,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
                 }
             }
             $urlopenexam = $CFG->wwwroot . '/plagiarism/tomagrade/openexam.php';
-            $urlReUpload = $CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php';
+            $urlreupload = $CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php';
             return '
         <style>
             .link{
@@ -445,7 +445,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
         <script>
         setTimeout(function(){
             let urlopenexam = "' . $urlopenexam . '"
-            let urlReUpload = "' . $urlReUpload . '"
+            let urlreupload = "' . $urlreupload . '"
             let cmid = ' . $cm->id . '
             let location = 5;
             let x = document.querySelectorAll("tr");
@@ -473,13 +473,13 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
                     if (currentUser){
                         let preHTML = ""
                         let urlToOpenGrade = urlopenexam + "?cmid="+cmid
-                        let urlReUploadTG = urlReUpload + "?cmid="+cmid
+                        let urlreuploadTG = urlreupload + "?cmid="+cmid
                         if(currentUser.groupid != null){
                             urlToOpenGrade += "&groupid="+currentUser.groupid;
-                            urlReUploadTG += "&groupid="+currentUser.groupid;
+                            urlreuploadTG += "&groupid="+currentUser.groupid;
                         }else{
                             urlToOpenGrade += "&studentid="+currentUser.userid;
-                            urlReUploadTG += "&studentid="+currentUser.userid;
+                            urlreuploadTG += "&studentid="+currentUser.userid;
                         }
                         let textToReUpload = "'. get_string('Upload_to_TomaGrade', 'plagiarism_tomagrade') . '";
                         if (currentUser["status"] == 0){
@@ -488,7 +488,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
                             preHTML = \'<div id="TomaGrade"><br><a class="link" href=\'+ urlToOpenGrade +\' target="_blank" >'. get_string('Check_with', 'plagiarism_tomagrade') .'<img style="padding-bottom:15px;" src="' . $CFG->wwwroot . '/plagiarism/tomagrade/pix/icon.png" alt="Go to TomaGrade!"></a></div>\'
                             textToReUpload = "'. get_string('Upload_to_TomaGrade_again', 'plagiarism_tomagrade') .'"
                         }
-                        preHTML+= \'<div> <a target="_blank" href="\' + urlReUploadTG + \'">\' + textToReUpload + \' </a> </div>\'
+                        preHTML+= \'<div> <a target="_blank" href="\' + urlreuploadTG + \'">\' + textToReUpload + \' </a> </div>\'
                         td.innerHTML = preHTML;
                         // thead.appendChild(td);
                     }else{
