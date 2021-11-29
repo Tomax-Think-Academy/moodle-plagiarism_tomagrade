@@ -653,14 +653,14 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     if (count($checkidsexists) > 0) {
 
                         if ($config->tomagrade_DefaultIdentifier_TEACHER != 4) {
-                            $teachersArr = $DB->get_records_sql("
+                            $teachersarr = $DB->get_records_sql("
                             SELECT email,idnumber,firstname,lastname,lang,username from {user} where id in (". implode(",", $checkidsexists) .") ");
                         } else {
-                            $teachersArr = $DB->get_records_sql("
+                            $teachersarr = $DB->get_records_sql("
                             SELECT email,firstname,lastname,lang,username,hujiid as idnumber from {user} as u inner join huji.userdata as h on u.idnumber=h.tz where u.id in (". implode(",", $checkidsexists) .") ");
                         }
 
-                        foreach ($teachersArr as $row) {
+                        foreach ($teachersarr as $row) {
                             array_push($teachersemailsarray, $row->email);
                             if ($config->tomagrade_DefaultIdentifier_TEACHER != 2) {
                                     array_push($teachersissarray, $row->idnumber);
@@ -1065,7 +1065,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 }
 
                 if (isset($config->tomagrade_userRolesToDisplayRelatedAssign) == true && $config->tomagrade_userRolesToDisplayRelatedAssign != "") {
-                    $teachersArr = $DB->get_records_sql("
+                    $teachersarr = $DB->get_records_sql("
                     SELECT DISTINCT   u.id, u.username, u.firstname, u.lastname, lower(u.email) as email, u.idnumber
                     FROM {role_assignments} ra, {user} u, {course} c, {context} cxt
                     WHERE ra.userid = u.id
@@ -1080,7 +1080,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                     if ($config->tomagrade_DefaultIdentifier_TEACHER == 4) {
                         $arrTeachersIDs = array();
 
-                        foreach($teachersArr as $teacher) {
+                        foreach($teachersarr as $teacher) {
                             array_push($arrTeachersIDs, '"'.$teacher->idnumber.'"');
                         }
 
@@ -1094,7 +1094,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                     }
 
-                    foreach($teachersArr as $teacher) {
+                    foreach($teachersarr as $teacher) {
                                 if ($config->tomagrade_DefaultIdentifier_TEACHER == 4) {
                                     if (isset($idnumberToHuji[$teacher->idnumber])) {
                                         $teacher->idnumber = $idnumberToHuji[$teacher->idnumber];
