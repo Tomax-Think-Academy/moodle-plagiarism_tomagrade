@@ -172,56 +172,56 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
 
         $config = get_config('plagiarism_tomagrade');
         $user = $DB->get_record('user', array('id' => $userid));
-        $newObject = new stdClass();
+        $newobject = new stdClass();
         if ($config->tomagrade_DefaultIdentifier_TEACHER == self::IDENTIFIER_BY_EMAIL) {
-            $newObject->identify = "Email";
-            $newObject->data = $user->email;
-            return $newObject;
+            $newobject->identify = "Email";
+            $newobject->data = $user->email;
+            return $newobject;
         } else if ($config->tomagrade_DefaultIdentifier_TEACHER == self::IDENTIFIER_BY_ID) {
-            $newObject->identify = "TeacherID";
-            $newObject->data = $user->idnumber;
+            $newobject->identify = "TeacherID";
+            $newobject->data = $user->idnumber;
 
             if (isset($config->tomagrade_zeroCompleteTeacher)) {
                 if (is_numeric($config->tomagrade_zeroCompleteTeacher)) {
                     $zeros = intval($config->tomagrade_zeroCompleteTeacher);
                     if ($zeros > 0 ) {
-                        $newObject->data = plagiarism_plugin_tomagrade::complete_zeroes($user->idnumber."", $zeros);
+                        $newobject->data = plagiarism_plugin_tomagrade::complete_zeroes($user->idnumber."", $zeros);
                     }
                 }
              }
 
-            return $newObject;
+            return $newobject;
         }
          else if ($config->tomagrade_DefaultIdentifier_TEACHER == self::IDENTIFIER_BY_USERNAME) {
-                $newObject->identify = "TeacherID";
-                $newObject->data = $user->username;
+                $newobject->identify = "TeacherID";
+                $newobject->data = $user->username;
 
                 if (isset($config->tomagrade_zeroCompleteTeacher)) {
                     if (is_numeric($config->tomagrade_zeroCompleteTeacher)) {
                         $zeros = intval($config->tomagrade_zeroCompleteTeacher);
                         if ($zeros > 0 ) {
-                            $newObject->data = plagiarism_plugin_tomagrade::complete_zeroes($user->idnumber."", $zeros);
+                            $newobject->data = plagiarism_plugin_tomagrade::complete_zeroes($user->idnumber."", $zeros);
                         }
                     }
                  }
 
-                return $newObject;
+                return $newobject;
         }  else if ($config->tomagrade_DefaultIdentifier_TEACHER == self::IDENTIFIER_BY_HUJIID) {
 
-            $newObject->identify = "TeacherID";
+            $newobject->identify = "TeacherID";
 
-            $newObject->data = $DB->get_field_sql("SELECT hujiid FROM huji.userdata WHERE tz=?", array($user->idnumber));
+            $newobject->data = $DB->get_field_sql("SELECT hujiid FROM huji.userdata WHERE tz=?", array($user->idnumber));
 
             if (isset($config->tomagrade_zeroCompleteTeacher)) {
                 if (is_numeric($config->tomagrade_zeroCompleteTeacher)) {
                     $zeros = intval($config->tomagrade_zeroCompleteTeacher);
                     if ($zeros > 0 ) {
-                        $newObject->data = plagiarism_plugin_tomagrade::complete_zeroes($user->idnumber."", $zeros);
+                        $newobject->data = plagiarism_plugin_tomagrade::complete_zeroes($user->idnumber."", $zeros);
                     }
                 }
              }
 
-            return $newObject;
+            return $newobject;
 
         }
     }
