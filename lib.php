@@ -2062,8 +2062,8 @@ class tomagrade_connection
         $config = $this->config;
         $inforamtion = plagiarism_plugin_tomagrade::get_teacher_identifier($id);
         $postdata = "{\"$inforamtion->identify\":\"$inforamtion->data\"}";
-        $response_post = $this->post_request("DoLogin", $postdata);
-        return $response_post;
+        $responsepost = $this->post_request("DoLogin", $postdata);
+        return $responsepost;
     }
 
     public function get_teacher_code_from_email($email)
@@ -2078,7 +2078,7 @@ class tomagrade_connection
 
 
 
-    public function upload_exam($contextid, $row, $sendMail = false) {
+    public function upload_exam($contextid, $row, $sendmail = false) {
         $log = "";
         try {
             $isexam = false;
@@ -2087,7 +2087,7 @@ class tomagrade_connection
                 $isexam = true;
             }
 
-            $doNotSendMail = !$sendMail;
+            $dontsendmail = !$sendmail;
 
             $cmid = $row->cmid;
             $filehash = $row->filehash;
@@ -2207,7 +2207,7 @@ class tomagrade_connection
                         "isVisible" => true,
                         "ShouldCheckExamID" => false,
                         "source" => "moodle_assign",
-                        "doNotSendEmail" => $doNotSendMail,
+                        "doNotSendEmail" => $dontsendmail,
                         "Files" => [array(
                             "OriginalName" => $OriginalName,
                             "EncryptedName" => $namefile
@@ -2231,7 +2231,7 @@ class tomagrade_connection
                             "isVisible" => true,
                             "ShouldCheckExamID" => false,
                             "source" => "moodle_exam",
-                            "doNotSendEmail" => $doNotSendMail,
+                            "doNotSendEmail" => $dontsendmail,
                             "MoodleMode" => $idMatchStr,
                             "MoodleStudentID" => $studentthodatzaot,
                             "Files" => [array(
