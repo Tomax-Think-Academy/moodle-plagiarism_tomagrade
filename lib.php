@@ -591,7 +591,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
             }
 
             $courseinfo = $DB->get_record('course', array('id' => $data->course));
-            $courseName = $courseinfo->shortname;
+            $coursename = $courseinfo->shortname;
             $examDate = date('d/m/Y', $data->duedate);
 
             if (isset($data->tomagrade_idmatchontg) == false ||  is_null($data->tomagrade_idmatchontg)) {
@@ -774,9 +774,9 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                 }
 
                     $examName = strip_tags($data->name);
-                    $courseNameToSend = strip_tags($courseName);
+                    $coursenameToSend = strip_tags($coursename);
                     $examName = str_replace('"', '', $examName);
-                    $courseNameToSend = str_replace('"', '', $courseNameToSend);
+                    $coursenameToSend = str_replace('"', '', $coursenameToSend);
 
                     $postdata = array();
                     $CoursesData = array();
@@ -788,7 +788,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     $CoursesDataItem['Year'] = -1;
                     $CoursesDataItem['Exam_Name'] = $examName;
                     $CoursesDataItem['Exam_Date'] = $examDate;
-                    $CoursesDataItem['Course'] = $courseNameToSend;
+                    $CoursesDataItem['Course'] = $coursenameToSend;
                     $CoursesDataItem['TeacherCode'] = $id;
                     $CoursesDataItem['source'] = "moodle_assign";
                     $CoursesDataItem['choose'] = "0";
