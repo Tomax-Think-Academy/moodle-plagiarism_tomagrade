@@ -113,9 +113,9 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
     public static function complete_zeroes($string, $zeros) {
         $digitsInthodatzaot = strlen($string);
         if ($zeros > $digitsInthodatzaot) {
-            $zerosToAdd = $zeros - $digitsInthodatzaot;
+            $zerostoadd = $zeros - $digitsInthodatzaot;
 
-             for ($x=0; $x < $zerosToAdd; $x++) {
+             for ($x=0; $x < $zerostoadd; $x++) {
                  $string = "0".$string;
              }
         }
