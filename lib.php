@@ -609,15 +609,15 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                 }
             }
 
-            $doNotChangeUsername = false;
+            $donotchangeusername = false;
             if (intval($data->tomagrade_idmatchontg) == 0) {
                 $response = $connection->get_request("MoodleGetExamDetails", "/$examidintg");
-                $responseDecoded = json_decode($response);
+                $responsedecoded = json_decode($response);
 
-                    if (isset($responseDecoded->GetExamDetail->ExternalTeacherID) && isset($responseDecoded->GetExamDetail->ExamStatus) && $responseDecoded->GetExamDetail->ExamStatus > 0) {
+                    if (isset($responsedecoded->GetExamDetail->ExternalTeacherID) && isset($responsedecoded->GetExamDetail->ExamStatus) && $responsedecoded->GetExamDetail->ExamStatus > 0) {
                     // Exam is already exists and in status > 0 , do not change the teacher code.
-                    $id = $responseDecoded->GetExamDetail->ExternalTeacherID;
-                    $doNotChangeUsername = true;
+                    $id = $responsedecoded->GetExamDetail->ExternalTeacherID;
+                    $donotchangeusername = true;
 
                     \core\notification::error( get_string('exam_is_already_exists_and_in_status_gt_zero', 'plagiarism_tomagrade'));
                     }
@@ -957,7 +957,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                 \core\notification::error("Error during share teachers. error in tomagrade server.");
             }
 
-            if ($doNotChangeUsername == true) {
+            if ($donotchangeusername == true) {
                 $config->username = $oldinformation->username;
             }
             if ($config->upload !== plagiarism_plugin_tomagrade::RUN_NO) {
@@ -1380,10 +1380,10 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                         $response = $connection->get_request("MoodleGetExamDetails", "/$data->idmatchontg");
 
-                        $responseDecoded = json_decode($response);
+                        $responsedecoded = json_decode($response);
 
-                        if (isset($responseDecoded->Response) == true && isset($responseDecoded->GetExamDetail->Exam_Name) == true) {
-                            $exam = $responseDecoded->GetExamDetail;
+                        if (isset($responsedecoded->Response) == true && isset($responsedecoded->GetExamDetail->Exam_Name) == true) {
+                            $exam = $responsedecoded->GetExamDetail;
 
                             $stringForExam = $data->idmatchontg;
 
@@ -1774,12 +1774,12 @@ function is_exam_exists_in_tg($ExamID) {
     $connection = new tomagrade_connection;
 
     $isexamexistsRequest = $connection->get_request("MoodleGetExamDetails", "/$ExamID");
-    $responseDecoded = json_decode($isexamexistsRequest);
+    $responsedecoded = json_decode($isexamexistsRequest);
 
-    if (isset($responseDecoded->Response) == true && isset($responseDecoded->GetExamDetail->Exam_Name) == false) {
+    if (isset($responsedecoded->Response) == true && isset($responsedecoded->GetExamDetail->Exam_Name) == false) {
         // Exam 100% not exists.
         return 0;
-    } else if (isset($responseDecoded->Response) == false) {
+    } else if (isset($responsedecoded->Response) == false) {
         // Tomagrade server is unavilable right now.
         return -1;
     }
@@ -2173,9 +2173,9 @@ class tomagrade_connection
             $fields['file']->postname = $namefile;
             $fields['file']->mime = $mainfile->get_mimetype();
 
-            $responseDecoded = $this->get_request("RestartExamStatus", "/$examidintg");
+            $responsedecoded = $this->get_request("RestartExamStatus", "/$examidintg");
 
-            $response = json_decode($responseDecoded);
+            $response = json_decode($responsedecoded);
             if ($response->Response == "OK") {
                 $DB->execute('UPDATE {plagiarism_tomagrade_config} SET complete = 0 WHERE cm = ?', array($cmid));
                 $tempdir = "TempDir_" . time();
@@ -2191,11 +2191,11 @@ class tomagrade_connection
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                $responseDecoded = curl_exec($ch);
+                $responsedecoded = curl_exec($ch);
                 $requestContentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
                 curl_close($ch);
 
-                $response = json_decode($responseDecoded);
+                $response = json_decode($responsedecoded);
                 if ($response->answer == "File transfer completed Success") {
                     // Post upload file.
                     $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/Server/php/WS.php/PostUploadFile/TOKEN/" . $config->tomagrade_username . "/" . $namefile;
@@ -2248,10 +2248,10 @@ class tomagrade_connection
                     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("x-apikey: $config->tomagrade_password", "x-userid: $config->tomagrade_username"));
 
-                    $responseDecoded = curl_exec($ch);
+                    $responsedecoded = curl_exec($ch);
                     curl_close($ch);
 
-                    $response = json_decode($responseDecoded);
+                    $response = json_decode($responsedecoded);
                     if ($response->Response == "OK") {
                         if (isset($row->id)) {
                             $DB->execute('UPDATE {plagiarism_tomagrade} SET status = 1, updatestatus = 0 WHERE id = ?', array($row->id));
@@ -2265,13 +2265,13 @@ class tomagrade_connection
                             $DB->insert_record('plagiarism_tomagrade', $data);
                         }
                     }else{
-                        throw new Exception('PostUploadFile Exception is:' . $responseDecoded);
+                        throw new Exception('PostUploadFile Exception is:' . $responsedecoded);
                     }
                 } else {
-                    throw new Exception('Upload Manager Zip Exception is:' . $responseDecoded);
+                    throw new Exception('Upload Manager Zip Exception is:' . $responsedecoded);
                 }
             } else {
-                throw new Exception('RestartExamStatus Exception is:' . $responseDecoded);
+                throw new Exception('RestartExamStatus Exception is:' . $responsedecoded);
             }
         } catch (Exception $e) {
             $log .= "There was a problem.";
