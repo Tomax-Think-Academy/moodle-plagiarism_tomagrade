@@ -23,15 +23,15 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-global $CFG, $DB, $USER;
+
 require_once(dirname(dirname(__FILE__)) . '/../config.php');
+global $CFG, $DB, $USER;
 require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->libdir . '/plagiarismlib.php');
 require_once($CFG->dirroot . '/plagiarism/tomagrade/lib.php');
 require_once($CFG->dirroot . '/plagiarism/tomagrade/plagiarism_form.php');
 
-
+defined('MOODLE_INTERNAL') || die();
 require_login();
 
 $context = get_context_from_cmid($_GET['cmid']);
