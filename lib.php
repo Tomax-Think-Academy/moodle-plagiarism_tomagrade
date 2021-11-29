@@ -566,19 +566,19 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 
             } else if ($config->tomagrade_DefaultIdentifier_TEACHER == plagiarism_plugin_tomagrade::IDENTIFIER_BY_ID) {
 
-                $ownerRow = $DB->get_record_sql(" select idnumber from {user} where lower(email) = ? ", array(strtolower($data->tomagrade_username)));
-                $id = $ownerRow->idnumber;
+                $ownerrow = $DB->get_record_sql(" select idnumber from {user} where lower(email) = ? ", array(strtolower($data->tomagrade_username)));
+                $id = $ownerrow->idnumber;
                 if ($id == null) { $id = 1; }
 
             } else if ($config->tomagrade_DefaultIdentifier_TEACHER == plagiarism_plugin_tomagrade::IDENTIFIER_BY_USERNAME) {
 
-                $ownerRow = $DB->get_record_sql(" select username from {user} where lower(email) = ? ", array(strtolower($data->tomagrade_username)));
-                $id = $ownerRow->username;
+                $ownerrow = $DB->get_record_sql(" select username from {user} where lower(email) = ? ", array(strtolower($data->tomagrade_username)));
+                $id = $ownerrow->username;
 
             } else if ($config->tomagrade_DefaultIdentifier_TEACHER == plagiarism_plugin_tomagrade::IDENTIFIER_BY_HUJIID) {
 
-                $ownerRow = $DB->get_record_sql(" SELECT hujiid FROM {user} as u INNER JOIN huji.userdata ON idnumber=tz WHERE lower(u.email) = ?", array(strtolower($data->tomagrade_username)));
-                $id = $ownerRow->hujiid;
+                $ownerrow = $DB->get_record_sql(" SELECT hujiid FROM {user} as u INNER JOIN huji.userdata ON idnumber=tz WHERE lower(u.email) = ?", array(strtolower($data->tomagrade_username)));
+                $id = $ownerrow->hujiid;
             }
 
             if (isset($config->tomagrade_zeroCompleteTeacher)) {
@@ -948,8 +948,8 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
             $config->idmatchontg = $data->tomagrade_idmatchontg;
             $config->examid = $examidintg;
 
-            $ownerRow = $DB->get_record_sql(" select id from {user} where lower(email) = ? ", array(strtolower($data->tomagrade_username)));
-            $config->username = $ownerRow->id;
+            $ownerrow = $DB->get_record_sql(" select id from {user} where lower(email) = ? ", array(strtolower($data->tomagrade_username)));
+            $config->username = $ownerrow->id;
 
             if ($errorInshare_teachersync == false) {
                     $config->share_teachers = $tomagrade_shareAddioionalTeachers;
@@ -1043,8 +1043,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                     if (isset($data->username)) {
                     if (is_numeric($data->username)) {
-                        $ownerRow = $DB->get_record_sql(" select lower(email) as email from {user} where id = ? ", array($data->username));
-                        $data->username = $ownerRow->email;
+                        $ownerrow = $DB->get_record_sql(" select lower(email) as email from {user} where id = ? ", array($data->username));
+                        $data->username = $ownerrow->email;
                     }
                     }
 
@@ -1138,15 +1138,15 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 }
 
                 if ($isCurrentOwnerExistsInTeachersList == false && $cmid != 0 && isset($data->username)) {
-                    $ownerRow = $DB->get_record_sql(" select firstname,lastname,lower(email) as email,idnumber,id from {user} where email = ? ", array($data->username));
-                    if (isset($ownerRow->email)) {
-                        $teachers[$ownerRow->email] = $ownerRow->firstname . " " . $ownerRow->lastname;
+                    $ownerrow = $DB->get_record_sql(" select firstname,lastname,lower(email) as email,idnumber,id from {user} where email = ? ", array($data->username));
+                    if (isset($ownerrow->email)) {
+                        $teachers[$ownerrow->email] = $ownerrow->firstname . " " . $ownerrow->lastname;
                         if ($teachersZero > 0) {
-                            $ownerRow->idnumber = plagiarism_plugin_tomagrade::complete_zeroes($ownerRow->idnumber, $teachersZero);
+                            $ownerrow->idnumber = plagiarism_plugin_tomagrade::complete_zeroes($ownerrow->idnumber, $teachersZero);
                         }
-                        $teachersIDs[$ownerRow->email] = $ownerRow->idnumber;
-                        $teacherCodeToEmail[$ownerRow->idnumber] = $ownerRow->email;
-                        $idInMoodleToEmail[$ownerRow->id] = $ownerRow->email;
+                        $teachersIDs[$ownerrow->email] = $ownerrow->idnumber;
+                        $teacherCodeToEmail[$ownerrow->idnumber] = $ownerrow->email;
+                        $idInMoodleToEmail[$ownerrow->id] = $ownerrow->email;
                         if ($data->username == strtolower($USER->email)) {
                             $isLoggedUserExistsInTeachersList = true;
                         }
