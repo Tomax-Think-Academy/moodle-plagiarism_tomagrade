@@ -648,7 +648,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     }
 
                     $emailtoidnumber = array();
-                    $emailToDetails = array();
+                    $emailtodetails = array();
 
                     if (count($checkidsexists) > 0) {
 
@@ -670,11 +670,11 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                                 $emailtoidnumber[$row->email] = $row->username;
                             }
 
-                            $emailToDetails[$row->email] = array();
-                            $emailToDetails[$row->email]['firstName'] = $row->firstname;
-                            $emailToDetails[$row->email]['lastName'] = $row->lastname;
-                            $emailToDetails[$row->email]['lang'] = $row->lang;
-                            $emailToDetails[$row->email]['username'] = $row->username;
+                            $emailtodetails[$row->email] = array();
+                            $emailtodetails[$row->email]['firstName'] = $row->firstname;
+                            $emailtodetails[$row->email]['lastName'] = $row->lastname;
+                            $emailtodetails[$row->email]['lang'] = $row->lang;
+                            $emailtodetails[$row->email]['username'] = $row->username;
 
                         }
 
@@ -711,17 +711,17 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                                             if (isset($teacherCodeExists[$emailtoidnumber[$potentialUserToAdd]]) == false) {
                                                 $user = array();
                                                 $user['Email'] = $potentialUserToAdd;
-                                                $user['FirstName'] = $emailToDetails[$potentialUserToAdd]['firstName'];
-                                                $user['LastName'] = $emailToDetails[$potentialUserToAdd]['lastName'];
+                                                $user['FirstName'] = $emailtodetails[$potentialUserToAdd]['firstName'];
+                                                $user['LastName'] = $emailtodetails[$potentialUserToAdd]['lastName'];
                                                 $user['RoleID'] = 0;
                                                 $user['TeacherCode'] = $emailtoidnumber[$potentialUserToAdd];
 
                                                 if (empty($user['TeacherCode']) || empty($user['FirstName']) == true || empty($user['LastName']) == true) {
-                                                    \core\notification::error( get_string('error_during_creating_new_user_in_tomagrade_missing_params', 'plagiarism_tomagrade') . " " . $emailToDetails[$potentialUserToAdd]['username']);
+                                                    \core\notification::error( get_string('error_during_creating_new_user_in_tomagrade_missing_params', 'plagiarism_tomagrade') . " " . $emailtodetails[$potentialUserToAdd]['username']);
                                                     continue;
                                                 }
 
-                                                if ($emailToDetails[$potentialUserToAdd]['lang'] == "he") {
+                                                if ($emailtodetails[$potentialUserToAdd]['lang'] == "he") {
                                                     $user['Language'] = "עברית";
                                                 } else {
                                                     $user['Language'] = "English";
@@ -737,7 +737,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 
                                                     // Error teacher code already exists in TomaGrade for user.
 
-                                                    \core\notification::error( get_string('error_during_creating_new_user_in_tomagrade_teacher_code_already_exists', 'plagiarism_tomagrade') . " " . $emailToDetails[$potentialUserToAdd]['username']);
+                                                    \core\notification::error( get_string('error_during_creating_new_user_in_tomagrade_teacher_code_already_exists', 'plagiarism_tomagrade') . " " . $emailtodetails[$potentialUserToAdd]['username']);
                                                 }
                                             }
                                         }
@@ -751,7 +751,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 
                                                         // Error email already exists in TomaGrade for user.
 
-                                                        \core\notification::error( get_string('error_during_creating_new_user_in_tomagrade_email_already_exists', 'plagiarism_tomagrade') . " " . $emailToDetails[$potentialUserToAdd]['username']);
+                                                        \core\notification::error( get_string('error_during_creating_new_user_in_tomagrade_email_already_exists', 'plagiarism_tomagrade') . " " . $emailtodetails[$potentialUserToAdd]['username']);
                                                 }
                                             }
                                         }
