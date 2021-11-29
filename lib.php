@@ -96,8 +96,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
         if (count($orbitiddata) > 0) {
 
            return reset($orbitiddata)->orbitid;
-          }
-          else {
+          } else {
               return -1;
           }
     }
@@ -729,8 +728,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                                                 $user['choose'] = "insertNewUser";
 
                                                 array_push($postdata['usersData'], $user);
-                                            }
-                                            else {
+                                            } else {
                                                 if ($identifybyemail) {
                                                     // Identify by email, email does not exists but teacher code exists.
 
@@ -843,7 +841,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
         if ($doAnonymousCheck) {
             if ($data->blindmarking == "0" && intval($data->tomagrade_idmatchontg) > 0) {
                 // In this case, anonymous by agdarot mosad.
-            }   else {
+            } else {
                     $anonymousBool = false;
                     if ($data->blindmarking == "1") {
                     $anonymousBool = true;
@@ -2260,7 +2258,7 @@ class tomagrade_connection
                             $data->filehash = $filehash;
                             $DB->insert_record('plagiarism_tomagrade', $data);
                         }
-                    }else{
+                    } else {
                         throw new Exception('PostUploadFile Exception is:' . $responsedecoded);
                     }
                 } else {
