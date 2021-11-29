@@ -518,9 +518,9 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
         $config = get_config('plagiarism_tomagrade');
 
         $cmid = $data->coursemodule;
-        $oldInformation = tomagrade_get_instance_config($cmid);
+        $oldinformation = tomagrade_get_instance_config($cmid);
         if (isset($data->tomagrade_upload)) {
-            if ($oldInformation->new == true && $data->tomagrade_upload == 0) {
+            if ($oldinformation->new == true && $data->tomagrade_upload == 0) {
                 return $data;
             }
             $connection = new tomagrade_connection;
@@ -535,7 +535,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                 $isexam = true;
             }
 
-            if ($oldInformation->new == true || (isset($oldInformation->idmatchontg) && isset($data->tomagrade_idmatchontg) && ($oldInformation->idmatchontg != $data->tomagrade_idmatchontg))) {
+            if ($oldinformation->new == true || (isset($oldinformation->idmatchontg) && isset($data->tomagrade_idmatchontg) && ($oldinformation->idmatchontg != $data->tomagrade_idmatchontg))) {
                 $examidintg = calc_exam_id_in_tg($cmid, isset($data->tomagrade_idmatchontg) ? $data->tomagrade_idmatchontg : "0");
 
                 if ($isexam == false) {
@@ -557,7 +557,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     }
                 }
             } else {
-                $examidintg = $oldInformation->examid;
+                $examidintg = $oldinformation->examid;
             }
 
             if ($config->tomagrade_DefaultIdentifier_TEACHER == plagiarism_plugin_tomagrade::IDENTIFIER_BY_EMAIL) { // To get teacherID.
@@ -893,9 +893,9 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 
             }
 
-            if (isset($oldInformation->share_teachers) && $oldInformation->share_teachers != $tomagrade_shareAddioionalTeachers) {
+            if (isset($oldinformation->share_teachers) && $oldinformation->share_teachers != $tomagrade_shareAddioionalTeachers) {
             $changedInSharedTeacher = true;
-            } else if (isset($oldInformation->share_teachers) == false && empty($tomagrade_shareAddioionalTeachers) == false) {
+            } else if (isset($oldinformation->share_teachers) == false && empty($tomagrade_shareAddioionalTeachers) == false) {
             $changedInSharedTeacher = true;
             }
 
@@ -910,12 +910,12 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 
                     // Delete teachers from share.
                     $teachersToDeleteStr = "";
-                if (empty($oldInformation->share_teachers) == false) {
+                if (empty($oldinformation->share_teachers) == false) {
                     $newShare = array();
                     if (empty($tomagrade_shareAddioionalTeachers) == false) {
                         $newShare = explode(",", $tomagrade_shareAddioionalTeachers);
                     }
-                    $oldShare = explode(",", $oldInformation->share_teachers);
+                    $oldShare = explode(",", $oldinformation->share_teachers);
 
                     $teachersToDelete = array();
                     foreach($oldShare as $id) {
@@ -958,10 +958,10 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
             }
 
             if ($doNotChangeUsername == true) {
-                $config->username = $oldInformation->username;
+                $config->username = $oldinformation->username;
             }
             if ($config->upload !== plagiarism_plugin_tomagrade::RUN_NO) {
-                $oldconfig = $oldInformation;
+                $oldconfig = $oldinformation;
                 $config->show_report_to_students = 0;
                 // Nondisclosure document.
                 if (isset($data->nondisclosure_notice) && $data->nondisclosure_notice == 1 && get_config('plagiarism_tomagrade', 'tomagrade_nondisclosure_notice_email')) {
