@@ -25,16 +25,10 @@
 namespace plagiarism_tomagrade\event;
 defined('MOODLE_INTERNAL') || die();
 /**
- * The EVENTNAME event class.
  *
- * @property-read array $other {
- *      Extra information about event.
- *
- *      - PUT INFO HERE
- * }
- *
- * @since     Moodle MOODLEVERSION
- * @copyright 2014 YOUR NAME
+ * @package    plagiarism_tomagrade
+ * @subpackage plagiarism
+ * @copyright  2021 Tomax ltd <roy@tomax.co.il>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 class assigns_savedInTG extends \core\event\base {
