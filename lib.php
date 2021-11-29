@@ -634,7 +634,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     $checkidsexists = array();
                     $teachersemailsarray = array();
 
-                    $teachersIDsArray = array();
+                    $teachersissarray = array();
 
                     $idInModdle = $DB->get_record_sql(" select id from {user} where email = ? ", array($data->tomagrade_username));
                     $idInModdle = $idInModdle->id;
@@ -663,10 +663,10 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                         foreach ($teachersArr as $row) {
                             array_push($teachersemailsarray, $row->email);
                             if ($config->tomagrade_DefaultIdentifier_TEACHER != 2) {
-                                    array_push($teachersIDsArray, $row->idnumber);
+                                    array_push($teachersissarray, $row->idnumber);
                                     $emailToIDNumber[$row->email] = $row->idnumber;
                             } else {
-                                array_push($teachersIDsArray, $row->username);
+                                array_push($teachersissarray, $row->username);
                                 $emailToIDNumber[$row->email] = $row->username;
                             }
 
@@ -691,7 +691,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                             }
 
                             $postdata = array();
-                            $postdata['teacherCodes'] = $teachersIDsArray;
+                            $postdata['teacherCodes'] = $teachersissarray;
                             $response = $connection->post_request("GetTeacherIdMoodle", json_encode($postdata));
                             if (isset($response['Message']) && is_array($response['Message'])) {
 
@@ -1165,11 +1165,11 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 }
 
                 $teachersemailsarray = array();
-                $teachersIDsArray = array();
+                $teachersissarray = array();
                 foreach($teachers as $email=>$name) {
                     array_push($teachersemailsarray, $email);
                     if (isset($teachersIDs[$email])) {
-                        array_push($teachersIDsArray, $teachersIDs[$email]);
+                        array_push($teachersissarray, $teachersIDs[$email]);
                     }
                 }
 
@@ -1183,7 +1183,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 if ($identifybyemail) {
                     $postdata['emails'] = $teachersemailsarray;
                 } else {
-                    $postdata['teacherCodes'] = $teachersIDsArray;
+                    $postdata['teacherCodes'] = $teachersissarray;
                 }
 
                 $response = $connection->post_request("GetTeacherIdMoodle", json_encode($postdata));
@@ -1269,7 +1269,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 if ($identifybyemail) {
                     $postdata['emails'] = $teachersemailsarray;
                 } else {
-                    $postdata['teacherCodes'] = $teachersIDsArray;
+                    $postdata['teacherCodes'] = $teachersissarray;
                 }
 
                 if (isset($config->tomagrade_MatchingDue) && $config->tomagrade_MatchingDue > 0) {
