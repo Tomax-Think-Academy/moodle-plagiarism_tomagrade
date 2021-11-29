@@ -59,7 +59,7 @@ function check_enabled() {
 class plagiarism_plugin_tomagrade extends plagiarism_plugin
 {
 
-    const goodExtensions = array(
+    const GOODEXTENSIONS = array(
         "pdf" => "application/pdf",
         "doc" => "application/msword",
         "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -75,7 +75,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
 
     public static function check_if_good_file($extension) {
         $extension = strtolower($extension);
-        $arr = array_keys(self::goodExtensions);
+        $arr = array_keys(self::GOODEXTENSIONS);
         return in_array($extension, $arr);
 
     }
