@@ -641,9 +641,9 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     array_push($checkidsexists, "'".$idinmoddle."'");
                     foreach ($data as $field=>$value) {
                         if (strpos($field, 'tomagrade_shareTeacher_') !== false) {
-                            $teacherId = str_replace("tomagrade_shareTeacher_", "", $field);
-                            if (is_numeric($teacherId) == false) { continue; }
-                            array_push($checkidsexists, "'".$teacherId."'");
+                            $teacherid = str_replace("tomagrade_shareTeacher_", "", $field);
+                            if (is_numeric($teacherid) == false) { continue; }
+                            array_push($checkidsexists, "'".$teacherid."'");
                         }
                     }
 
@@ -877,16 +877,16 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 
             foreach ($data as $field=>$value) {
             if (strpos($field, 'tomagrade_shareTeacher_') !== false) {
-                $teacherId = str_replace("tomagrade_shareTeacher_", "", $field);
-                if (is_numeric($teacherId) == false) { continue; }
+                $teacherid = str_replace("tomagrade_shareTeacher_", "", $field);
+                if (is_numeric($teacherid) == false) { continue; }
 
-                if ($teacherId == $idRelatedTgUser) { continue; }
+                if ($teacherid == $idRelatedTgUser) { continue; }
 
                 if ($tomagrade_shareAddioionalTeachers_isFirst) {
-                    $tomagrade_shareAddioionalTeachers = $teacherId;
+                    $tomagrade_shareAddioionalTeachers = $teacherid;
                     $tomagrade_shareAddioionalTeachers_isFirst = false;
                 } else {
-                    $tomagrade_shareAddioionalTeachers = $tomagrade_shareAddioionalTeachers . ",". $teacherId;
+                    $tomagrade_shareAddioionalTeachers = $tomagrade_shareAddioionalTeachers . ",". $teacherid;
                 }
                 continue;
             }
