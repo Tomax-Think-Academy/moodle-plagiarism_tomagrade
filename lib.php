@@ -281,9 +281,9 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
 
     static function get_user_id_by_group_identifier($name) {
         global $DB;
-        $posStart = strrpos($name, "(", -1);
+        $posstart = strrpos($name, "(", -1);
         $posEnd = strrpos($name, ")", -1);
-        $groupid = substr($name, $posStart + 1, $posEnd - ($posStart + 1));
+        $groupid = substr($name, $posstart + 1, $posEnd - ($posstart + 1));
         $rows = $DB->get_records("groups_members", array("groupid" => $groupid));
         $returnArray = array();
         foreach ($rows as $row) {
