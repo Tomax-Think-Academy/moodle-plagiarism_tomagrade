@@ -285,14 +285,14 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
         $posend = strrpos($name, ")", -1);
         $groupid = substr($name, $posstart + 1, $posend - ($posstart + 1));
         $rows = $DB->get_records("groups_members", array("groupid" => $groupid));
-        $returnArray = array();
+        $returnarray = array();
         foreach ($rows as $row) {
-            array_push($returnArray, $row->userid);
+            array_push($returnarray, $row->userid);
         }
-        if (empty($returnArray)) {
+        if (empty($returnarray)) {
             return false;
         }
-        return $returnArray;
+        return $returnarray;
     }
 
 
