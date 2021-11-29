@@ -631,33 +631,33 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 
                     if ($iscreateusers) {
 
-                    $checkIDsExists = array();
+                    $checkidsexists = array();
                     $teachersEmailsArray = array();
 
                     $teachersIDsArray = array();
 
                     $idInModdle = $DB->get_record_sql(" select id from {user} where email = ? ", array($data->tomagrade_username));
                     $idInModdle = $idInModdle->id;
-                    array_push($checkIDsExists, "'".$idInModdle."'");
+                    array_push($checkidsexists, "'".$idInModdle."'");
                     foreach ($data as $field=>$value) {
                         if (strpos($field, 'tomagrade_shareTeacher_') !== false) {
                             $teacherId = str_replace("tomagrade_shareTeacher_", "", $field);
                             if (is_numeric($teacherId) == false) { continue; }
-                            array_push($checkIDsExists, "'".$teacherId."'");
+                            array_push($checkidsexists, "'".$teacherId."'");
                         }
                     }
 
                     $emailToIDNumber = array();
                     $emailToDetails = array();
 
-                    if (count($checkIDsExists) > 0) {
+                    if (count($checkidsexists) > 0) {
 
                         if ($config->tomagrade_DefaultIdentifier_TEACHER != 4) {
                             $teachersArr = $DB->get_records_sql("
-                            SELECT email,idnumber,firstname,lastname,lang,username from {user} where id in (". implode(",", $checkIDsExists) .") ");
+                            SELECT email,idnumber,firstname,lastname,lang,username from {user} where id in (". implode(",", $checkidsexists) .") ");
                         } else {
                             $teachersArr = $DB->get_records_sql("
-                            SELECT email,firstname,lastname,lang,username,hujiid as idnumber from {user} as u inner join huji.userdata as h on u.idnumber=h.tz where u.id in (". implode(",", $checkIDsExists) .") ");
+                            SELECT email,firstname,lastname,lang,username,hujiid as idnumber from {user} as u inner join huji.userdata as h on u.idnumber=h.tz where u.id in (". implode(",", $checkidsexists) .") ");
                         }
 
                         foreach ($teachersArr as $row) {
