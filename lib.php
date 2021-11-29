@@ -539,19 +539,19 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                 $examidintg = calc_exam_id_in_tg($cmid, isset($data->tomagrade_idmatchontg) ? $data->tomagrade_idmatchontg : "0");
 
                 if ($isexam == false) {
-                    $isexamIDTafus = is_exam_exists_in_tg($examidintg);
-                    if ($isexamIDTafus) {
+                    $isexamidtafus = is_exam_exists_in_tg($examidintg);
+                    if ($isexamidtafus) {
                         $examidintg = calc_exam_id_in_tg($cmid, $data->tomagrade_idmatchontg);
 
-                        $isexamIDTafus = is_exam_exists_in_tg($examidintg);
-                        if ($isexamIDTafus) {
+                        $isexamidtafus = is_exam_exists_in_tg($examidintg);
+                        if ($isexamidtafus) {
                             \core\notification::error('Tomagrade error, try again later');
                             return $data;
-                        } else if ($isexamIDTafus == -1) {
+                        } else if ($isexamidtafus == -1) {
                             \core\notification::error('Tomagrade server is not avaiable right now, try again later');
                             return $data;
                         }
-                    } else if ($isexamIDTafus == -1) {
+                    } else if ($isexamidtafus == -1) {
                         \core\notification::error('Tomagrade server is not avaiable right now, try again later');
                         return $data;
                     }
