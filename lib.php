@@ -415,8 +415,8 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
         if (check_enabled()) {
             foreach ($exams as $exam) {
                 if ($exam->groupid != null) {
-                    $groupsMemebers = $DB->get_records('groups_members', array('groupid' => $exam->groupid));
-                    foreach ($groupsMemebers as $group) {
+                    $groupsmemebers = $DB->get_records('groups_members', array('groupid' => $exam->groupid));
+                    foreach ($groupsmemebers as $group) {
                         $userids->{$group->userid} = $exam;
                     }
                 } else {
