@@ -590,8 +590,8 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                 }
             }
 
-            $courseInfo = $DB->get_record('course', array('id' => $data->course));
-            $courseName = $courseInfo->shortname;
+            $courseinfo = $DB->get_record('course', array('id' => $data->course));
+            $courseName = $courseinfo->shortname;
             $examDate = date('d/m/Y', $data->duedate);
 
             if (isset($data->tomagrade_idmatchontg) == false ||  is_null($data->tomagrade_idmatchontg)) {
