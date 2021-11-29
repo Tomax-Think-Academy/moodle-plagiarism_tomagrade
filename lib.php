@@ -355,10 +355,10 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
                     $urlbuild = "?cmid=$cmid&userid=$userid";
                 }
                 $instance = $DB->get_record('course_modules', array('id' => $cmid));
-                $matalaSettings = $DB->get_record("assign", array("id" => $instance->instance));
-                $isHiddenGrades = is_hidden_grades($cmid);
+                $matalasettings = $DB->get_record("assign", array("id" => $instance->instance));
+                $ishiddengrades = is_hidden_grades($cmid);
                 if ( $status->finishrender) { // Check if i can show the new file to the students.
-                    if (($matalaSettings->blindmarking == "0" || $matalaSettings->revealidentities == "1") && !$isHiddenGrades) {
+                    if (($matalasettings->blindmarking == "0" || $matalasettings->revealidentities == "1") && !$ishiddengrades) {
                          $result = $result . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/getfile.php' . $urlbuild, "<br>". get_string('Press_here_to_view_the_graded_exam', 'plagiarism_tomagrade'), array("target" => "_blank", "class" => "linkgetfile"));
                     }
                 }
@@ -1903,8 +1903,8 @@ function set_grade($cmid, $userid, $grade, $grader)
         $DB->execute("UPDATE {assign_grades} SET   grade = :grade WHERE assignment = :instance AND userid = :userid", array('grade' => $grade, 'instance' => $instance->instance, 'userid' => $userid));
     }
 
-    $matalaSettings = $DB->get_record("assign", array("id" => $instance->instance));
-    if ($matalaSettings->blindmarking == "1" && $matalaSettings->revealidentities == "0") {
+    $matalasettings = $DB->get_record("assign", array("id" => $instance->instance));
+    if ($matalasettings->blindmarking == "1" && $matalasettings->revealidentities == "0") {
         // Do not set final grade because this is an anonymous exam and the lecturer have not revealed grades yet.
         return;
     }
