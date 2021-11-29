@@ -91,11 +91,11 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
     public static function get_orbit_id($userid) {
         global $DB;
 
-        $orbitidData = $DB->get_records_sql("select o.orbitid from {import_interface_user} o JOIN {user} m ON o.username=m.username where m.id = ?", array($userid) );
+        $orbitiddata = $DB->get_records_sql("select o.orbitid from {import_interface_user} o JOIN {user} m ON o.username=m.username where m.id = ?", array($userid) );
 
-        if (count($orbitidData) > 0) {
+        if (count($orbitiddata) > 0) {
 
-           return reset($orbitidData)->orbitid;
+           return reset($orbitiddata)->orbitid;
           }
           else {
               return -1;
@@ -140,11 +140,11 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
         } else if ($config->tomagrade_DefaultIdentifier == self::IDENTIFIER_BY_ORBITID) {
             $output = $user->idnumber;
 
-            $orbitidData = $DB->get_records_sql("select o.orbitid from {import_interface_user} o JOIN {user} m ON o.username=m.username where m.id = ?", array($userid) );
+            $orbitiddata = $DB->get_records_sql("select o.orbitid from {import_interface_user} o JOIN {user} m ON o.username=m.username where m.id = ?", array($userid) );
 
-           if (count($orbitidData) > 0) {
+           if (count($orbitiddata) > 0) {
 
-              $output = reset($orbitidData)->orbitid;
+              $output = reset($orbitiddata)->orbitid;
              }
 
         } else if ($config->tomagrade_DefaultIdentifier == self::IDENTIFIER_BY_HUJIID) {
@@ -251,10 +251,10 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
 
         if ($IdentifierTable == "orbitid") {
 
-            $orbitidData = $DB->get_records_sql("select m.id from {import_interface_user} o JOIN {user} m ON o.username=m.username where o.orbitid = ?", array($identifier));
+            $orbitiddata = $DB->get_records_sql("select m.id from {import_interface_user} o JOIN {user} m ON o.username=m.username where o.orbitid = ?", array($identifier));
 
-            if (count($orbitidData) >0) {
-                $userid =  reset($orbitidData)->id;
+            if (count($orbitiddata) >0) {
+                $userid =  reset($orbitiddata)->id;
                 return array($userid);
               } else {
                   return false;
