@@ -1773,8 +1773,8 @@ function calc_exam_id_in_tg($cmid, $idmatchontg) {
 function is_exam_exists_in_tg($ExamID) {
     $connection = new tomagrade_connection;
 
-    $isexamExistsRequest = $connection->get_request("MoodleGetExamDetails", "/$ExamID");
-    $responseDecoded = json_decode($isexamExistsRequest);
+    $isexamexistsRequest = $connection->get_request("MoodleGetExamDetails", "/$ExamID");
+    $responseDecoded = json_decode($isexamexistsRequest);
 
     if (isset($responseDecoded->Response) == true && isset($responseDecoded->GetExamDetail->Exam_Name) == false) {
         // Exam 100% not exists.
@@ -2126,21 +2126,21 @@ class tomagrade_connection
 
             $examIDinTG = $matalaInfo->examid;
 
-            $isexamExist = is_exam_exists_in_tg($examIDinTG);
+            $isexamexist = is_exam_exists_in_tg($examIDinTG);
 
-            if ($isexamExist == -1) {
+            if ($isexamexist == -1) {
                 $log .= '######### skipped, error in tomagrade or tomagrade is not responding right now ';
                 return;
-            }else if ($isexamExist == 0) {
+            }else if ($isexamexist == 0) {
                 $DB->execute('UPDATE {plagiarism_tomagrade_config} SET upload = 0 WHERE cm = ?', array($cmid));
                 $log .= '######### skipped, exam not found in tomagrade. ';
                 return;
             }
 
             if ($config->tomagrade_DefaultIdentifier == 3) {
-                $studentThodatZaot = plagiarism_plugin_tomagrade::get_orbit_id($useridtable);
+                $studentthodatzaot = plagiarism_plugin_tomagrade::get_orbit_id($useridtable);
             } else {
-                $studentThodatZaot = plagiarism_plugin_tomagrade::get_taodat_zaot($useridtable);
+                $studentthodatzaot = plagiarism_plugin_tomagrade::get_taodat_zaot($useridtable);
             }
 
             if ($isexam) {
@@ -2148,12 +2148,12 @@ class tomagrade_connection
                     if (is_numeric($config->tomagrade_zeroComplete)) {
                         $zeros = intval($config->tomagrade_zeroComplete);
                         if ($zeros > 0 ) {
-                          $studentThodatZaot = plagiarism_plugin_tomagrade::complete_zeroes($studentThodatZaot, $zeros);
+                          $studentthodatzaot = plagiarism_plugin_tomagrade::complete_zeroes($studentthodatzaot, $zeros);
                         }
                     }
                 }
 
-                $OriginalName = $studentThodatZaot;
+                $OriginalName = $studentthodatzaot;
             } else {
                 if ($groupid != null) {
                     $OriginalName = $this->format_group_name($groupid);
@@ -2233,7 +2233,7 @@ class tomagrade_connection
                             "source" => "moodle_exam",
                             "doNotSendEmail" => $doNotSendMail,
                             "MoodleMode" => $idMatchStr,
-                            "MoodleStudentID" => $studentThodatZaot,
+                            "MoodleStudentID" => $studentthodatzaot,
                             "Files" => [array(
                                 "OriginalName" => $OriginalName,
                                 "EncryptedName" => $namefile
