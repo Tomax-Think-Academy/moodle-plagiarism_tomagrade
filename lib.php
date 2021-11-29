@@ -636,9 +636,9 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 
                     $teachersissarray = array();
 
-                    $idInModdle = $DB->get_record_sql(" select id from {user} where email = ? ", array($data->tomagrade_username));
-                    $idInModdle = $idInModdle->id;
-                    array_push($checkidsexists, "'".$idInModdle."'");
+                    $idinmoddle = $DB->get_record_sql(" select id from {user} where email = ? ", array($data->tomagrade_username));
+                    $idinmoddle = $idinmoddle->id;
+                    array_push($checkidsexists, "'".$idinmoddle."'");
                     foreach ($data as $field=>$value) {
                         if (strpos($field, 'tomagrade_shareTeacher_') !== false) {
                             $teacherId = str_replace("tomagrade_shareTeacher_", "", $field);
