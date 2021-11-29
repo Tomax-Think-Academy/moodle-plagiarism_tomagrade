@@ -36,8 +36,7 @@ require_once($CFG->libdir.'/gradelib.php');
 
 // TomaGrade Class.
 
-function get_context_from_cmid($cmid)
-{
+function get_context_from_cmid($cmid) {
     try {
         $context = context_module::instance($cmid);
     } catch (Exception $e) {
@@ -48,8 +47,7 @@ function get_context_from_cmid($cmid)
     }
     return $context;
 }
-function check_enabled()
-{
+function check_enabled() {
 
     $cfg = get_config('plagiarism_tomagrade');
     if (isset($cfg->enabled) && $cfg->enabled) {
@@ -75,8 +73,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
         "png" => "image/png"
     );
 
-    public static function check_if_good_file($extension)
-    {
+    public static function check_if_good_file($extension) {
         $extension = strtolower($extension);
         $arr = array_keys(self::goodExtensions);
         return in_array($extension,$arr);
@@ -128,8 +125,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
 
 
 
-    public static function get_user_identifier($userid)
-    {
+    public static function get_user_identifier($userid) {
         global $DB;
 
         $config = get_config('plagiarism_tomagrade');
@@ -174,8 +170,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
         return $output;
     }
 
-    public static function get_teacher_identifier($userid)
-    {
+    public static function get_teacher_identifier($userid) {
         global $DB;
 
         $config = get_config('plagiarism_tomagrade');
@@ -235,8 +230,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
     }
 
 
-    public static function get_user_id_by_identifier($identifier)
-    {
+    public static function get_user_id_by_identifier($identifier) {
         global $DB;
 
         $config = get_config('plagiarism_tomagrade');
@@ -294,8 +288,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
         return false;
     }
 
-    static function get_user_id_by_group_identifier($name)
-    {
+    static function get_user_id_by_group_identifier($name) {
         global $DB;
         $posStart = strrpos($name, "(", -1);
         $posEnd = strrpos($name, ")", -1);
@@ -345,8 +338,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
      * @return string
      *
      */
-    public function get_links($linkarray)
-    {
+    public function get_links($linkarray) {
 
         if (isset($linkarray['file'])) {
             if ($linkarray['file']->get_filearea() == "introattachment") { return; }
@@ -413,8 +405,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
      * @param int $cmid - course module id
      * @return string
      */
-    public function print_disclosure($cmid)
-    {
+    public function print_disclosure($cmid) {
         global $OUTPUT;
     }
 
@@ -424,8 +415,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
      * @param object $course - full Course object
      * @param object $cm - full cm object
      */
-    public function update_status($course, $cm)
-    {
+    public function update_status($course, $cm) {
         // Called at top of submissions/grading pages - allows printing of admin style links or updating status.
         global $CFG, $DB;
         $config = tomagrade_get_instance_config($cm->id);
@@ -533,8 +523,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
     /* hook to save plagiarism specific settings on a module settings page
      * @param object $data - data from an mform submission.
     */
-function plagiarism_tomagrade_coursemodule_edit_post_actions($data,$course)
-{
+function plagiarism_tomagrade_coursemodule_edit_post_actions($data,$course) {
     global $DB, $USER;
     if (check_enabled()) {
 
@@ -1063,8 +1052,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data,$course)
     return $data;
 }
 
-function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mform)
-{
+function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mform) {
     $context = context_course::instance($formwrapper->get_course()->id);
     $modulename = isset($formwrapper->get_current()->modulename) ? 'mod_'.$formwrapper->get_current()->modulename : '';
     global $DB, $USER, $CFG;
@@ -1895,7 +1883,7 @@ function share_teachers($teachers,$teachersToRemove,$identifyByEmail,$ExamIdInTG
 
 }
 
-function is_hidden_grades($cmid){
+function is_hidden_grades($cmid) {
     global $DB;
     $current = $DB->get_record('grade_items', array('id' => $cmid));
     if ($current){
@@ -1906,8 +1894,7 @@ function is_hidden_grades($cmid){
     return false;
 }
 
-function tomagrade_set_instance_config($cmid, $data)
-{
+function tomagrade_set_instance_config($cmid, $data) {
 
     global $DB;
     $current = $DB->get_record('plagiarism_tomagrade_config', array('cm' => $cmid));
@@ -1961,8 +1948,7 @@ function is_exam_exists_in_tg($ExamID) {
     return 1;
 }
 
-function tomagrade_get_instance_config($cmid)
-{
+function tomagrade_get_instance_config($cmid) {
     global $DB;
 
     if ($config = $DB->get_record('plagiarism_tomagrade_config', array('cm' => $cmid))) {
@@ -1978,8 +1964,7 @@ function tomagrade_get_instance_config($cmid)
     return $default;
 }
 
-function new_event_file_uploaded($eventdata)
-{
+function new_event_file_uploaded($eventdata) {
     global $DB;
     $result = true;
 
@@ -2059,8 +2044,7 @@ function new_event_file_uploaded($eventdata)
 
 
 
-function tomagrade_log($data)
-{
+function tomagrade_log($data) {
     global $CFG;
 
 }
@@ -2105,23 +2089,20 @@ function set_grade($cmid, $userid, $grade,$grader)
 
 
 
-function reset_main_grades($cmid)
-{
+function reset_main_grades($cmid) {
     global $DB;
     $instance = get_instance_id($cmid);
     $gradeid = get_grade_id($instance);
     $DB->execute('UPDATE {grade_grades} SET finalgrade = null WHERE itemid = ?',array($gradeid));
 }
 
-function get_instance_id($cmid)
-{
+function get_instance_id($cmid) {
     global $DB;
     $instance = $DB->get_record('course_modules', array('id' => $cmid));
     return $instance->instance;
 }
 
-function get_grade_id($instance)
-{
+function get_grade_id($instance) {
     global $DB;
     $result = $DB->get_record_sql('SELECT id FROM {grade_items} WHERE iteminstance = ?',array($instance));
     return $result->id;
@@ -2163,20 +2144,17 @@ class tomagrade_connection
     protected $username = -1;
     protected $nondisclosure = false;
 
-    function __construct()
-    {
+    function __construct() {
         $this->config = get_config('plagiarism_tomagrade');
     }
 
-    public function do_login()
-    {
+    public function do_login() {
         global $CFG;
 
         return 'success';
     }
 
-    function post_request($method, $postdata,$dontDecode=false,$parameters = "")
-    {
+    function post_request($method, $postdata,$dontDecode=false,$parameters = "") {
         global $CFG;
         $params = null;
         $config = $this->config;
@@ -2221,8 +2199,7 @@ class tomagrade_connection
 
 
 
-    function get_request($method, $getdata)
-    {
+    function get_request($method, $getdata) {
         global $CFG;
         $params = null;
         $config = $this->config;
@@ -2256,8 +2233,7 @@ class tomagrade_connection
 
 
 
-    public function teacher_login($id)
-    {
+    public function teacher_login($id) {
         $config = $this->config;
         $inforamtion = plagiarism_plugin_tomagrade::get_teacher_identifier($id);
         $postdata = "{\"$inforamtion->identify\":\"$inforamtion->data\"}";
@@ -2277,8 +2253,7 @@ class tomagrade_connection
 
 
 
-    public function upload_exam($contextid, $row,$sendMail = false)
-    {
+    public function upload_exam($contextid, $row,$sendMail = false) {
         $log = "";
         try {
             $isExam = false;
@@ -2496,8 +2471,7 @@ class tomagrade_connection
         return $log;
     }
 
-    static public function format_group_name($groupid)
-    {
+    static public function format_group_name($groupid) {
         global $DB;
 
         $group = $DB->get_record('groups', array('id' => $groupid));
@@ -2508,8 +2482,7 @@ class tomagrade_connection
 
 
 
-    function get_courses()
-    {
+    function get_courses() {
         $response = $this->get_request("GetCourses", "");
         $response = json_decode($response, true);
         return $response;
@@ -2517,8 +2490,7 @@ class tomagrade_connection
 
 
 
-    function check_course($examIDinTG)
-    {
+    function check_course($examIDinTG) {
         global $DB;
 
         $this->do_login();
