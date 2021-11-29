@@ -115,7 +115,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
         if ($zeros > $digitsinthodatzaot) {
             $zerostoadd = $zeros - $digitsinthodatzaot;
 
-             for ($x=0; $x < $zerostoadd; $x++) {
+             for ($x = 0; $x < $zerostoadd; $x++) {
                  $string = "0".$string;
              }
         }
@@ -639,7 +639,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     $idinmoddle = $DB->get_record_sql(" select id from {user} where email = ? ", array($data->tomagrade_username));
                     $idinmoddle = $idinmoddle->id;
                     array_push($checkidsexists, "'".$idinmoddle."'");
-                    foreach ($data as $field=>$value) {
+                    foreach ($data as $field => $value) {
                         if (strpos($field, 'tomagrade_shareTeacher_') !== false) {
                             $teacherid = str_replace("tomagrade_shareTeacher_", "", $field);
                             if (is_numeric($teacherid) == false) { continue; }
@@ -875,7 +875,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                 $idRelatedTgUser  = $idRelatedTgUserQuery->id;
             }
 
-            foreach ($data as $field=>$value) {
+            foreach ($data as $field => $value) {
             if (strpos($field, 'tomagrade_shareTeacher_') !== false) {
                 $teacherid = str_replace("tomagrade_shareTeacher_", "", $field);
                 if (is_numeric($teacherid) == false) { continue; }
@@ -1166,7 +1166,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                 $teachersemailsarray = array();
                 $teachersissarray = array();
-                foreach($teachers as $email=>$name) {
+                foreach($teachers as $email => $name) {
                     array_push($teachersemailsarray, $email);
                     if (isset($teachersIDs[$email])) {
                         array_push($teachersissarray, $teachersIDs[$email]);
@@ -1260,7 +1260,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 }
 
                 $teachersemailsarray = array();
-                foreach($teachersThatExistsInTM as $email=>$name) {
+                foreach($teachersThatExistsInTM as $email => $name) {
                     array_push($teachersemailsarray, $email);
                 }
 
@@ -1435,9 +1435,9 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 $mform->addElement('select', 'tomagrade_idmatchontg', get_string('ID_Match_On_Tomagrade', 'plagiarism_tomagrade'), $courses);
 
                 $buildJSTeachersMap = "var teachersmap = {}; ";
-                foreach($examsByTeachersMap as $teacher=>$value) {
+                foreach($examsByTeachersMap as $teacher => $value) {
                     $buildJSTeachersMap = $buildJSTeachersMap . " var examArr = {}; ";
-                    foreach($value as $exam=>$examString) {
+                    foreach($value as $exam => $examString) {
                         $examString = str_replace("'", "", $examString);
                         $buildJSTeachersMap = $buildJSTeachersMap . "examArr['$exam'] = '$examString';";
                     }
