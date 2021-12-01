@@ -184,7 +184,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
                 if (is_numeric($config->tomagrade_zeroCompleteTeacher)) {
                     $zeros = intval($config->tomagrade_zeroCompleteTeacher);
                     if ($zeros > 0 ) {
-                        $newobject->data = plagiarism_plugin_tomagrade::complete_zeroes($user->idnumber."", $zeros);
+                        $newobject->data = self::complete_zeroes($user->idnumber."", $zeros);
                     }
                 }
             }
@@ -198,7 +198,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
                 if (is_numeric($config->tomagrade_zeroCompleteTeacher)) {
                     $zeros = intval($config->tomagrade_zeroCompleteTeacher);
                     if ($zeros > 0 ) {
-                        $newobject->data = plagiarism_plugin_tomagrade::complete_zeroes($user->idnumber."", $zeros);
+                        $newobject->data = self::complete_zeroes($user->idnumber."", $zeros);
                     }
                 }
             }
@@ -214,7 +214,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
                 if (is_numeric($config->tomagrade_zeroCompleteTeacher)) {
                     $zeros = intval($config->tomagrade_zeroCompleteTeacher);
                     if ($zeros > 0 ) {
-                        $newobject->data = plagiarism_plugin_tomagrade::complete_zeroes($user->idnumber."", $zeros);
+                        $newobject->data = self::complete_zeroes($user->idnumber."", $zeros);
                     }
                 }
             }
@@ -380,7 +380,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
                 $hash = $linkarray["file"]->get_pathnamehash();
                 $urlbuild = "?cmid=$cmid&filehash=$hash";
 
-                if (plagiarism_plugin_tomagrade::check_if_good_file($ext) == false) {
+                if (self::check_if_good_file($ext) == false) {
                     return "<br> " . get_string('invalid_file_type_for_TomaGrade', 'plagiarism_tomagrade') . "<br> " . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php' . $urlbuild, get_string('Upload_to_TomaGrade_again', 'plagiarism_tomagrade'), array("target" => "_blank"));
                 }
 
