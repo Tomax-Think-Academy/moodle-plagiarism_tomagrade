@@ -871,10 +871,10 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
             $changedinsharedteacher = false;
 
             // Avoid share for related tg user.
-            $idRelatedTgUser = -1;
+            $idrelatedtguser = -1;
             $idRelatedTgUserQuery = $DB->get_record_sql(" select id from {user} where email = ? ", array($data->tomagrade_username));
             if (isset($idRelatedTgUserQuery->id)) {
-                $idRelatedTgUser  = $idRelatedTgUserQuery->id;
+                $idrelatedtguser  = $idRelatedTgUserQuery->id;
             }
 
             foreach ($data as $field => $value) {
@@ -883,7 +883,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     if (is_numeric($teacherid) == false) {
                         continue;
                     }
-                    if ($teacherid == $idRelatedTgUser) {
+                    if ($teacherid == $idrelatedtguser) {
                         continue;
                     }
                     if ($tomagradeshareaddioionalteachersisfirst) {
