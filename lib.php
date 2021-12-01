@@ -865,7 +865,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
             }
 
             // Share teachers.
-            $tomagrade_shareAddioionalTeachers = "";
+            $tomagradeshareaddioionalteachers = "";
             $tomagrade_shareAddioionalTeachers_isFirst = true;
 
             $changedInSharedTeacher = false;
@@ -887,19 +887,19 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                         continue;
                     }
                     if ($tomagrade_shareAddioionalTeachers_isFirst) {
-                        $tomagrade_shareAddioionalTeachers = $teacherid;
+                        $tomagradeshareaddioionalteachers = $teacherid;
                         $tomagrade_shareAddioionalTeachers_isFirst = false;
                     } else {
-                        $tomagrade_shareAddioionalTeachers = $tomagrade_shareAddioionalTeachers . ",". $teacherid;
+                        $tomagradeshareaddioionalteachers = $tomagradeshareaddioionalteachers . ",". $teacherid;
                     }
                     continue;
                 }
 
             }
 
-            if (isset($oldinformation->share_teachers) && $oldinformation->share_teachers != $tomagrade_shareAddioionalTeachers) {
+            if (isset($oldinformation->share_teachers) && $oldinformation->share_teachers != $tomagradeshareaddioionalteachers) {
                 $changedInSharedTeacher = true;
-            } else if (isset($oldinformation->share_teachers) == false && empty($tomagrade_shareAddioionalTeachers) == false) {
+            } else if (isset($oldinformation->share_teachers) == false && empty($tomagradeshareaddioionalteachers) == false) {
                 $changedInSharedTeacher = true;
             }
 
@@ -916,8 +916,8 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     $teachersToDeleteStr = "";
                 if (empty($oldinformation->share_teachers) == false) {
                     $newShare = array();
-                    if (empty($tomagrade_shareAddioionalTeachers) == false) {
-                        $newShare = explode(",", $tomagrade_shareAddioionalTeachers);
+                    if (empty($tomagradeshareaddioionalteachers) == false) {
+                        $newShare = explode(",", $tomagradeshareaddioionalteachers);
                     }
                     $oldShare = explode(",", $oldinformation->share_teachers);
 
@@ -940,8 +940,8 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     $examidintg = $examidintg;
 
                 // Share teachers.
-                if (empty($tomagrade_shareAddioionalTeachers) == false || empty($teachersToDeleteStr) == false) {
-                    $errorInshare_teachersync = share_teachers($tomagrade_shareAddioionalTeachers, $teachersToDeleteStr, $identifybyemail, $examidintg);
+                if (empty($tomagradeshareaddioionalteachers) == false || empty($teachersToDeleteStr) == false) {
+                    $errorInshare_teachersync = share_teachers($tomagradeshareaddioionalteachers, $teachersToDeleteStr, $identifybyemail, $examidintg);
                     $errorInshare_teachersync = !$errorInshare_teachersync;
                 }
 
@@ -956,7 +956,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
             $config->username = $ownerrow->id;
 
             if ($errorInshare_teachersync == false) {
-                    $config->share_teachers = $tomagrade_shareAddioionalTeachers;
+                    $config->share_teachers = $tomagradeshareaddioionalteachers;
             } else {
                 \core\notification::error("Error during share teachers. error in tomagrade server.");
             }
@@ -1544,7 +1544,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             }
 
             if (count($teachersEmailToIDinMoodle) > 0) {
-                $mform->addElement('static', 'tomagrade_shareAddioionalTeachers', get_string('tomagrade_shareAddioionalTeachersTitle', 'plagiarism_tomagrade'), null);
+                $mform->addElement('static', 'tomagradeshareaddioionalteachers', get_string('tomagrade_shareAddioionalTeachersTitle', 'plagiarism_tomagrade'), null);
 
                 foreach ($teachersEmailToIDinMoodle as $email => $idInMoodle) {
                     $label = $teachers[$email];
