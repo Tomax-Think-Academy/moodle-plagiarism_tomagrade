@@ -903,7 +903,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                 $changedinsharedteacher = true;
             }
 
-            $errorInshare_teachersync = false;
+            $errorinshareteachersync = false;
 
             if ($changedinsharedteacher) {
                 $identifybyemail = true;
@@ -941,8 +941,8 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 
                 // Share teachers.
                 if (empty($tomagradeshareaddioionalteachers) == false || empty($teachersToDeleteStr) == false) {
-                    $errorInshare_teachersync = share_teachers($tomagradeshareaddioionalteachers, $teachersToDeleteStr, $identifybyemail, $examidintg);
-                    $errorInshare_teachersync = !$errorInshare_teachersync;
+                    $errorinshareteachersync = share_teachers($tomagradeshareaddioionalteachers, $teachersToDeleteStr, $identifybyemail, $examidintg);
+                    $errorinshareteachersync = !$errorinshareteachersync;
                 }
 
             }
@@ -955,7 +955,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
             $ownerrow = $DB->get_record_sql(" select id from {user} where lower(email) = ? ", array(strtolower($data->tomagrade_username)));
             $config->username = $ownerrow->id;
 
-            if ($errorInshare_teachersync == false) {
+            if ($errorinshareteachersync == false) {
                     $config->share_teachers = $tomagradeshareaddioionalteachers;
             } else {
                 \core\notification::error("Error during share teachers. error in tomagrade server.");
@@ -1687,7 +1687,7 @@ function share_teachers($teachers, $teachersToRemove, $identifybyemail, $examidi
     $connection = new tomagrade_connection;
     $connection->do_login();
 
-    $errorInshare_teachersync = false;
+    $errorinshareteachersync = false;
 
     $postdata = array();
     $postdata['usersSharedData'] = array();
