@@ -868,7 +868,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
             $tomagradeshareaddioionalteachers = "";
             $tomagradeshareaddioionalteachersisfirst = true;
 
-            $changedInSharedTeacher = false;
+            $changedinsharedteacher = false;
 
             // Avoid share for related tg user.
             $idRelatedTgUser = -1;
@@ -898,14 +898,14 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
             }
 
             if (isset($oldinformation->share_teachers) && $oldinformation->share_teachers != $tomagradeshareaddioionalteachers) {
-                $changedInSharedTeacher = true;
+                $changedinsharedteacher = true;
             } else if (isset($oldinformation->share_teachers) == false && empty($tomagradeshareaddioionalteachers) == false) {
-                $changedInSharedTeacher = true;
+                $changedinsharedteacher = true;
             }
 
             $errorInshare_teachersync = false;
 
-            if ($changedInSharedTeacher) {
+            if ($changedinsharedteacher) {
                 $identifybyemail = true;
 
                 if ($config->tomagrade_DefaultIdentifier_TEACHER != 0) {
