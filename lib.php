@@ -689,10 +689,10 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                         if (isset($response['Message']) && is_array($response['Message'])) {
 
                             $arrayteachersemailsandteachercode = $response['Message'];
-                            $emailThatExists = array();
+                            $emailthatexists = array();
 
                             foreach ($arrayteachersemailsandteachercode as $teacher) {
-                                $emailThatExists[$teacher['Email']] = true;
+                                $emailthatexists[$teacher['Email']] = true;
                             }
 
                             $postdata = array();
@@ -711,7 +711,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                                 $postdata['usersData'] = array();
 
                                 foreach ($teachersemailsarray as $potentialUserToAdd) {
-                                    if (isset($emailThatExists[$potentialUserToAdd]) == false) {
+                                    if (isset($emailthatexists[$potentialUserToAdd]) == false) {
                                         if (isset($emailtoidnumber[$potentialUserToAdd])) {
                                             if (isset($teacherCodeExists[$emailtoidnumber[$potentialUserToAdd]]) == false) {
                                                 $user = array();
