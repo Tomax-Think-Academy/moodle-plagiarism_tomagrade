@@ -580,7 +580,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 
             } else if ($config->tomagrade_DefaultIdentifier_TEACHER == plagiarism_plugin_tomagrade::IDENTIFIER_BY_HUJIID) {
 
-                $ownerrow = $DB->get_record_sql(" SELECT hujiid FROM {user} as u INNER JOIN huji.userdata ON idnumber=tz WHERE lower(u.email) = ?", array(strtolower($data->tomagrade_username)));
+                $ownerrow = $DB->get_record_sql(" SELECT hujiid FROM {user} u INNER JOIN huji.userdata ON idnumber=tz WHERE lower(u.email) = ?", array(strtolower($data->tomagrade_username)));
                 $id = $ownerrow->hujiid;
             }
 
@@ -662,7 +662,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                             SELECT email,idnumber,firstname,lastname,lang,username from {user} where id in (". implode(",", $checkidsexists) .") ");
                         } else {
                             $teachersarr = $DB->get_records_sql("
-                            SELECT email,firstname,lastname,lang,username,hujiid as idnumber from {user} as u inner join huji.userdata as h on u.idnumber=h.tz where u.id in (". implode(",", $checkidsexists) .") ");
+                            SELECT email,firstname,lastname,lang,username,hujiid as idnumber from {user} u inner join huji.userdata h on u.idnumber=h.tz where u.id in (". implode(",", $checkidsexists) .") ");
                         }
 
                         foreach ($teachersarr as $row) {
