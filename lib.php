@@ -782,7 +782,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     $coursenametosend = str_replace('"', '', $coursenametosend);
 
                     $postdata = array();
-                    $CoursesData = array();
+                    $coursesdata = array();
 
                     $CoursesDataItem = array();
                     $CoursesDataItem['Exam_ID'] = $examidintg;
@@ -795,9 +795,9 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     $CoursesDataItem['TeacherCode'] = $id;
                     $CoursesDataItem['source'] = "moodle_assign";
                     $CoursesDataItem['choose'] = "0";
-                    array_push($CoursesData, $CoursesDataItem);
+                    array_push($coursesdata, $CoursesDataItem);
 
-                    $postdata['CoursesData'] = $CoursesData;
+                    $postdata['CoursesData'] = $coursesdata;
 
                 $result = $connection->post_request("SaveCourses", json_encode($postdata));
 
