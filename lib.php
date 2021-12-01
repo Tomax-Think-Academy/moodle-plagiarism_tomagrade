@@ -688,10 +688,10 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                         $response = $connection->post_request("GetTeacherIdMoodle", json_encode($postdata));
                         if (isset($response['Message']) && is_array($response['Message'])) {
 
-                            $arrayTeachersEmailsAndTeacherCode = $response['Message'];
+                            $arrayteachersemailsandteachercode = $response['Message'];
                             $emailThatExists = array();
 
-                            foreach ($arrayTeachersEmailsAndTeacherCode as $teacher) {
+                            foreach ($arrayteachersemailsandteachercode as $teacher) {
                                 $emailThatExists[$teacher['Email']] = true;
                             }
 
@@ -700,10 +700,10 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                             $response = $connection->post_request("GetTeacherIdMoodle", json_encode($postdata));
                             if (isset($response['Message']) && is_array($response['Message'])) {
 
-                                $arrayTeachersEmailsAndTeacherCode = $response['Message'];
+                                $arrayTeachersmailsAndTeacherCode = $response['Message'];
                                 $teacherCodeExists = array();
 
-                                foreach ($arrayTeachersEmailsAndTeacherCode as $teacher) {
+                                foreach ($arrayteachersemailsandteachercode as $teacher) {
                                     $teacherCodeExists[$teacher['ExternalTeacherID']] = true;
                                 }
 
@@ -1197,12 +1197,12 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
             $response = $connection->post_request("GetTeacherIdMoodle", json_encode($postdata));
 
-            $arrayTeachersEmailsAndTeacherCode = $response['Message'];
+            $arrayteachersemailsandteachercode = $response['Message'];
 
             $emailTeacherCodeMap = array();
             $teacherCodeExists = array();
 
-            foreach ($arrayTeachersEmailsAndTeacherCode as $teacher) {
+            foreach ($arrayteachersemailsandteachercode as $teacher) {
                 $emailTeacherCodeMap[strtolower($teacher['Email'])] = $teacher['ExternalTeacherID'];
                 $teacherCodeExists[$teacher['ExternalTeacherID']] = true;
             }
@@ -1662,9 +1662,9 @@ function get_teacher_codes_from_moodle_ids($teachers, $identifybyemail) {
         $postdata['emails'] = $teachersemailsarray;
 
         $response = $connection->post_request("GetTeacherIdMoodle", json_encode($postdata));
-        $arrayTeachersEmailsAndTeacherCode = $response['Message'];
+        $arrayteachersemailsandteachercode = $response['Message'];
 
-        foreach ($arrayTeachersEmailsAndTeacherCode as $teacher) {
+        foreach ($arrayteachersemailsandteachercode as $teacher) {
             $teacherCode = $teacher['ExternalTeacherID'];
 
             array_push($teachersCodesToShare, $teacherCode);
