@@ -319,8 +319,8 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
     const SHOWSTUDENTS_ACTCLOSED = 2;
 
     const INACTIVE = 0;
-    const IDENTIFIER_BY_CourseID = 1;
-    const IDENTIFIER_BY_ExamID = 2;
+    const IDENTIFIER_BY_COURSE_ID = 1;
+    const IDENTIFIER_BY_EXAM_ID = 2;
 
     /**
      * hook to allow plagiarism specific information to be displayed beside a submission
