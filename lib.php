@@ -699,7 +699,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                             $response = $connection->post_request("GetTeacherIdMoodle", json_encode($postdata));
                             if (isset($response['Message']) && is_array($response['Message'])) {
 
-                                $arrayTeachersmailsAndTeacherCode = $response['Message'];
+                                $arrayteachersemailsandteachercode = $response['Message'];
                                 $teachercodeexists = array();
 
                                 foreach ($arrayteachersemailsandteachercode as $teacher) {
@@ -763,10 +763,10 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                             }
                         }
 
-                        $numOfUsersToAdd = count($postdata['usersData']);
-                        if ($numOfUsersToAdd > 0) {
+                        $numofuserstoadd = count($postdata['usersData']);
+                        if ($numofuserstoadd > 0) {
                             $result = $connection->post_request("SaveUsers", json_encode($postdata));
-                            if ($result['NumInsertNewUser'] != $numOfUsersToAdd) {
+                            if ($result['NumInsertNewUser'] != $numofuserstoadd) {
                                  \core\notification::error( get_string('error_during_creating_new_user_in_tomagrade', 'plagiarism_tomagrade'));
                             }
 
