@@ -701,10 +701,10 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                             if (isset($response['Message']) && is_array($response['Message'])) {
 
                                 $arrayTeachersmailsAndTeacherCode = $response['Message'];
-                                $teacherCodeExists = array();
+                                $teachercodeexists = array();
 
                                 foreach ($arrayteachersemailsandteachercode as $teacher) {
-                                    $teacherCodeExists[$teacher['ExternalTeacherID']] = true;
+                                    $teachercodeexists[$teacher['ExternalTeacherID']] = true;
                                 }
 
                                 $postdata = array();
@@ -713,7 +713,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                                 foreach ($teachersemailsarray as $potentialUserToAdd) {
                                     if (isset($emailthatexists[$potentialUserToAdd]) == false) {
                                         if (isset($emailtoidnumber[$potentialUserToAdd])) {
-                                            if (isset($teacherCodeExists[$emailtoidnumber[$potentialUserToAdd]]) == false) {
+                                            if (isset($teachercodeexists[$emailtoidnumber[$potentialUserToAdd]]) == false) {
                                                 $user = array();
                                                 $user['Email'] = $potentialUserToAdd;
                                                 $user['FirstName'] = $emailtodetails[$potentialUserToAdd]['firstName'];
@@ -750,7 +750,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                                         if ($identifybyemail == false) {
                                             // Identify by teacher code.
                                             if (isset($emailtoidnumber[$potentialUserToAdd])) {
-                                                if (isset($teacherCodeExists[$emailtoidnumber[$potentialUserToAdd]]) == false) {
+                                                if (isset($teachercodeexists[$emailtoidnumber[$potentialUserToAdd]]) == false) {
                                                     // Teacher code does not exist.
 
                                                         // Error email already exists in TomaGrade for user.
@@ -1200,11 +1200,11 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             $arrayteachersemailsandteachercode = $response['Message'];
 
             $emailTeacherCodeMap = array();
-            $teacherCodeExists = array();
+            $teachercodeexists = array();
 
             foreach ($arrayteachersemailsandteachercode as $teacher) {
                 $emailTeacherCodeMap[strtolower($teacher['Email'])] = $teacher['ExternalTeacherID'];
-                $teacherCodeExists[$teacher['ExternalTeacherID']] = true;
+                $teachercodeexists[$teacher['ExternalTeacherID']] = true;
             }
 
             $teachersThatExistsInTM = array();
@@ -1219,7 +1219,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             foreach ($teachers as $value => $label) {
                 $teacherCode = $teachersIDs[$value];
                 if (($identifybyemail == true && isset($emailTeacherCodeMap[$value]) == false)
-                || ($identifybyemail == false && isset($teacherCodeExists[$teacherCode]) == false)) {
+                || ($identifybyemail == false && isset($teachercodeexists[$teacherCode]) == false)) {
                     if ($value == strtolower($USER->email)) {
                         $isLoggedUserExistsInTM = false;
                     }
