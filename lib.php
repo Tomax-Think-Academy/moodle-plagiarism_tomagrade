@@ -299,7 +299,6 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
     const RUN_MANUAL = 1;
     const RUN_IMMEDIATLY = 2;
     const RUN_AFTER_FIRST_DUE_DATE = 3;
-    #const RUN_AFTER_LAST_DUE_DATE = 4;
 
     const ALL_SITE = false;
     const ACL = true;
