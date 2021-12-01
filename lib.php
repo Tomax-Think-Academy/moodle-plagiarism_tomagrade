@@ -259,7 +259,8 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
             }
 
         } else if ($identifiertable == "HUJIID") {
-            $hujiiddata = $DB->get_records_sql("SELECT u.id FROM {user} as u  INNER JOIN huji.userdata on tz=idnumber where hujiid=?", array($identifier));
+            $hujiiddata = $DB->get_records_sql("SELECT u.id FROM {user} u
+            INNER JOIN huji.userdata on tz=idnumber where hujiid=?", array($identifier));
 
             if (count($hujiiddata) > 0) {
                 $userid = reset($hujiiddata)->id;
