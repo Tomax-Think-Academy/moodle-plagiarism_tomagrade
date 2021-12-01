@@ -848,14 +848,14 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                 if ($data->blindmarking == "0" && intval($data->tomagrade_idmatchontg) > 0) {
                     // In this case, anonymous by agdarot mosad.
                 } else {
-                    $anonymousBool = false;
+                    $anonymousbool = false;
                     if ($data->blindmarking == "1") {
-                        $anonymousBool = true;
+                        $anonymousbool = true;
                     }
 
                     $postdata = array();
                     $postdata['ExamID'] = $examidintg;
-                    $postdata['Anonymous'] = $anonymousBool;
+                    $postdata['Anonymous'] = $anonymousbool;
 
                     $result = $connection->post_request("SetExamAnonymous", json_encode($postdata));
                     if (isset($result["Response"]) == false || $result["Response"] == "Failed") {
