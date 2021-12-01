@@ -784,18 +784,18 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     $postdata = array();
                     $coursesdata = array();
 
-                    $CoursesDataItem = array();
-                    $CoursesDataItem['Exam_ID'] = $examidintg;
-                    $CoursesDataItem['MoedName'] = -1;
-                    $CoursesDataItem['SemesterName'] = -1;
-                    $CoursesDataItem['Year'] = -1;
-                    $CoursesDataItem['Exam_Name'] = $examname;
-                    $CoursesDataItem['Exam_Date'] = $examdate;
-                    $CoursesDataItem['Course'] = $coursenametosend;
-                    $CoursesDataItem['TeacherCode'] = $id;
-                    $CoursesDataItem['source'] = "moodle_assign";
-                    $CoursesDataItem['choose'] = "0";
-                    array_push($coursesdata, $CoursesDataItem);
+                    $coursesdataitem = array();
+                    $coursesdataitem['Exam_ID'] = $examidintg;
+                    $coursesdataitem['MoedName'] = -1;
+                    $coursesdataitem['SemesterName'] = -1;
+                    $coursesdataitem['Year'] = -1;
+                    $coursesdataitem['Exam_Name'] = $examname;
+                    $coursesdataitem['Exam_Date'] = $examdate;
+                    $coursesdataitem['Course'] = $coursenametosend;
+                    $coursesdataitem['TeacherCode'] = $id;
+                    $coursesdataitem['source'] = "moodle_assign";
+                    $coursesdataitem['choose'] = "0";
+                    array_push($coursesdata, $coursesdataitem);
 
                     $postdata['CoursesData'] = $coursesdata;
 
