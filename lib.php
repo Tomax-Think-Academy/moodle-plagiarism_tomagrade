@@ -836,15 +836,15 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
             ));
             $event->trigger();
 
-            $doAnonymousCheck = true;
+            $doanonymouscheck = true;
 
             if (isset($config->tomagrade_keepBlindMarking)) {
                 if (intval($config->tomagrade_keepBlindMarking) == 0) {
-                    $doAnonymousCheck = false;
+                    $doanonymouscheck = false;
                 }
             }
 
-            if ($doAnonymousCheck) {
+            if ($doanonymouscheck) {
                 if ($data->blindmarking == "0" && intval($data->tomagrade_idmatchontg) > 0) {
                     // In this case, anonymous by agdarot mosad.
                 } else {
