@@ -1198,15 +1198,15 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
             $arrayteachersemailsandteachercode = $response['Message'];
 
-            $emailTeacherCodeMap = array();
+            $emailteachercodemap = array();
             $teachercodeexists = array();
 
             foreach ($arrayteachersemailsandteachercode as $teacher) {
-                $emailTeacherCodeMap[strtolower($teacher['Email'])] = $teacher['ExternalTeacherID'];
+                $emailteachercodemap[strtolower($teacher['Email'])] = $teacher['ExternalTeacherID'];
                 $teachercodeexists[$teacher['ExternalTeacherID']] = true;
             }
 
-            $teachersThatExistsInTM = array();
+            $teachersthatexistsintm = array();
             $teachersIDsThatExistsInTM = array();
 
             $isLoggedUserExistsInTM = true;
@@ -1217,7 +1217,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
             foreach ($teachers as $value => $label) {
                 $teacherCode = $teachersids[$value];
-                if (($identifybyemail == true && isset($emailTeacherCodeMap[$value]) == false)
+                if (($identifybyemail == true && isset($emailteachercodemap[$value]) == false)
                 || ($identifybyemail == false && isset($teachercodeexists[$teacherCode]) == false)) {
                     if ($value == strtolower($USER->email)) {
                         $isLoggedUserExistsInTM = false;
@@ -1228,7 +1228,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                         $select->addOption($label, $value);
                     }
                 } else {
-                    $teachersThatExistsInTM[$value] = $label;
+                    $teachersthatexistsintm[$value] = $label;
                         $select->addOption($label, $value);
                 }
             }
@@ -1270,7 +1270,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 }
 
                 $teachersemailsarray = array();
-                foreach ($teachersThatExistsInTM as $email => $name) {
+                foreach ($teachersthatexistsintm as $email => $name) {
                     array_push($teachersemailsarray, $email);
                 }
 
@@ -1549,7 +1549,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 foreach ($teachersemailtoidinmoodle as $email => $idInMoodle) {
                     $label = $teachers[$email];
                     $options = array('class' => 'checkboxgroup1');
-                    if (isset($teachersThatExistsInTM[$email]) == false && $iscreateusers == false) {
+                    if (isset($teachersthatexistsintm[$email]) == false && $iscreateusers == false) {
                         $label = $label . " - " .  get_string('user_does_not_exists_in_tomagrade', 'plagiarism_tomagrade');
                         $options = array('class' => 'checkboxgroup1', 'disabled' => 'disabled');
                     }
