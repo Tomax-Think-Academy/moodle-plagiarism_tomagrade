@@ -1092,10 +1092,10 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                         array_push($arrteachersids, '"'.$teacher->idnumber.'"');
                     }
 
-                    $hujiArr = $DB->get_records_sql("
+                    $hujiarr = $DB->get_records_sql("
                     SELECT tz, hujiid FROM  huji.userdata where tz in (". implode(",", $arrteachersids) ." )");
 
-                    foreach ($hujiArr as $huji) {
+                    foreach ($hujiarr as $huji) {
                         $idnumbertohuji[$huji->tz] = $huji->hujiid;
 
                     }
