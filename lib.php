@@ -1030,7 +1030,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
             $connection = new tomagrade_connection;
 
-            $teacherCode2 = plagiarism_plugin_tomagrade::get_teacher_identifier($USER->id);
+            $teachercode2 = plagiarism_plugin_tomagrade::get_teacher_identifier($USER->id);
 
             $cmid = optional_param('update', 0, PARAM_INT);
 
@@ -1245,7 +1245,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             if (isset($config->tomagrade_IDMatchOnTomagrade) && $config->tomagrade_IDMatchOnTomagrade != plagiarism_plugin_tomagrade::INACTIVE) {
 
                 // Courses list.
-                $paramsToSend = "/".$teacherCode2->data;
+                $paramsToSend = "/".$teachercode2->data;
                 if (isset($config->tomagrade_MatchingDue) && isset($cmid)) {
                     if (is_null($config->tomagrade_MatchingDue) == false) {
                         if (is_numeric($config->tomagrade_MatchingDue)) {
