@@ -915,15 +915,15 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                 // Delete teachers from share.
                 $teacherstodeletestr = "";
                 if (empty($oldinformation->share_teachers) == false) {
-                    $newShare = array();
+                    $newshare = array();
                     if (empty($tomagradeshareaddioionalteachers) == false) {
-                        $newShare = explode(",", $tomagradeshareaddioionalteachers);
+                        $newshare = explode(",", $tomagradeshareaddioionalteachers);
                     }
                     $oldShare = explode(",", $oldinformation->share_teachers);
 
                     $teachersToDelete = array();
                     foreach ($oldShare as $id) {
-                        if (in_array($id, $newShare) == false) {
+                        if (in_array($id, $newshare) == false) {
                             array_push($teachersToDelete, $id);
                         }
                     }
