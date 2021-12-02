@@ -989,17 +989,17 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             $course = $DB->get_record('course', array("id" => $context->instanceid));
             $courseid = $course->idnumber;
             $config = get_config('plagiarism_tomagrade');
-            $courseLIST = explode("\r\n", $config->ACL_COURSE);
-            $categoryLIST = explode("\r\n", $config->ACL_CATEGORY);
+            $courselist = explode("\r\n", $config->ACL_COURSE);
+            $categorylist = explode("\r\n", $config->ACL_CATEGORY);
             $categoryid = $DB->get_record('course_categories', array("id" => $course->category))->idnumber;
             if ($config->tomagrade_ACL == "1") {
-                if ($courseid == "" && count($courseLIST) > 0) {
+                if ($courseid == "" && count($courselist) > 0) {
                     return;
                 }
-                if ($categoryid == "" && count($categoryLIST) > 0) {
+                if ($categoryid == "" && count($categorylist) > 0) {
                     return;
                 }
-                if (in_array($courseid, $courseLIST) === false && in_array($categoryid, $categoryLIST) === false) {
+                if (in_array($courseid, $courselist) === false && in_array($categoryid, $categorylist) === false) {
                     return;
                 }
             }
