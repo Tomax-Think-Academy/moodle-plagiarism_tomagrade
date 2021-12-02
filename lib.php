@@ -1063,7 +1063,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             $teachersemailtoidinmoodle = array();
             $idinmoodletoemail = array();
 
-            $isCurrentOwnerExistsInTeachersList = false;
+            $iscurrentownerexistsinteacherslist = false;
             $isLoggedUserExistsInTeachersList = false;
 
             $loggedUserIdNumber = $USER->idnumber;
@@ -1126,7 +1126,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                     if ($cmid != 0 && isset($data->username)) {
                         if ($teacher->email == $data->username) {
-                            $isCurrentOwnerExistsInTeachersList = true;
+                            $iscurrentownerexistsinteacherslist = true;
                         }
                     }
                     if (strtolower($USER->email) == $teacher->email) {
@@ -1145,7 +1145,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 $isLoggedUserExistsInTeachersList = true;
             }
 
-            if ($isCurrentOwnerExistsInTeachersList == false && $cmid != 0 && isset($data->username)) {
+            if ($iscurrentownerexistsinteacherslist == false && $cmid != 0 && isset($data->username)) {
                 $ownerrow = $DB->get_record_sql(" select firstname,lastname,lower(email) as email,idnumber,id from {user} where email = ? ", array($data->username));
                 if (isset($ownerrow->email)) {
                     $teachers[$ownerrow->email] = $ownerrow->firstname . " " . $ownerrow->lastname;
