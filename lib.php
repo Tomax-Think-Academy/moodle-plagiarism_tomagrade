@@ -1066,10 +1066,10 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             $iscurrentownerexistsinteacherslist = false;
             $isloggeduserexistsinteacherslist = false;
 
-            $loggedUserIdNumber = $USER->idnumber;
+            $loggeduseridnumber = $USER->idnumber;
 
             if ($teacherszero > 0) {
-                $loggedUserIdNumber = plagiarism_plugin_tomagrade::complete_zeroes($USER->idnumber, $teacherszero);
+                $loggeduseridnumber = plagiarism_plugin_tomagrade::complete_zeroes($USER->idnumber, $teacherszero);
             }
 
             if (isset($config->tomagrade_userRolesToDisplayRelatedAssign) == true && $config->tomagrade_userRolesToDisplayRelatedAssign != "") {
@@ -1083,7 +1083,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 AND c.id = :instanceid
                 AND roleid in  ($config->tomagrade_userRolesToDisplayRelatedAssign)  ", array('instanceid' => $context->instanceid));
 
-                $idnumberToHuji = array();
+                $idnumbertohuji = array();
 
                 if ($config->tomagrade_DefaultIdentifier_TEACHER == 4) {
                     $arrTeachersIDs = array();
@@ -1096,7 +1096,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                     SELECT tz, hujiid FROM  huji.userdata where tz in (". implode(",", $arrTeachersIDs) ." )");
 
                     foreach ($hujiArr as $huji) {
-                        $idnumberToHuji[$huji->tz] = $huji->hujiid;
+                        $idnumbertohuji[$huji->tz] = $huji->hujiid;
 
                     }
 
@@ -1104,8 +1104,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                 foreach ($teachersarr as $teacher) {
                     if ($config->tomagrade_DefaultIdentifier_TEACHER == 4) {
-                        if (isset($idnumberToHuji[$teacher->idnumber])) {
-                            $teacher->idnumber = $idnumberToHuji[$teacher->idnumber];
+                        if (isset($idnumbertohuji[$teacher->idnumber])) {
+                            $teacher->idnumber = $idnumbertohuji[$teacher->idnumber];
                         } else {
                             $teacher->idnumber = null;
                         }
@@ -1139,8 +1139,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 } else {
                     $teachers[strtolower($USER->email)] = "Me";
                 }
-                $teachersids[strtolower($USER->email)] = $loggedUserIdNumber;
-                $teachercodetoemail[$loggedUserIdNumber] = strtolower($USER->email);
+                $teachersids[strtolower($USER->email)] = $loggeduseridnumber;
+                $teachercodetoemail[$loggeduseridnumber] = strtolower($USER->email);
                 $idinmoodletoemail[$USER->id] = strtolower($USER->email);
                 $isloggeduserexistsinteacherslist = true;
             }
@@ -1167,8 +1167,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 } else {
                     $teachers[strtolower($USER->email)] = "Me";
                 }
-                $teachersids[strtolower($USER->email)] = $loggedUserIdNumber;
-                $teachercodetoemail[$loggedUserIdNumber] = strtolower($USER->email);
+                $teachersids[strtolower($USER->email)] = $loggeduseridnumber;
+                $teachercodetoemail[$loggeduseridnumber] = strtolower($USER->email);
                 $idinmoodletoemail[$USER->id] = strtolower($USER->email);
             }
 
