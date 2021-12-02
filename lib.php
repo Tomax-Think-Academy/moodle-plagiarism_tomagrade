@@ -1216,9 +1216,9 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             $iscreateusers = isset($config->tomagrade_createUsers) && $config->tomagrade_createUsers == 1;
 
             foreach ($teachers as $value => $label) {
-                $teacherCode = $teachersids[$value];
+                $teachercode = $teachersids[$value];
                 if (($identifybyemail == true && isset($emailteachercodemap[$value]) == false)
-                || ($identifybyemail == false && isset($teachercodeexists[$teacherCode]) == false)) {
+                || ($identifybyemail == false && isset($teachercodeexists[$teachercode]) == false)) {
                     if ($value == strtolower($USER->email)) {
                         $isloggeduserexistsintm = false;
                     }
@@ -1664,9 +1664,9 @@ function get_teacher_codes_from_moodle_ids($teachers, $identifybyemail) {
         $arrayteachersemailsandteachercode = $response['Message'];
 
         foreach ($arrayteachersemailsandteachercode as $teacher) {
-            $teacherCode = $teacher['ExternalTeacherID'];
+            $teachercode = $teacher['ExternalTeacherID'];
 
-            array_push($teachersCodesToShare, $teacherCode);
+            array_push($teachersCodesToShare, $teachercode);
         }
 
     } else {
