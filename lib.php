@@ -1086,14 +1086,14 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 $idnumbertohuji = array();
 
                 if ($config->tomagrade_DefaultIdentifier_TEACHER == 4) {
-                    $arrTeachersIDs = array();
+                    $arrteachersids = array();
 
                     foreach ($teachersarr as $teacher) {
-                        array_push($arrTeachersIDs, '"'.$teacher->idnumber.'"');
+                        array_push($arrteachersids, '"'.$teacher->idnumber.'"');
                     }
 
                     $hujiArr = $DB->get_records_sql("
-                    SELECT tz, hujiid FROM  huji.userdata where tz in (". implode(",", $arrTeachersIDs) ." )");
+                    SELECT tz, hujiid FROM  huji.userdata where tz in (". implode(",", $arrteachersids) ." )");
 
                     foreach ($hujiArr as $huji) {
                         $idnumbertohuji[$huji->tz] = $huji->hujiid;
