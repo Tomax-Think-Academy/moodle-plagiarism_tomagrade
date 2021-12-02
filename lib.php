@@ -1060,7 +1060,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             $teachers = array();
             $teachersids = array();
             $teachercodetoemail = array();
-            $teachersEmailToIDinMoodle = array();
+            $teachersemailtoidinmoodle = array();
             $idInMoodleToEmail = array();
 
             $isCurrentOwnerExistsInTeachersList = false;
@@ -1121,7 +1121,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                     $teachers[$teacher->email] = $teacher->firstname . " " . $teacher->lastname;
                     $teachersids[$teacher->email] = $teacher->idnumber; // Email to id map.
                     $teachercodetoemail[$teacher->idnumber] = $teacher->email; // Id to email map.
-                    $teachersEmailToIDinMoodle[$teacher->email] = $teacher->id;
+                    $teachersemailtoidinmoodle[$teacher->email] = $teacher->id;
                     $idInMoodleToEmail[$teacher->id] = $teacher->email;
 
                     if ($cmid != 0 && isset($data->username)) {
@@ -1543,10 +1543,10 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
             }
 
-            if (count($teachersEmailToIDinMoodle) > 0) {
+            if (count($teachersemailtoidinmoodle) > 0) {
                 $mform->addElement('static', 'tomagradeshareaddioionalteachers', get_string('tomagrade_shareAddioionalTeachersTitle', 'plagiarism_tomagrade'), null);
 
-                foreach ($teachersEmailToIDinMoodle as $email => $idInMoodle) {
+                foreach ($teachersemailtoidinmoodle as $email => $idInMoodle) {
                     $label = $teachers[$email];
                     $options = array('class' => 'checkboxgroup1');
                     if (isset($teachersThatExistsInTM[$email]) == false && $iscreateusers == false) {
