@@ -912,8 +912,8 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                         $identifybyemail = false;
                 }
 
-                    // Delete teachers from share.
-                    $teachersToDeleteStr = "";
+                // Delete teachers from share.
+                $teacherstodeletestr = "";
                 if (empty($oldinformation->share_teachers) == false) {
                     $newShare = array();
                     if (empty($tomagradeshareaddioionalteachers) == false) {
@@ -931,7 +931,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     if (count($teachersToDelete) > 0) {
                         // There are teachers that were removed from share.
 
-                        $teachersToDeleteStr = implode(",", $teachersToDelete);
+                        $teacherstodeletestr = implode(",", $teachersToDelete);
 
                     }
 
@@ -940,8 +940,8 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     $examidintg = $examidintg;
 
                 // Share teachers.
-                if (empty($tomagradeshareaddioionalteachers) == false || empty($teachersToDeleteStr) == false) {
-                    $errorinshareteachersync = share_teachers($tomagradeshareaddioionalteachers, $teachersToDeleteStr, $identifybyemail, $examidintg);
+                if (empty($tomagradeshareaddioionalteachers) == false || empty($teacherstodeletestr) == false) {
+                    $errorinshareteachersync = share_teachers($tomagradeshareaddioionalteachers, $teacherstodeletestr, $identifybyemail, $examidintg);
                     $errorinshareteachersync = !$errorinshareteachersync;
                 }
 
