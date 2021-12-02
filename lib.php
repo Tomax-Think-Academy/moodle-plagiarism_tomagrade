@@ -1207,7 +1207,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             }
 
             $teachersthatexistsintm = array();
-            $teachersIDsThatExistsInTM = array();
+            $teachersidsthatexistsintm = array();
 
             $isLoggedUserExistsInTM = true;
 
