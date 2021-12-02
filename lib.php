@@ -1209,7 +1209,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             $teachersthatexistsintm = array();
             $teachersidsthatexistsintm = array();
 
-            $isLoggedUserExistsInTM = true;
+            $isloggeduserexistsintm = true;
 
             $select = $mform->createElement('select', 'tomagrade_username', get_string('Related_TomaGrade_User', 'plagiarism_tomagrade'));
 
@@ -1220,7 +1220,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 if (($identifybyemail == true && isset($emailteachercodemap[$value]) == false)
                 || ($identifybyemail == false && isset($teachercodeexists[$teacherCode]) == false)) {
                     if ($value == strtolower($USER->email)) {
-                        $isLoggedUserExistsInTM = false;
+                        $isloggeduserexistsintm = false;
                     }
                     if ($iscreateusers == false) {
                         $select->addOption($label . " - " . get_string('user_does_not_exists_in_tomagrade', 'plagiarism_tomagrade'), $value, array('disabled' => 'disabled'));
@@ -1236,7 +1236,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
             if (isset($cmid) == false || $cmid == 0) {
                 // This is a new course.
-                if ($isLoggedUserExistsInTM) {
+                if ($isloggeduserexistsintm) {
                     $select->setSelected(strtolower($USER->email));
                 }
 
