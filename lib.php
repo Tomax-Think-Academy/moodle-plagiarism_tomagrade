@@ -1038,13 +1038,13 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 $data = tomagrade_get_instance_config($cmid);
             }
 
-            $teachersZero = 0;
+            $teacherszero = 0;
 
             if (isset($config->tomagrade_zeroCompleteTeacher)) {
                 if (is_numeric($config->tomagrade_zeroCompleteTeacher)) {
                     $zeros = intval($config->tomagrade_zeroCompleteTeacher);
                     if ($zeros > 0 ) {
-                        $teachersZero = $zeros;
+                        $teacherszero = $zeros;
                     }
                 }
             }
@@ -1068,8 +1068,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
             $loggedUserIdNumber = $USER->idnumber;
 
-            if ($teachersZero > 0) {
-                $loggedUserIdNumber = plagiarism_plugin_tomagrade::complete_zeroes($USER->idnumber, $teachersZero);
+            if ($teacherszero > 0) {
+                $loggedUserIdNumber = plagiarism_plugin_tomagrade::complete_zeroes($USER->idnumber, $teacherszero);
             }
 
             if (isset($config->tomagrade_userRolesToDisplayRelatedAssign) == true && $config->tomagrade_userRolesToDisplayRelatedAssign != "") {
@@ -1114,8 +1114,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                         $teacher->idnumber = $teacher->username;
                     }
 
-                    if ($teachersZero > 0 && empty($teacher->idnumber) == false) {
-                        $teacher->idnumber = plagiarism_plugin_tomagrade::complete_zeroes($teacher->idnumber, $teachersZero);
+                    if ($teacherszero > 0 && empty($teacher->idnumber) == false) {
+                        $teacher->idnumber = plagiarism_plugin_tomagrade::complete_zeroes($teacher->idnumber, $teacherszero);
                     }
 
                     $teachers[$teacher->email] = $teacher->firstname . " " . $teacher->lastname;
@@ -1149,8 +1149,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 $ownerrow = $DB->get_record_sql(" select firstname,lastname,lower(email) as email,idnumber,id from {user} where email = ? ", array($data->username));
                 if (isset($ownerrow->email)) {
                     $teachers[$ownerrow->email] = $ownerrow->firstname . " " . $ownerrow->lastname;
-                    if ($teachersZero > 0) {
-                        $ownerrow->idnumber = plagiarism_plugin_tomagrade::complete_zeroes($ownerrow->idnumber, $teachersZero);
+                    if ($teacherszero > 0) {
+                        $ownerrow->idnumber = plagiarism_plugin_tomagrade::complete_zeroes($ownerrow->idnumber, $teacherszero);
                     }
                     $teachersIDs[$ownerrow->email] = $ownerrow->idnumber;
                     $teacherCodeToEmail[$ownerrow->idnumber] = $ownerrow->email;
