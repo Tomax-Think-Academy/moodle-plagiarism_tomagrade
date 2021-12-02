@@ -1058,7 +1058,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
             // Teachers list.
             $teachers = array();
-            $teachersIDs = array();
+            $teachersids = array();
             $teacherCodeToEmail = array();
             $teachersEmailToIDinMoodle = array();
             $idInMoodleToEmail = array();
@@ -1119,7 +1119,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                     }
 
                     $teachers[$teacher->email] = $teacher->firstname . " " . $teacher->lastname;
-                    $teachersIDs[$teacher->email] = $teacher->idnumber; // Email to id map.
+                    $teachersids[$teacher->email] = $teacher->idnumber; // Email to id map.
                     $teacherCodeToEmail[$teacher->idnumber] = $teacher->email; // Id to email map.
                     $teachersEmailToIDinMoodle[$teacher->email] = $teacher->id;
                     $idInMoodleToEmail[$teacher->id] = $teacher->email;
@@ -1139,7 +1139,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 } else {
                     $teachers[strtolower($USER->email)] = "Me";
                 }
-                $teachersIDs[strtolower($USER->email)] = $loggedUserIdNumber;
+                $teachersids[strtolower($USER->email)] = $loggedUserIdNumber;
                 $teacherCodeToEmail[$loggedUserIdNumber] = strtolower($USER->email);
                 $idInMoodleToEmail[$USER->id] = strtolower($USER->email);
                 $isLoggedUserExistsInTeachersList = true;
@@ -1152,7 +1152,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                     if ($teacherszero > 0) {
                         $ownerrow->idnumber = plagiarism_plugin_tomagrade::complete_zeroes($ownerrow->idnumber, $teacherszero);
                     }
-                    $teachersIDs[$ownerrow->email] = $ownerrow->idnumber;
+                    $teachersids[$ownerrow->email] = $ownerrow->idnumber;
                     $teacherCodeToEmail[$ownerrow->idnumber] = $ownerrow->email;
                     $idInMoodleToEmail[$ownerrow->id] = $ownerrow->email;
                     if ($data->username == strtolower($USER->email)) {
@@ -1167,7 +1167,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 } else {
                     $teachers[strtolower($USER->email)] = "Me";
                 }
-                $teachersIDs[strtolower($USER->email)] = $loggedUserIdNumber;
+                $teachersids[strtolower($USER->email)] = $loggedUserIdNumber;
                 $teacherCodeToEmail[$loggedUserIdNumber] = strtolower($USER->email);
                 $idInMoodleToEmail[$USER->id] = strtolower($USER->email);
             }
@@ -1176,8 +1176,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             $teachersissarray = array();
             foreach ($teachers as $email => $name) {
                 array_push($teachersemailsarray, $email);
-                if (isset($teachersIDs[$email])) {
-                    array_push($teachersissarray, $teachersIDs[$email]);
+                if (isset($teachersids[$email])) {
+                    array_push($teachersissarray, $teachersids[$email]);
                 }
             }
 
@@ -1216,7 +1216,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             $iscreateusers = isset($config->tomagrade_createUsers) && $config->tomagrade_createUsers == 1;
 
             foreach ($teachers as $value => $label) {
-                $teacherCode = $teachersIDs[$value];
+                $teacherCode = $teachersids[$value];
                 if (($identifybyemail == true && isset($emailTeacherCodeMap[$value]) == false)
                 || ($identifybyemail == false && isset($teachercodeexists[$teacherCode]) == false)) {
                     if ($value == strtolower($USER->email)) {
