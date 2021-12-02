@@ -1254,9 +1254,9 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                                 $duedatestring = $DB->get_records_sql("
                                 select a.duedate from {course_modules} c inner join {assign} a on c.instance = a.id where c.id = ?", array($cmid));
                                 if (is_array($duedatestring)) {
-                                    $dueDate = reset($duedatestring);
-                                    if (isset($dueDate->duedate)) {
-                                        $timeString = $dueDate->duedate;
+                                    $duedate = reset($duedatestring);
+                                    if (isset($duedate->duedate)) {
+                                        $timeString = $duedate->duedate;
 
                                         // ParamsToSend parm is not in use anymore, just for testing old versions.
                                         $paramstosend = $paramstosend . "/" . $config->tomagrade_MatchingDue . "/" . $timeString;
