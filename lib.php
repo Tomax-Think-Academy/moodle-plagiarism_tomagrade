@@ -1256,10 +1256,10 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                                 if (is_array($duedatestring)) {
                                     $duedate = reset($duedatestring);
                                     if (isset($duedate->duedate)) {
-                                        $timestring = $duedate->duedate;
+                                        $timeString = $duedate->duedate;
 
                                         // ParamsToSend parm is not in use anymore, just for testing old versions.
-                                        $paramstosend = $paramstosend . "/" . $config->tomagrade_MatchingDue . "/" . $timestring;
+                                        $paramstosend = $paramstosend . "/" . $config->tomagrade_MatchingDue . "/" . $timeString;
                                     }
 
                                 }
@@ -1285,8 +1285,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 if (isset($config->tomagrade_MatchingDue) && $config->tomagrade_MatchingDue > 0) {
                     $postdata['days'] = $config->tomagrade_MatchingDue;
                 }
-                if (isset($timestring)) {
-                    $postdata['dueDateStr'] = $timestring;
+                if (isset($timeString)) {
+                    $postdata['dueDateStr'] = $timeString;
                 }
 
                 if (isset($config->tomagrade_DaysDisplayBeforeExamDate) && is_numeric($config->tomagrade_DaysDisplayBeforeExamDate)) {
@@ -1300,7 +1300,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                 $response = json_decode($response, true);
 
-                $examsByTeachersMap = array();
+                $examsbyteachersmap = array();
 
                 $existingExams = $DB->get_records_sql("
                 select distinct idmatchontg from {plagiarism_tomagrade_config} where idmatchontg != '0' ");
@@ -1374,10 +1374,10 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                             }
 
                             if ($teacherEmailInMoodle != "") {
-                                if (isset($examsByTeachersMap[$teacherEmailInMoodle]) == false) {
-                                    $examsByTeachersMap[$teacherEmailInMoodle] = array();
+                                if (isset($examsbyteachersmap[$teacherEmailInMoodle]) == false) {
+                                    $examsbyteachersmap[$teacherEmailInMoodle] = array();
                                 }
-                                $examsByTeachersMap[$teacherEmailInMoodle][$exam['ExamID']] = $stringForExam;
+                                $examsbyteachersmap[$teacherEmailInMoodle][$exam['ExamID']] = $stringForExam;
                             }
                         }
                     }
@@ -1431,10 +1431,10 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                             if (isset($data->username)) {
                                 $teacherEmailInMoodle = $data->username;
 
-                                if (isset($examsByTeachersMap[$teacherEmailInMoodle]) == false) {
-                                        $examsByTeachersMap[$teacherEmailInMoodle] = array();
+                                if (isset($examsbyteachersmap[$teacherEmailInMoodle]) == false) {
+                                        $examsbyteachersmap[$teacherEmailInMoodle] = array();
                                 }
-                                $examsByTeachersMap[$teacherEmailInMoodle][$data->idmatchontg] = $stringForExam;
+                                $examsbyteachersmap[$teacherEmailInMoodle][$data->idmatchontg] = $stringForExam;
                             }
 
                         }
@@ -1444,7 +1444,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 $mform->addElement('select', 'tomagrade_idmatchontg', get_string('ID_Match_On_Tomagrade', 'plagiarism_tomagrade'), $courses);
 
                 $buildJSTeachersMap = "var teachersmap = {}; ";
-                foreach ($examsByTeachersMap as $teacher => $value) {
+                foreach ($examsbyteachersmap as $teacher => $value) {
                     $buildJSTeachersMap = $buildJSTeachersMap . " var examArr = {}; ";
                     foreach ($value as $exam => $examString) {
                         $examString = str_replace("'", "", $examString);
