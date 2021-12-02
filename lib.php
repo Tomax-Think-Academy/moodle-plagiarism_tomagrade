@@ -1064,7 +1064,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             $idinmoodletoemail = array();
 
             $iscurrentownerexistsinteacherslist = false;
-            $isLoggedUserExistsInTeachersList = false;
+            $isloggeduserexistsinteacherslist = false;
 
             $loggedUserIdNumber = $USER->idnumber;
 
@@ -1130,7 +1130,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                         }
                     }
                     if (strtolower($USER->email) == $teacher->email) {
-                        $isLoggedUserExistsInTeachersList = true;
+                        $isloggeduserexistsinteacherslist = true;
                     }
                 }
             } else {
@@ -1142,7 +1142,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 $teachersids[strtolower($USER->email)] = $loggedUserIdNumber;
                 $teachercodetoemail[$loggedUserIdNumber] = strtolower($USER->email);
                 $idinmoodletoemail[$USER->id] = strtolower($USER->email);
-                $isLoggedUserExistsInTeachersList = true;
+                $isloggeduserexistsinteacherslist = true;
             }
 
             if ($iscurrentownerexistsinteacherslist == false && $cmid != 0 && isset($data->username)) {
@@ -1156,12 +1156,12 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                     $teachercodetoemail[$ownerrow->idnumber] = $ownerrow->email;
                     $idinmoodletoemail[$ownerrow->id] = $ownerrow->email;
                     if ($data->username == strtolower($USER->email)) {
-                        $isLoggedUserExistsInTeachersList = true;
+                        $isloggeduserexistsinteacherslist = true;
                     }
                 }
             }
 
-            if (count($teachers) == 0 || $isLoggedUserExistsInTeachersList == false) {
+            if (count($teachers) == 0 || $isloggeduserexistsinteacherslist == false) {
                 if (isset($USER->firstname) && isset($USER->lastname)) {
                     $teachers[strtolower($USER->email)] = $USER->firstname . " " . $USER->lastname;
                 } else {
