@@ -919,19 +919,19 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     if (empty($tomagradeshareaddioionalteachers) == false) {
                         $newshare = explode(",", $tomagradeshareaddioionalteachers);
                     }
-                    $oldShare = explode(",", $oldinformation->share_teachers);
+                    $oldshare = explode(",", $oldinformation->share_teachers);
 
-                    $teachersToDelete = array();
-                    foreach ($oldShare as $id) {
+                    $teacherstodelete = array();
+                    foreach ($oldshare as $id) {
                         if (in_array($id, $newshare) == false) {
-                            array_push($teachersToDelete, $id);
+                            array_push($teacherstodelete, $id);
                         }
                     }
 
-                    if (count($teachersToDelete) > 0) {
+                    if (count($teacherstodelete) > 0) {
                         // There are teachers that were removed from share.
 
-                        $teacherstodeletestr = implode(",", $teachersToDelete);
+                        $teacherstodeletestr = implode(",", $teacherstodelete);
 
                     }
 
