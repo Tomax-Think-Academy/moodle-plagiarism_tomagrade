@@ -1245,21 +1245,21 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             if (isset($config->tomagrade_IDMatchOnTomagrade) && $config->tomagrade_IDMatchOnTomagrade != plagiarism_plugin_tomagrade::INACTIVE) {
 
                 // Courses list.
-                $paramsToSend = "/".$teachercode2->data;
+                $paramstosend = "/".$teachercode2->data;
                 if (isset($config->tomagrade_MatchingDue) && isset($cmid)) {
                     if (is_null($config->tomagrade_MatchingDue) == false) {
                         if (is_numeric($config->tomagrade_MatchingDue)) {
                             if ($config->tomagrade_MatchingDue > 0) {
 
-                                $dueDateString = $DB->get_records_sql("
+                                $duedatestring = $DB->get_records_sql("
                                 select a.duedate from {course_modules} c inner join {assign} a on c.instance = a.id where c.id = ?", array($cmid));
-                                if (is_array($dueDateString)) {
-                                    $dueDate = reset($dueDateString);
+                                if (is_array($duedatestring)) {
+                                    $dueDate = reset($duedatestring);
                                     if (isset($dueDate->duedate)) {
                                         $timeString = $dueDate->duedate;
 
                                         // ParamsToSend parm is not in use anymore, just for testing old versions.
-                                        $paramsToSend = $paramsToSend . "/" . $config->tomagrade_MatchingDue . "/" . $timeString;
+                                        $paramstosend = $paramstosend . "/" . $config->tomagrade_MatchingDue . "/" . $timeString;
                                     }
 
                                 }
