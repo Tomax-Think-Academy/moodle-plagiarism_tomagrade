@@ -1247,7 +1247,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                         $isloggeduserexistsintm = false;
                     }
                     if ($iscreateusers == false) {
-                        $select->addOption($label . " - " . get_string('user_does_not_exists_in_tomagrade', 'plagiarism_tomagrade'), $value, array('disabled' => 'disabled'));
+                        $select->addOption($label . " - " . get_string('user_does_not_exists_in_tomagrade',
+                         'plagiarism_tomagrade'), $value, array('disabled' => 'disabled'));
                     } else {
                         $select->addOption($label, $value);
                     }
