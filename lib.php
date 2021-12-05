@@ -2355,8 +2355,6 @@ class tomagrade_connection
                 $newdb = new stdClass();
                 $DB->execute('UPDATE {plagiarism_tomagrade_config} SET complete = 2 WHERE cm = ?', array($cmidexam));
             }
-        } else {
-            // Check if deleted, if so remove.
         }
     }
 }
