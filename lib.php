@@ -1999,7 +1999,7 @@ class tomagrade_connection
         return 'success';
     }
 
-    function post_request($method, $postdata, $dontDecode=false, $parameters = "") {
+    function post_request($method, $postdata, $dontdecode=false, $parameters = "") {
         global $CFG;
         $params = null;
         $config = $this->config;
@@ -2033,7 +2033,7 @@ class tomagrade_connection
         tomagrade_log("response : " . json_encode($response));
         tomagrade_log("================== end post $method to $config->tomagrade_server ====================");
 
-        if ($dontDecode) {
+        if ($dontdecode) {
             return $response;
         }
 
@@ -2119,7 +2119,7 @@ class tomagrade_connection
             $component = 'assignsubmission_file';
             $filearea = 'submission_files';
             $files = $fs->get_area_files($contextid, $component, $filearea);
-            $exam_id = $cmid;
+            $examid = $cmid;
             $file = $files[$filehash];
             if (!isset($file) || $file === null ) {
                 $log .= 'There is no file, returning!';
