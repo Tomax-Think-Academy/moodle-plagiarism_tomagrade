@@ -2232,10 +2232,10 @@ class tomagrade_connection
 
                     if ($isexam) {
 
-                        $idMatch = plagiarism_plugin_tomagrade::get_id_match_on_tg();
+                        $idmatch = plagiarism_plugin_tomagrade::get_id_match_on_tg();
 
                         $idMatchStr = "ExamID";
-                        if ($idMatch == 1) {
+                        if ($idmatch == 1) {
                             $idMatchStr = "CourseID";
                         }
 
