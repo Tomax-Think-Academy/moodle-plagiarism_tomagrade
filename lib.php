@@ -1884,7 +1884,8 @@ function new_event_file_uploaded($eventdata) {
             if ($assignsubmission->groupid != 0) {
                 $group = $DB->get_record('groups', array('id' => $assignsubmission->groupid));
                 $data->groupid = $assignsubmission->groupid;
-                $current = $DB->get_record('plagiarism_tomagrade', array('cmid' => $eventdata["contextinstanceid"], 'groupid' => $assignsubmission->groupid));
+                $current = $DB->get_record('plagiarism_tomagrade',
+                 array('cmid' => $eventdata["contextinstanceid"], 'groupid' => $assignsubmission->groupid));
             } else {
                 $data->userid = (isset($assignsubmission->userid) && $assignsubmission->userid != 0) ?
                  $assignsubmission->userid : $eventdata["userid"];
