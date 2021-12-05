@@ -972,7 +972,8 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 
                 // Share teachers.
                 if (empty($tomagradeshareaddioionalteachers) == false || empty($teacherstodeletestr) == false) {
-                    $errorinshareteachersync = share_teachers($tomagradeshareaddioionalteachers, $teacherstodeletestr, $identifybyemail, $examidintg);
+                    $errorinshareteachersync = share_teachers($tomagradeshareaddioionalteachers,
+                     $teacherstodeletestr, $identifybyemail, $examidintg);
                     $errorinshareteachersync = !$errorinshareteachersync;
                 }
 
