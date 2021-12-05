@@ -1786,10 +1786,10 @@ function calc_exam_id_in_tg($cmid, $idmatchontg) {
     return $examidintg;
 }
 
-function is_exam_exists_in_tg($ExamID) {
+function is_exam_exists_in_tg($examid) {
     $connection = new tomagrade_connection;
 
-    $isexamexistsRequest = $connection->get_request("MoodleGetExamDetails", "/$ExamID");
+    $isexamexistsRequest = $connection->get_request("MoodleGetExamDetails", "/$examid");
     $responsedecoded = json_decode($isexamexistsRequest);
 
     if (isset($responsedecoded->Response) == true && isset($responsedecoded->GetExamDetail->Exam_Name) == false) {
