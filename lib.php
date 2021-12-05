@@ -2208,7 +2208,7 @@ class tomagrade_connection
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
                 $responsedecoded = curl_exec($ch);
-                $requestContentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+                $requestcontenttype = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
                 curl_close($ch);
 
                 $response = json_decode($responsedecoded);
