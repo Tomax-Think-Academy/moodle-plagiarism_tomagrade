@@ -1084,7 +1084,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
             if (isset($data->username)) {
                 if (is_numeric($data->username)) {
-                    $ownerrow = $DB->get_record_sql(" select lower(email) as email from {user} where id = ? ", array($data->username));
+                    $ownerrow = $DB->get_record_sql(" select lower(email) as email from {user} where id = ? ",
+                     array($data->username));
                     $data->username = $ownerrow->email;
                 }
             }
