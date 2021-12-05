@@ -754,7 +754,9 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 
                                                         // Error email already exists in TomaGrade for user.
 
-                                                        \core\notification::error( get_string('error_during_creating_new_user_in_tomagrade_email_already_exists', 'plagiarism_tomagrade') . " " . $emailtodetails[$potentialusertoadd]['username']);
+                                                        \core\notification::error(
+                                                            get_string('error_during_creating_new_user_in_tomagrade_email_already_exists',
+                                                             'plagiarism_tomagrade') . " " . $emailtodetails[$potentialusertoadd]['username']);
                                                 }
                                             }
                                         }
