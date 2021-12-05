@@ -1899,7 +1899,8 @@ function new_event_file_uploaded($eventdata) {
             // Check completed.
             return $result;
         } else {
-            $checkiftomagradeactive = $DB->get_record_sql('SELECT upload FROM {plagiarism_tomagrade_config} WHERE cm = ?', array($matalaid));
+            $checkiftomagradeactive = $DB->get_record_sql('SELECT upload FROM {plagiarism_tomagrade_config} WHERE cm = ?',
+             array($matalaid));
 
             $printerrmsg = true;
             if (isset($checkiftomagradeactive) == false || $checkiftomagradeactive == false) {
