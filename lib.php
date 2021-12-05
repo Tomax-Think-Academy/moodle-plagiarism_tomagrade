@@ -139,7 +139,8 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
         } else if ($config->tomagrade_DefaultIdentifier == self::IDENTIFIER_BY_ORBITID) {
             $output = $user->idnumber;
 
-            $orbitiddata = $DB->get_records_sql("select o.orbitid from {import_interface_user} o JOIN {user} m ON o.username=m.username where m.id = ?", array($userid) );
+            $orbitiddata = $DB->get_records_sql("select o.orbitid from {import_interface_user} o
+             JOIN {user} m ON o.username=m.username where m.id = ?", array($userid) );
 
             if (count($orbitiddata) > 0) {
 
