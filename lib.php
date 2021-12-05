@@ -1897,8 +1897,7 @@ function tomagrade_log($data) {
 
 }
 
-function set_grade($cmid, $userid, $grade, $grader)
-{
+function set_grade($cmid, $userid, $grade, $grader) {
     global $DB;
     $instance = $DB->get_record('course_modules', array('id' => $cmid));
 
