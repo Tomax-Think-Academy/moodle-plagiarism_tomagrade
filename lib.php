@@ -2052,7 +2052,8 @@ class tomagrade_connection
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_POSTFIELDS => $postdata,
             CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_HTTPHEADER => array("cache-control: no-cache", "x-apikey: $config->tomagrade_password", "x-userid: $config->tomagrade_username")
+            CURLOPT_HTTPHEADER => array("cache-control: no-cache",
+             "x-apikey: $config->tomagrade_password", "x-userid: $config->tomagrade_username")
 
         ));
 
