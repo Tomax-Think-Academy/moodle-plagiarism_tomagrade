@@ -1568,7 +1568,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             }
 
             if (count($teachersemailtoidinmoodle) > 0) {
-                $mform->addElement('static', 'tomagradeshareaddioionalteachers', get_string('tomagrade_shareAddioionalTeachersTitle', 'plagiarism_tomagrade'), null);
+                $mform->addElement('static', 'tomagradeshareaddioionalteachers',
+                 get_string('tomagrade_shareAddioionalTeachersTitle', 'plagiarism_tomagrade'), null);
 
                 foreach ($teachersemailtoidinmoodle as $email => $idinmoodle) {
                     $label = $teachers[$email];
