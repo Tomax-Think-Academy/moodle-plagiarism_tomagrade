@@ -1829,9 +1829,9 @@ function new_event_file_uploaded($eventdata) {
 
         $matalaid = $eventdata['contextinstanceid'];
 
-        $filePathNameHash = array_pop($eventdata['other']['pathnamehashes']);
+        $filepathnamehash = array_pop($eventdata['other']['pathnamehashes']);
         $fs = get_file_storage();
-        $file = $fs->get_file_by_hash($filePathNameHash);
+        $file = $fs->get_file_by_hash($filepathnamehash);
         if ($file == false) { // File doesn't exist.
             return;
         }
