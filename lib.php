@@ -2174,9 +2174,9 @@ class tomagrade_connection
                 if ($groupid != null) {
                     $originalname = $this->format_group_name($groupid);
                 } else {
-                    $userIdentefier = plagiarism_plugin_tomagrade::get_user_identifier($useridtable);
+                    $useridentefier = plagiarism_plugin_tomagrade::get_user_identifier($useridtable);
 
-                    $originalname = $userIdentefier;
+                    $originalname = $useridentefier;
                 }
 
             }
