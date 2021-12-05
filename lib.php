@@ -1623,7 +1623,7 @@ function get_teacher_codes_from_moodle_ids($teachers, $identifybyemail) {
 
     $teachersemailsarray = array();
     $teacherscodesarray = array();
-    $tempTeachersCodeArr = array();
+    $tempteacherscodearr = array();
 
     if (empty($teachers)) {
         return false;
@@ -1640,15 +1640,15 @@ function get_teacher_codes_from_moodle_ids($teachers, $identifybyemail) {
         } else {
             array_push($teacherscodesarray, $teacher->idnumber);
         }
-        array_push($tempTeachersCodeArr, '"'.$teacher->idnumber.'"');
+        array_push($tempteacherscodearr, '"'.$teacher->idnumber.'"');
     }
 
     if ($config->tomagrade_DefaultIdentifier_TEACHER == 4) {
-        $selectedTeachersToShare2 = $DB->get_records_sql(" select tz,hujiid from huji.userdata where tz in (". implode(",", $tempTeachersCodeArr) .")");
+        $selectedteacherstoshare2 = $DB->get_records_sql(" select tz,hujiid from huji.userdata where tz in (". implode(",", $tempteacherscodearr) .")");
 
         $teacherscodesarray = array();
 
-        foreach ($selectedTeachersToShare2 as $teacher) {
+        foreach ($selectedteacherstoshare2 as $teacher) {
             array_push($teacherscodesarray, $teacher->hujiid);
         }
 
@@ -1676,9 +1676,9 @@ function get_teacher_codes_from_moodle_ids($teachers, $identifybyemail) {
     return $teachersCodesToShare;
 }
 
-function share_teachers($teachers, $teachersToRemove, $identifybyemail, $examidintg) {
+function share_teachers($teachers, $teacherstoremove, $identifybyemail, $examidintg) {
 
-    if (empty($teachers) && empty($teachersToRemove)) {
+    if (empty($teachers) && empty($teacherstoremove)) {
         return false;
     }
 
@@ -1710,8 +1710,8 @@ function share_teachers($teachers, $teachersToRemove, $identifybyemail, $examidi
         }
     }
 
-    if (empty($teachersToRemove) == false) {
-        $teachersCodesToShareDelete = get_teacher_codes_from_moodle_ids($teachersToRemove, $identifybyemail);
+    if (empty($teacherstoremove) == false) {
+        $teachersCodesToShareDelete = get_teacher_codes_from_moodle_ids($teacherstoremove, $identifybyemail);
         if ($teachersCodesToShareDelete == false) {
              return false;
         }
