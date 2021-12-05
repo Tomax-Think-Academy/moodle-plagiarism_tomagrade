@@ -1711,12 +1711,12 @@ function share_teachers($teachers, $teacherstoremove, $identifybyemail, $examidi
     }
 
     if (empty($teacherstoremove) == false) {
-        $teachersCodesToShareDelete = get_teacher_codes_from_moodle_ids($teacherstoremove, $identifybyemail);
-        if ($teachersCodesToShareDelete == false) {
+        $teacherscodestosharedelete = get_teacher_codes_from_moodle_ids($teacherstoremove, $identifybyemail);
+        if ($teacherscodestosharedelete == false) {
              return false;
         }
 
-        foreach ($teachersCodesToShareDelete as $teacher) {
+        foreach ($teacherscodestosharedelete as $teacher) {
             $examinfo = array();
             $examinfo['ExamID'] = $examidintg;
             $examinfo['TeacherID'] = $teacher;
