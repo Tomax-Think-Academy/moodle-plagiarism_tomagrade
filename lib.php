@@ -2082,8 +2082,7 @@ class tomagrade_connection
         return $responsepost;
     }
 
-    public function get_teacher_code_from_email($email)
-    {
+    public function get_teacher_code_from_email($email) {
         global $CFG;
         $config = $this->config;
         $response = $this->get_request("GetTeacherIdMoodle", "/Email/$email");
