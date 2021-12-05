@@ -2214,7 +2214,8 @@ class tomagrade_connection
                 $response = json_decode($responsedecoded);
                 if ($response->answer == "File transfer completed Success") {
                     // Post upload file.
-                    $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/Server/php/WS.php/PostUploadFile/TOKEN/" . $config->tomagrade_username . "/" . $namefile;
+                    $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/Server/php/WS.php/PostUploadFile/TOKEN/"
+                     . $config->tomagrade_username . "/" . $namefile;
                     $post = [
                         "fileType" => "AssignZip",
                         "fileName" => $namefile,
