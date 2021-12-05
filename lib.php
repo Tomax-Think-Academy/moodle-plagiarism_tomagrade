@@ -1861,7 +1861,7 @@ function new_event_file_uploaded($eventdata) {
         if ($file == false) { // File doesn't exist.
             return;
         }
-        $assignsubmission = $DB->get_record('assignsubmission', array('id' => $file->get_itemid())); // Get sumbmitted ID.
+        $assignsubmission = $DB->get_record('assign_submission', array('id' => $file->get_itemid())); // Get sumbmitted ID.
 
         $mimetype = $file->get_mimetype();
 
