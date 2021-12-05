@@ -1319,7 +1319,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                     }
                 }
 
-                $isChoosenExamInList = false;
+                $ischoosenexaminlist = false;
 
                 if (isset($response['Exams'])) {
 
@@ -1328,7 +1328,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                         if (isset( $data->idmatchontg)) {
                             if ($exam['ExamID'] == $data->idmatchontg ) {
-                                $isChoosenExamInList = true;
+                                $ischoosenexaminlist = true;
                             }
                         }
 
@@ -1383,7 +1383,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                     }
                 }
 
-                if (isset( $data->idmatchontg) && $isChoosenExamInList == false ) {
+                if (isset( $data->idmatchontg) && $ischoosenexaminlist == false ) {
 
                     if ($data->idmatchontg != '0' && $data->idmatchontg != '' && is_null($data->idmatchontg) == false) {
 
