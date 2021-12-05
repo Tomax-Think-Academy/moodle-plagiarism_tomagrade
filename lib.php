@@ -1622,7 +1622,7 @@ function get_teacher_codes_from_moodle_ids($teachers, $identifybyemail) {
     $connection = new tomagrade_connection;
 
     $teachersemailsarray = array();
-    $teachersCodesArray = array();
+    $teacherscodesarray = array();
     $tempTeachersCodeArr = array();
 
     if (empty($teachers)) {
@@ -1636,9 +1636,9 @@ function get_teacher_codes_from_moodle_ids($teachers, $identifybyemail) {
     foreach ($selectedTeachersToShare as $teacher) {
         array_push($teachersemailsarray, $teacher->email);
         if ($config->tomagrade_DefaultIdentifier_TEACHER == 2) {
-            array_push($teachersCodesArray, $teacher->username);
+            array_push($teacherscodesarray, $teacher->username);
         } else {
-            array_push($teachersCodesArray, $teacher->idnumber);
+            array_push($teacherscodesarray, $teacher->idnumber);
         }
         array_push($tempTeachersCodeArr, '"'.$teacher->idnumber.'"');
     }
@@ -1646,10 +1646,10 @@ function get_teacher_codes_from_moodle_ids($teachers, $identifybyemail) {
     if ($config->tomagrade_DefaultIdentifier_TEACHER == 4) {
         $selectedTeachersToShare2 = $DB->get_records_sql(" select tz,hujiid from huji.userdata where tz in (". implode(",", $tempTeachersCodeArr) .")");
 
-        $teachersCodesArray = array();
+        $teacherscodesarray = array();
 
         foreach ($selectedTeachersToShare2 as $teacher) {
-            array_push($teachersCodesArray, $teacher->hujiid);
+            array_push($teacherscodesarray, $teacher->hujiid);
         }
 
     }
@@ -1670,7 +1670,7 @@ function get_teacher_codes_from_moodle_ids($teachers, $identifybyemail) {
         }
 
     } else {
-        $teachersCodesToShare = $teachersCodesArray;
+        $teachersCodesToShare = $teacherscodesarray;
     }
 
     return $teachersCodesToShare;
