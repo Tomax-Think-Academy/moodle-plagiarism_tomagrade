@@ -148,7 +148,8 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
 
         } else if ($config->tomagrade_DefaultIdentifier == self::IDENTIFIER_BY_HUJIID) {
 
-            $hujiiddata = $DB->get_records_sql("SELECT hujiid FROM huji.userdata INNER JOIN {user} u on idnumber=tz WHERE u.id=?", array($userid));
+            $hujiiddata = $DB->get_records_sql("SELECT hujiid FROM huji.userdata
+             INNER JOIN {user} u on idnumber=tz WHERE u.id=?", array($userid));
 
             if (count($hujiiddata) > 0) {
 
