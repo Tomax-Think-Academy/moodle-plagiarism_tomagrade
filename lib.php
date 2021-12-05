@@ -1631,9 +1631,9 @@ function get_teacher_codes_from_moodle_ids($teachers, $identifybyemail) {
 
     $config = get_config('plagiarism_tomagrade');
 
-    $selectedTeachersToShare = $DB->get_records_sql(" select id,email,idnumber,username from {user} where id in ($teachers)");
+    $selectedteacherstoshare = $DB->get_records_sql(" select id,email,idnumber,username from {user} where id in ($teachers)");
 
-    foreach ($selectedTeachersToShare as $teacher) {
+    foreach ($selectedteacherstoshare as $teacher) {
         array_push($teachersemailsarray, $teacher->email);
         if ($config->tomagrade_DefaultIdentifier_TEACHER == 2) {
             array_push($teacherscodesarray, $teacher->username);
