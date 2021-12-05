@@ -992,7 +992,9 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                 $oldconfig = $oldinformation;
                 $config->show_report_to_students = 0;
                 // Nondisclosure document.
-                if (isset($data->nondisclosure_notice) && $data->nondisclosure_notice == 1 && get_config('plagiarism_tomagrade', 'tomagrade_nondisclosure_notice_email')) {
+                if (isset($data->nondisclosure_notice) &&
+                 $data->nondisclosure_notice == 1 &&
+                  get_config('plagiarism_tomagrade', 'tomagrade_nondisclosure_notice_email')) {
                     $config->nondisclosure = 1;
                     $config->username = get_config('plagiarism_tomagrade', 'tomagrade_nondisclosure_notice_email');
                 }
