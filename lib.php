@@ -808,7 +808,9 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     $log = get_string('tomagrade_id_email_incorrect', 'plagiarism_tomagrade');
                     echo "<script>alert('$log');</script>";
                     \core\notification::error($log);
-                } else if (strpos($result["Message"], "NoTeacher") !== false || (strpos($result["Message"], "#New Exam: 0") !== false && strpos($result["Message"], "#Updated Exam: 0") !== false)) {
+                } else if (strpos($result["Message"], "NoTeacher") !== false ||
+                 (strpos($result["Message"], "#New Exam: 0") !== false &&
+                  strpos($result["Message"], "#Updated Exam: 0") !== false)) {
 
                     $log = get_string('tomagrade_id_email_incorrect', 'plagiarism_tomagrade');
                     if (isset($result["Message"])) {
