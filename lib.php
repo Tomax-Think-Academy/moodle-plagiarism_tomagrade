@@ -658,10 +658,13 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 
                         if ($config->tomagrade_DefaultIdentifier_TEACHER != 4) {
                             $teachersarr = $DB->get_records_sql("
-                            SELECT email,idnumber,firstname,lastname,lang,username from {user} where id in (". implode(",", $checkidsexists) .") ");
+                            SELECT email,idnumber,firstname,lastname,lang,username
+                             from {user} where id in (". implode(",", $checkidsexists) .") ");
                         } else {
                             $teachersarr = $DB->get_records_sql("
-                            SELECT email,firstname,lastname,lang,username,hujiid as idnumber from {user} u inner join huji.userdata h on u.idnumber=h.tz where u.id in (". implode(",", $checkidsexists) .") ");
+                            SELECT email,firstname,lastname,lang,username,hujiid as idnumber
+                             from {user} u inner join huji.userdata h on u.idnumber=h.tz
+                              where u.id in (". implode(",", $checkidsexists) .") ");
                         }
 
                         foreach ($teachersarr as $row) {
