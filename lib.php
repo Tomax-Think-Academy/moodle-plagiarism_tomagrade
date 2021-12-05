@@ -721,7 +721,9 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                                                 $user['TeacherCode'] = $emailtoidnumber[$potentialusertoadd];
 
                                                 if (empty($user['TeacherCode']) || empty($user['FirstName']) == true || empty($user['LastName']) == true) {
-                                                    \core\notification::error( get_string('error_during_creating_new_user_in_tomagrade_missing_params', 'plagiarism_tomagrade') . " " . $emailtodetails[$potentialusertoadd]['username']);
+                                                    \core\notification::error(
+                                                        get_string('error_during_creating_new_user_in_tomagrade_missing_params', 'plagiarism_tomagrade')
+                                                         . " " . $emailtodetails[$potentialusertoadd]['username']);
                                                     continue;
                                                 }
 
