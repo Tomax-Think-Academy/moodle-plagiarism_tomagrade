@@ -2169,20 +2169,20 @@ class tomagrade_connection
                     }
                 }
 
-                $OriginalName = $studentthodatzaot;
+                $originalname = $studentthodatzaot;
             } else {
                 if ($groupid != null) {
-                    $OriginalName = $this->format_group_name($groupid);
+                    $originalname = $this->format_group_name($groupid);
                 } else {
                     $userIdentefier = plagiarism_plugin_tomagrade::get_user_identifier($useridtable);
 
-                    $OriginalName = $userIdentefier;
+                    $originalname = $userIdentefier;
                 }
 
             }
 
             if (empty($extensionname) == false) {
-                $OriginalName = $OriginalName. "." . $extensionname;
+                $originalname = $originalname. "." . $extensionname;
             }
 
             $namefile = uniqid() . "-" . round(microtime(true)) . ".$extensionname"; // Add the identifier.
@@ -2225,7 +2225,7 @@ class tomagrade_connection
                         "source" => "moodle_assign",
                         "doNotSendEmail" => $dontsendmail,
                         "Files" => [array(
-                            "OriginalName" => $OriginalName,
+                            "OriginalName" => $originalname,
                             "EncryptedName" => $namefile
                         )]
                     ];
@@ -2251,7 +2251,7 @@ class tomagrade_connection
                             "MoodleMode" => $idMatchStr,
                             "MoodleStudentID" => $studentthodatzaot,
                             "Files" => [array(
-                                "OriginalName" => $OriginalName,
+                                "OriginalName" => $originalname,
                                 "EncryptedName" => $namefile
                             )]
                         ];
