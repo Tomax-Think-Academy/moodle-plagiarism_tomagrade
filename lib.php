@@ -1465,7 +1465,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                     }
                 }
 
-                $mform->addElement('select', 'tomagrade_idmatchontg', get_string('ID_Match_On_Tomagrade', 'plagiarism_tomagrade'), $courses);
+                $mform->addElement('select', 'tomagrade_idmatchontg',
+                 get_string('ID_Match_On_Tomagrade', 'plagiarism_tomagrade'), $courses);
 
                 $buildjsteachersmap = "var teachersmap = {}; ";
                 foreach ($examsbyteachersmap as $teacher => $value) {
