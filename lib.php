@@ -589,7 +589,8 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 
             } else if ($config->tomagrade_DefaultIdentifier_TEACHER == plagiarism_plugin_tomagrade::IDENTIFIER_BY_USERNAME) {
 
-                $ownerrow = $DB->get_record_sql(" select username from {user} where lower(email) = ? ", array(strtolower($data->tomagrade_username)));
+                $ownerrow = $DB->get_record_sql(" select username from {user} where lower(email) = ? ",
+                 array(strtolower($data->tomagrade_username)));
                 $id = $ownerrow->username;
 
             } else if ($config->tomagrade_DefaultIdentifier_TEACHER == plagiarism_plugin_tomagrade::IDENTIFIER_BY_HUJIID) {
