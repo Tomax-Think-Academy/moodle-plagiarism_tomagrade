@@ -1871,14 +1871,14 @@ function new_event_file_uploaded($eventdata) {
             // Check completed.
             return $result;
         } else {
-            $checkIfTomaGradeActive = $DB->get_record_sql('SELECT upload FROM {plagiarism_tomagrade_config} WHERE cm = ?', array($matalaid));
+            $checkiftomagradeactive = $DB->get_record_sql('SELECT upload FROM {plagiarism_tomagrade_config} WHERE cm = ?', array($matalaid));
 
             $printErrMsg = true;
-            if (isset($checkIfTomaGradeActive) == false || $checkIfTomaGradeActive == false) {
+            if (isset($checkiftomagradeactive) == false || $checkiftomagradeactive == false) {
                 $printErrMsg = false;
             }
-            if (isset($checkIfTomaGradeActive) && isset($checkIfTomaGradeActive->upload)) {
-                if ($checkIfTomaGradeActive->upload == "0") {
+            if (isset($checkiftomagradeactive) && isset($checkiftomagradeactive->upload)) {
+                if ($checkiftomagradeactive->upload == "0") {
                     $printErrMsg = false;
                 }
             }
