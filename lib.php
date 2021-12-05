@@ -336,7 +336,10 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
         }
 
         global $DB, $USER, $CFG;
-        if (check_enabled() && !isset($linkarray["forum"]) && isset($linkarray['file']) && isset($linkarray['cmid']) && isset($linkarray['userid'])) {
+        if (check_enabled() &&
+         !isset($linkarray["forum"]) &&
+          isset($linkarray['file']) &&
+           isset($linkarray['cmid']) && isset($linkarray['userid'])) {
 
             $cmid = $linkarray['cmid'];
             $userid = $linkarray['userid']; // Who uploaded -- could be admin.
@@ -571,8 +574,8 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
             } else {
                 $examidintg = $oldinformation->examid;
             }
-
-            if ($config->tomagrade_DefaultIdentifier_TEACHER == plagiarism_plugin_tomagrade::IDENTIFIER_BY_EMAIL) { // To get teacherID.
+            // To get teacherID.
+            if ($config->tomagrade_DefaultIdentifier_TEACHER == plagiarism_plugin_tomagrade::IDENTIFIER_BY_EMAIL) {
 
                 $id = $connection->get_teacher_code_from_email($data->tomagrade_username);
 
