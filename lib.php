@@ -1096,7 +1096,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 $loggeduseridnumber = plagiarism_plugin_tomagrade::complete_zeroes($USER->idnumber, $teacherszero);
             }
 
-            if (isset($config->tomagrade_userRolesToDisplayRelatedAssign) == true && $config->tomagrade_userRolesToDisplayRelatedAssign != "") {
+            if (isset($config->tomagrade_userRolesToDisplayRelatedAssign) == true &&
+             $config->tomagrade_userRolesToDisplayRelatedAssign != "") {
                 $teachersarr = $DB->get_records_sql("
                 SELECT DISTINCT   u.id, u.username, u.firstname, u.lastname, lower(u.email) as email, u.idnumber
                 FROM {role_assignments} ra, {user} u, {course} c, {context} cxt
