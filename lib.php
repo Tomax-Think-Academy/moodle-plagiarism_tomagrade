@@ -2262,7 +2262,9 @@ class tomagrade_connection
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
                     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("x-apikey: $config->tomagrade_password", "x-userid: $config->tomagrade_username"));
+                    curl_setopt($ch, CURLOPT_HTTPHEADER,
+                     array("x-apikey: $config->tomagrade_password",
+                      "x-userid: $config->tomagrade_username"));
 
                     $responsedecoded = curl_exec($ch);
                     curl_close($ch);
