@@ -2203,7 +2203,9 @@ class tomagrade_connection
                 $ch = curl_init($url);
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: multipart/form-data', "x-apikey: $config->tomagrade_password", "x-userid: $config->tomagrade_username"));
+                curl_setopt($ch, CURLOPT_HTTPHEADER,
+                 array('Content-Type: multipart/form-data',
+                  "x-apikey: $config->tomagrade_password", "x-userid: $config->tomagrade_username"));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
