@@ -1454,14 +1454,14 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                 }
 
-                $defaultOptionExam = "''";
+                $defaultoptionexam = "''";
                 if (isset( $data->idmatchontg)) {
-                    $defaultOptionExam = "'".$data->idmatchontg."'";
+                    $defaultoptionexam = "'".$data->idmatchontg."'";
                 }
 
                 echo ("<script>
                 var teachersHashMap = {};
-                var defaultOptionExam = $defaultOptionExam;
+                var defaultoptionexam = $defaultoptionexam;
 
                     var x = 0;
                 var interval = setInterval( function() {
@@ -1481,8 +1481,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                     cleanSelectOptions();
                     setSelectByTeacher(currentTeacherEmail);
 
-                    if (defaultOptionExam != '') {
-                        setDefaultOptionToSelect(defaultOptionExam);
+                    if (defaultoptionexam != '') {
+                        setDefaultOptionToSelect(defaultoptionexam);
                     }
 
                     console.log('hello');
