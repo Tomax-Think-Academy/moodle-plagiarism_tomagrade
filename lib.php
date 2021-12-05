@@ -614,7 +614,9 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
             }
 
             if (isset($config->tomagrade_AllowOnlyIdMatchOnTG) && isset($data->tomagrade_upload)) {
-                if ($config->tomagrade_AllowOnlyIdMatchOnTG == "1" && $data->tomagrade_idmatchontg == "0" && $data->tomagrade_upload != "0") {
+                if ($config->tomagrade_AllowOnlyIdMatchOnTG == "1" &&
+                 $data->tomagrade_idmatchontg == "0" &&
+                  $data->tomagrade_upload != "0") {
 
                     $data->tomagrade_upload = "0";
 
@@ -738,7 +740,9 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                                                 $user['RoleID'] = 0;
                                                 $user['TeacherCode'] = $emailtoidnumber[$potentialusertoadd];
 
-                                                if (empty($user['TeacherCode']) || empty($user['FirstName']) == true || empty($user['LastName']) == true) {
+                                                if (empty($user['TeacherCode']) ||
+                                                 empty($user['FirstName']) == true ||
+                                                  empty($user['LastName']) == true) {
                                                     \core\notification::error(
                                                         get_string('error_during_creating_new_user_in_tomagrade_missing_params', 'plagiarism_tomagrade')
                                                          . " " . $emailtodetails[$potentialusertoadd]['username']);
