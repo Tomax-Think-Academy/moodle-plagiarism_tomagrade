@@ -1873,17 +1873,17 @@ function new_event_file_uploaded($eventdata) {
         } else {
             $checkiftomagradeactive = $DB->get_record_sql('SELECT upload FROM {plagiarism_tomagrade_config} WHERE cm = ?', array($matalaid));
 
-            $printErrMsg = true;
+            $printerrmsg = true;
             if (isset($checkiftomagradeactive) == false || $checkiftomagradeactive == false) {
-                $printErrMsg = false;
+                $printerrmsg = false;
             }
             if (isset($checkiftomagradeactive) && isset($checkiftomagradeactive->upload)) {
                 if ($checkiftomagradeactive->upload == "0") {
-                    $printErrMsg = false;
+                    $printerrmsg = false;
                 }
             }
 
-            if ($printErrMsg) {
+            if ($printerrmsg) {
                 \core\notification::error("The file you have submitted has been uploaded but cannot be checked by the teacher.The files that will be able to be checked with the teacher are: doc, docx, pdf, ttp, ttpx, xls, xlsx, rtf, ppt, jpeg, jpg, png.");
             }
         }
