@@ -1443,14 +1443,14 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                 $mform->addElement('select', 'tomagrade_idmatchontg', get_string('ID_Match_On_Tomagrade', 'plagiarism_tomagrade'), $courses);
 
-                $buildJSTeachersMap = "var teachersmap = {}; ";
+                $buildjsteachersmap = "var teachersmap = {}; ";
                 foreach ($examsbyteachersmap as $teacher => $value) {
-                    $buildJSTeachersMap = $buildJSTeachersMap . " var examArr = {}; ";
+                    $buildjsteachersmap = $buildjsteachersmap . " var examArr = {}; ";
                     foreach ($value as $exam => $examString) {
                         $examString = str_replace("'", "", $examString);
-                        $buildJSTeachersMap = $buildJSTeachersMap . "examArr['$exam'] = '$examString';";
+                        $buildjsteachersmap = $buildjsteachersmap . "examArr['$exam'] = '$examString';";
                     }
-                    $buildJSTeachersMap = $buildJSTeachersMap . " teachersmap['$teacher'] = examArr;";
+                    $buildjsteachersmap = $buildjsteachersmap . " teachersmap['$teacher'] = examArr;";
 
                 }
 
@@ -1519,7 +1519,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 }
 
                 function initTeachersHashMap() {
-                    $buildJSTeachersMap
+                    $buildjsteachersmap
                     teachersHashMap = teachersmap;
                 }
 
