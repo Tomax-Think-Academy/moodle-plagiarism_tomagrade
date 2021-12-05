@@ -1313,7 +1313,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                     $postdata['dueDateStr'] = $timestring;
                 }
 
-                if (isset($config->tomagrade_DaysDisplayBeforeExamDate) && is_numeric($config->tomagrade_DaysDisplayBeforeExamDate)) {
+                if (isset($config->tomagrade_DaysDisplayBeforeExamDate) &&
+                 is_numeric($config->tomagrade_DaysDisplayBeforeExamDate)) {
                     $postdata['daysDisplayBeforeExamDate'] = intval($config->tomagrade_DaysDisplayBeforeExamDate);
                 }
                 if (isset($config->tomagrade_DaysDisplayAfterExamDate) && is_numeric($config->tomagrade_DaysDisplayAfterExamDate)) {
