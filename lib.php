@@ -798,7 +798,8 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                         if ($numofuserstoadd > 0) {
                             $result = $connection->post_request("SaveUsers", json_encode($postdata));
                             if ($result['NumInsertNewUser'] != $numofuserstoadd) {
-                                 \core\notification::error( get_string('error_during_creating_new_user_in_tomagrade', 'plagiarism_tomagrade'));
+                                 \core\notification::error( get_string('error_during_creating_new_user_in_tomagrade',
+                                  'plagiarism_tomagrade'));
                             }
 
                         }
