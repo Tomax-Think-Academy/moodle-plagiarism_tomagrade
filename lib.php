@@ -1989,7 +1989,7 @@ class tomagrade_connection
     protected $username = -1;
     protected $nondisclosure = false;
 
-    function __construct() {
+    public function __construct() {
         $this->config = get_config('plagiarism_tomagrade');
     }
 
