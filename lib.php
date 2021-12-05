@@ -1847,7 +1847,8 @@ function new_event_file_uploaded($eventdata) {
             }
         }
 
-        if (plagiarism_plugin_tomagrade::check_if_good_file($ext) != false || plagiarism_plugin_tomagrade::check_if_good_file(pathinfo($file->get_filename(), PATHINFO_EXTENSION)) != false) {
+        if (plagiarism_plugin_tomagrade::check_if_good_file($ext) != false ||
+         plagiarism_plugin_tomagrade::check_if_good_file(pathinfo($file->get_filename(), PATHINFO_EXTENSION)) != false) {
             $data = new stdClass();
             $data->cmid = $eventdata["contextinstanceid"];
             $data->filehash = $file->get_pathnamehash();
