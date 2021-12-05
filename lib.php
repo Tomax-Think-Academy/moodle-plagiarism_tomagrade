@@ -1563,7 +1563,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
             if (isset($data)) {
                 if (isset($data->examid)) {
-                    $mform->addElement('text', 'tomagrade_currentExamID', get_string('tomagrade_currentExamIDonTomaGrade', 'plagiarism_tomagrade'), array('disabled' => 'disabled'));
+                    $mform->addElement('text', 'tomagrade_currentExamID',
+                     get_string('tomagrade_currentExamIDonTomaGrade', 'plagiarism_tomagrade'), array('disabled' => 'disabled'));
                     $mform->setType('tomagrade_currentExamID', PARAM_TEXT);
                     $mform->setDefault('tomagrade_currentExamID', $data->examid);
                 }
