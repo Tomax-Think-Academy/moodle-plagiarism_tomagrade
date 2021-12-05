@@ -1415,7 +1415,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                         $responsedecoded = json_decode($response);
 
-                        if (isset($responsedecoded->Response) == true && isset($responsedecoded->GetExamDetail->Exam_Name) == true) {
+                        if (isset($responsedecoded->Response) == true &&
+                         isset($responsedecoded->GetExamDetail->Exam_Name) == true) {
                             $exam = $responsedecoded->GetExamDetail;
 
                             $stringforexam = $data->idmatchontg;
