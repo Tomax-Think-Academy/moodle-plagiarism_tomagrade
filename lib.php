@@ -1266,7 +1266,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
             }
 
-            if (isset($config->tomagrade_IDMatchOnTomagrade) && $config->tomagrade_IDMatchOnTomagrade != plagiarism_plugin_tomagrade::INACTIVE) {
+            if (isset($config->tomagrade_IDMatchOnTomagrade) &&
+             $config->tomagrade_IDMatchOnTomagrade != plagiarism_plugin_tomagrade::INACTIVE) {
 
                 // Courses list.
                 $paramstosend = "/".$teachercode2->data;
