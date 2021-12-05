@@ -2322,12 +2322,12 @@ class tomagrade_connection
         $response = $this->get_request("MoodleGetExamDetails", "/$examidintg");
         $response = json_decode($response);
 
-        $cmidExam = str_replace("Assign", "", $examidintg);
-        if (strpos($cmidExam, '-') !== false) {
-            $cmidExam = substr($cmidExam, 0, strpos($cmidExam, "-"));
+        $cmidexam = str_replace("Assign", "", $examidintg);
+        if (strpos($cmidexam, '-') !== false) {
+            $cmidexam = substr($cmidexam, 0, strpos($cmidexam, "-"));
         }
 
-        $matalainfo = tomagrade_get_instance_config($cmidExam);
+        $matalainfo = tomagrade_get_instance_config($cmidexam);
         $grader = 2; // Usually it's the admin.
         if (is_numeric($matalainfo->username)) {
             $grader = intval($matalainfo->username);
@@ -2343,9 +2343,9 @@ class tomagrade_connection
                     if ($current != false && $value->ParExamStatus == 2) {
                         foreach ($current as $userID) {
                             if (isset($value->ParGrade)) {
-                                set_grade($cmidExam, $userID, $value->ParGrade, $grader);
+                                set_grade($cmidexam, $userID, $value->ParGrade, $grader);
                             } else {
-                                set_grade($cmidExam, $userID, $value->ParGradeNoFactor, $grader);
+                                set_grade($cmidexam, $userID, $value->ParGradeNoFactor, $grader);
                             }
                         }
                     }
@@ -2353,7 +2353,7 @@ class tomagrade_connection
             }
             if ($response->GetExamDetail->ExamStatus == "3") {
                 $newdb = new stdClass();
-                $DB->execute('UPDATE {plagiarism_tomagrade_config} SET complete = 2 WHERE cm = ?', array($cmidExam));
+                $DB->execute('UPDATE {plagiarism_tomagrade_config} SET complete = 2 WHERE cm = ?', array($cmidexam));
             }
         } else {
             // Check if deleted, if so remove.
