@@ -2341,11 +2341,11 @@ class tomagrade_connection
                         $current = plagiarism_plugin_tomagrade::get_user_id_by_group_identifier($value->OriginalFileName);
                     }
                     if ($current != false && $value->ParExamStatus == 2) {
-                        foreach ($current as $userID) {
+                        foreach ($current as $currentuserid) {
                             if (isset($value->ParGrade)) {
-                                set_grade($cmidexam, $userID, $value->ParGrade, $grader);
+                                set_grade($cmidexam, $currentuserid, $value->ParGrade, $grader);
                             } else {
-                                set_grade($cmidexam, $userID, $value->ParGradeNoFactor, $grader);
+                                set_grade($cmidexam, $currentuserid, $value->ParGradeNoFactor, $grader);
                             }
                         }
                     }
