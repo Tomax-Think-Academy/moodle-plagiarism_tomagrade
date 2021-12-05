@@ -1304,18 +1304,18 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                 $existingexams = $DB->get_records_sql("
                 select distinct idmatchontg from {plagiarism_tomagrade_config} where idmatchontg != '0' ");
-                $existingExamsMap = array();
+                $existingexamsmap = array();
 
                 foreach ($existingexams as $exam) {
 
-                    $existingExamsMap[$exam->idmatchontg] = true;
+                    $existingexamsmap[$exam->idmatchontg] = true;
                 }
 
                 $cmid = optional_param('update', 0, PARAM_INT);
 
                 if (isset($cmid)) {
                     if (isset($data->idmatchontg)) {
-                        unset($existingExamsMap[$data->idmatchontg]);
+                        unset($existingexamsmap[$data->idmatchontg]);
                     }
                 }
 
@@ -1334,7 +1334,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                         $exam['Email'] = strtolower($exam['Email']);
 
-                        if (isset($existingExamsMap[$stringForExam]) == false) {
+                        if (isset($existingexamsmap[$stringForExam]) == false) {
                             if (isset($exam['CourseID'])) {
                                 $stringForExam = $stringForExam . " , ";
                                 $stringForExam = $stringForExam . $exam['CourseID'];
