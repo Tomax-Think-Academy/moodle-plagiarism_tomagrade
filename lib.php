@@ -1835,7 +1835,7 @@ function new_event_file_uploaded($eventdata) {
         if ($file == false) { // File doesn't exist.
             return;
         }
-        $assign_submission = $DB->get_record('assign_submission', array('id' => $file->get_itemid())); // Get sumbmitted ID.
+        $assignsubmission = $DB->get_record('assignsubmission', array('id' => $file->get_itemid())); // Get sumbmitted ID.
 
         $mimetype = $file->get_mimetype();
 
@@ -1853,13 +1853,13 @@ function new_event_file_uploaded($eventdata) {
             $data->filehash = $file->get_pathnamehash();
             $data->status = 0;
             $data->updatestatus = 1;
-            if ($assign_submission->groupid != 0) {
-                $group = $DB->get_record('groups', array('id' => $assign_submission->groupid));
-                $data->groupid = $assign_submission->groupid;
-                $current = $DB->get_record('plagiarism_tomagrade', array('cmid' => $eventdata["contextinstanceid"], 'groupid' => $assign_submission->groupid));
+            if ($assignsubmission->groupid != 0) {
+                $group = $DB->get_record('groups', array('id' => $assignsubmission->groupid));
+                $data->groupid = $assignsubmission->groupid;
+                $current = $DB->get_record('plagiarism_tomagrade', array('cmid' => $eventdata["contextinstanceid"], 'groupid' => $assignsubmission->groupid));
             } else {
-                $data->userid = (isset($assign_submission->userid) && $assign_submission->userid != 0) ? $assign_submission->userid : $eventdata["userid"];
-                $current = $DB->get_record('plagiarism_tomagrade', array('cmid' => $eventdata["contextinstanceid"], 'userid' => $assign_submission->userid));
+                $data->userid = (isset($assignsubmission->userid) && $assignsubmission->userid != 0) ? $assignsubmission->userid : $eventdata["userid"];
+                $current = $DB->get_record('plagiarism_tomagrade', array('cmid' => $eventdata["contextinstanceid"], 'userid' => $assignsubmission->userid));
             }
             if ($current) {
                 $data->id = $current->id;
