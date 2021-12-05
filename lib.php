@@ -1324,7 +1324,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 if (isset($response['Exams'])) {
 
                     foreach ($response['Exams'] as $exam) {
-                        $stringForExam = $exam['ExamID'];
+                        $stringforexam = $exam['ExamID'];
 
                         if (isset( $data->idmatchontg)) {
                             if ($exam['ExamID'] == $data->idmatchontg ) {
@@ -1334,37 +1334,37 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                         $exam['Email'] = strtolower($exam['Email']);
 
-                        if (isset($existingexamsmap[$stringForExam]) == false) {
+                        if (isset($existingexamsmap[$stringforexam]) == false) {
                             if (isset($exam['CourseID'])) {
-                                $stringForExam = $stringForExam . " , ";
-                                $stringForExam = $stringForExam . $exam['CourseID'];
+                                $stringforexam = $stringforexam . " , ";
+                                $stringforexam = $stringforexam . $exam['CourseID'];
                             }
                             if (isset($exam['ExamName'])) {
-                                $stringForExam = $stringForExam . " , ";
-                                $stringForExam = $stringForExam . $exam['ExamName'];
+                                $stringforexam = $stringforexam . " , ";
+                                $stringforexam = $stringforexam . $exam['ExamName'];
                             }
                             if (isset($exam['ExamDate'])) {
-                                $stringForExam = $stringForExam . " , ";
+                                $stringforexam = $stringforexam . " , ";
                                 try {
                                     $date = date_create($exam['ExamDate']);
-                                    $stringForExam = $stringForExam . date_format($date, " d/m/Y ");
+                                    $stringforexam = $stringforexam . date_format($date, " d/m/Y ");
                                 } catch (Exception $e) {
-                                    $stringForExam = $stringForExam . $exam['ExamDate'];
+                                    $stringforexam = $stringforexam . $exam['ExamDate'];
                                 }
                             }
                             if (isset($exam['Year'])) {
-                                $stringForExam = $stringForExam . " , ";
-                                $stringForExam = $stringForExam . $exam['Year'];
+                                $stringforexam = $stringforexam . " , ";
+                                $stringforexam = $stringforexam . $exam['Year'];
                             }
                             if (isset($exam['SimesterID'])) {
-                                $stringForExam = $stringForExam . " , ". get_string('simester', 'plagiarism_tomagrade') .": ";
-                                $stringForExam = $stringForExam . $exam['SimesterID'];
+                                $stringforexam = $stringforexam . " , ". get_string('simester', 'plagiarism_tomagrade') .": ";
+                                $stringforexam = $stringforexam . $exam['SimesterID'];
                             }
                             if (isset($exam['MoadID'])) {
-                                $stringForExam = $stringForExam . " , " . get_string('moed', 'plagiarism_tomagrade') .": ";
-                                $stringForExam = $stringForExam . $exam['MoadID'];
+                                $stringforexam = $stringforexam . " , " . get_string('moed', 'plagiarism_tomagrade') .": ";
+                                $stringforexam = $stringforexam . $exam['MoadID'];
                             }
-                            $courses[$exam['ExamID']] = $stringForExam;
+                            $courses[$exam['ExamID']] = $stringforexam;
 
                             $teacherEmailInMoodle = "";
                             if (isset($exam['Email']) && $identifybyemail == true) {
@@ -1377,7 +1377,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                                 if (isset($examsbyteachersmap[$teacherEmailInMoodle]) == false) {
                                     $examsbyteachersmap[$teacherEmailInMoodle] = array();
                                 }
-                                $examsbyteachersmap[$teacherEmailInMoodle][$exam['ExamID']] = $stringForExam;
+                                $examsbyteachersmap[$teacherEmailInMoodle][$exam['ExamID']] = $stringforexam;
                             }
                         }
                     }
@@ -1394,39 +1394,39 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                         if (isset($responsedecoded->Response) == true && isset($responsedecoded->GetExamDetail->Exam_Name) == true) {
                             $exam = $responsedecoded->GetExamDetail;
 
-                            $stringForExam = $data->idmatchontg;
+                            $stringforexam = $data->idmatchontg;
 
                             if (isset($exam->Courses)) {
-                                $stringForExam = $stringForExam . " , ";
-                                $stringForExam = $stringForExam . $exam->Courses;
+                                $stringforexam = $stringforexam . " , ";
+                                $stringforexam = $stringforexam . $exam->Courses;
                             }
                             if (isset($exam->Exam_Name)) {
-                                $stringForExam = $stringForExam . " , ";
-                                $stringForExam = $stringForExam . $exam->Exam_Name;
+                                $stringforexam = $stringforexam . " , ";
+                                $stringforexam = $stringforexam . $exam->Exam_Name;
                             }
                             if (isset($exam->Exam_Date)) {
-                                $stringForExam = $stringForExam . " ,";
+                                $stringforexam = $stringforexam . " ,";
                                 try {
                                     $date = explode(" ", $exam->Exam_Date);
-                                    $stringForExam = $stringForExam . $date[0];
+                                    $stringforexam = $stringforexam . $date[0];
                                 } catch (Exception $e) {
-                                    $stringForExam = $stringForExam . $exam->Exam_Date;
+                                    $stringforexam = $stringforexam . $exam->Exam_Date;
                                 }
                             }
                             if (isset($exam->Year)) {
-                                $stringForExam = $stringForExam . " , ";
-                                $stringForExam = $stringForExam . $exam->Year;
+                                $stringforexam = $stringforexam . " , ";
+                                $stringforexam = $stringforexam . $exam->Year;
                             }
                             if (isset($exam->Simester)) {
-                                $stringForExam = $stringForExam . " , " . get_string('simester', 'plagiarism_tomagrade') .": ";
-                                $stringForExam = $stringForExam . $exam->Simester;
+                                $stringforexam = $stringforexam . " , " . get_string('simester', 'plagiarism_tomagrade') .": ";
+                                $stringforexam = $stringforexam . $exam->Simester;
                             }
                             if (isset($exam->Moed)) {
-                                $stringForExam = $stringForExam . " , " . get_string('moed', 'plagiarism_tomagrade') .": ";
-                                $stringForExam = $stringForExam . $exam->Moed;
+                                $stringforexam = $stringforexam . " , " . get_string('moed', 'plagiarism_tomagrade') .": ";
+                                $stringforexam = $stringforexam . $exam->Moed;
                             }
 
-                            $courses[$data->idmatchontg] = $stringForExam;
+                            $courses[$data->idmatchontg] = $stringforexam;
 
                             if (isset($data->username)) {
                                 $teacherEmailInMoodle = $data->username;
@@ -1434,7 +1434,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                                 if (isset($examsbyteachersmap[$teacherEmailInMoodle]) == false) {
                                         $examsbyteachersmap[$teacherEmailInMoodle] = array();
                                 }
-                                $examsbyteachersmap[$teacherEmailInMoodle][$data->idmatchontg] = $stringForExam;
+                                $examsbyteachersmap[$teacherEmailInMoodle][$data->idmatchontg] = $stringforexam;
                             }
 
                         }
