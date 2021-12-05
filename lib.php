@@ -249,7 +249,8 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
 
         if ($identifiertable == "orbitid") {
 
-            $orbitiddata = $DB->get_records_sql("select m.id from {import_interface_user} o JOIN {user} m ON o.username=m.username where o.orbitid = ?", array($identifier));
+            $orbitiddata = $DB->get_records_sql("select m.id from {import_interface_user} o
+            JOIN {user} m ON o.username=m.username where o.orbitid = ?", array($identifier));
 
             if (count($orbitiddata) > 0) {
                 $userid = reset($orbitiddata)->id;
