@@ -1827,7 +1827,7 @@ function new_event_file_uploaded($eventdata) {
     if (check_enabled()) {
         $eventdata = $eventdata->get_data();
 
-        $matalaID = $eventdata['contextinstanceid'];
+        $matalaid = $eventdata['contextinstanceid'];
 
         $filePathNameHash = array_pop($eventdata['other']['pathnamehashes']);
         $fs = get_file_storage();
@@ -1871,7 +1871,7 @@ function new_event_file_uploaded($eventdata) {
             // Check completed.
             return $result;
         } else {
-            $checkIfTomaGradeActive = $DB->get_record_sql('SELECT upload FROM {plagiarism_tomagrade_config} WHERE cm = ?', array($matalaID));
+            $checkIfTomaGradeActive = $DB->get_record_sql('SELECT upload FROM {plagiarism_tomagrade_config} WHERE cm = ?', array($matalaid));
 
             $printErrMsg = true;
             if (isset($checkIfTomaGradeActive) == false || $checkIfTomaGradeActive == false) {
