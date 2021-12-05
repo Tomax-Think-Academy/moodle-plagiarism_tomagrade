@@ -1256,10 +1256,10 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                                 if (is_array($duedatestring)) {
                                     $duedate = reset($duedatestring);
                                     if (isset($duedate->duedate)) {
-                                        $timeString = $duedate->duedate;
+                                        $timestring = $duedate->duedate;
 
                                         // ParamsToSend parm is not in use anymore, just for testing old versions.
-                                        $paramstosend = $paramstosend . "/" . $config->tomagrade_MatchingDue . "/" . $timeString;
+                                        $paramstosend = $paramstosend . "/" . $config->tomagrade_MatchingDue . "/" . $timestring;
                                     }
 
                                 }
@@ -1285,8 +1285,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 if (isset($config->tomagrade_MatchingDue) && $config->tomagrade_MatchingDue > 0) {
                     $postdata['days'] = $config->tomagrade_MatchingDue;
                 }
-                if (isset($timeString)) {
-                    $postdata['dueDateStr'] = $timeString;
+                if (isset($timestring)) {
+                    $postdata['dueDateStr'] = $timestring;
                 }
 
                 if (isset($config->tomagrade_DaysDisplayBeforeExamDate) && is_numeric($config->tomagrade_DaysDisplayBeforeExamDate)) {
