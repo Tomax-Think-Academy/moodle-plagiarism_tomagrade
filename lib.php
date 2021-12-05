@@ -2042,7 +2042,7 @@ class tomagrade_connection
 
 
 
-    function get_request($method, $getdata) {
+    public function get_request($method, $getdata) {
         global $CFG;
         $params = null;
         $config = $this->config;
