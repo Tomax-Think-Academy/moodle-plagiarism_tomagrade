@@ -1302,11 +1302,11 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                 $examsbyteachersmap = array();
 
-                $existingExams = $DB->get_records_sql("
+                $existingexams = $DB->get_records_sql("
                 select distinct idmatchontg from {plagiarism_tomagrade_config} where idmatchontg != '0' ");
                 $existingExamsMap = array();
 
-                foreach ($existingExams as $exam) {
+                foreach ($existingexams as $exam) {
 
                     $existingExamsMap[$exam->idmatchontg] = true;
                 }
