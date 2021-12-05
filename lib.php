@@ -983,7 +983,8 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
             $config->idmatchontg = $data->tomagrade_idmatchontg;
             $config->examid = $examidintg;
 
-            $ownerrow = $DB->get_record_sql(" select id from {user} where lower(email) = ? ", array(strtolower($data->tomagrade_username)));
+            $ownerrow = $DB->get_record_sql(" select id from {user} where lower(email) = ? ",
+             array(strtolower($data->tomagrade_username)));
             $config->username = $ownerrow->id;
 
             if ($errorinshareteachersync == false) {
