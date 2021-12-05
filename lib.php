@@ -2234,9 +2234,9 @@ class tomagrade_connection
 
                         $idmatch = plagiarism_plugin_tomagrade::get_id_match_on_tg();
 
-                        $idMatchStr = "ExamID";
+                        $idmatchstr = "ExamID";
                         if ($idmatch == 1) {
-                            $idMatchStr = "CourseID";
+                            $idmatchstr = "CourseID";
                         }
 
                         $post = [
@@ -2248,7 +2248,7 @@ class tomagrade_connection
                             "ShouldCheckExamID" => false,
                             "source" => "moodle_exam",
                             "doNotSendEmail" => $dontsendmail,
-                            "MoodleMode" => $idMatchStr,
+                            "MoodleMode" => $idmatchstr,
                             "MoodleStudentID" => $studentthodatzaot,
                             "Files" => [array(
                                 "OriginalName" => $originalname,
