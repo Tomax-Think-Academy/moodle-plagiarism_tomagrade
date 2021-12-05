@@ -1625,7 +1625,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                 if ($data->complete > 0) {
                     $linkcontent = '<span id="changeme"><a id="removeclick" href="'
-                    . $CFG->wwwroot . '/plagiarism/tomagrade/resetexam.php?id=' . $cmid . '" target="_blank" onclick="removebutton()" >'
+                    . $CFG->wwwroot . '/plagiarism/tomagrade/resetexam.php?id='
+                    . $cmid . '" target="_blank" onclick="removebutton()" >'
                     . get_string('Click_here', 'plagiarism_tomagrade') .'</a></span>';
                     $mform->addElement('static', 'mylink', get_string('Reset_the_exam', 'plagiarism_tomagrade'), $linkcontent);
                     echo ("<script> function removebutton() {
