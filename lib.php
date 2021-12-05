@@ -1170,7 +1170,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             }
 
             if ($iscurrentownerexistsinteacherslist == false && $cmid != 0 && isset($data->username)) {
-                $ownerrow = $DB->get_record_sql(" select firstname,lastname,lower(email) as email,idnumber,id from {user} where email = ? ", array($data->username));
+                $ownerrow = $DB->get_record_sql(" select firstname,lastname,lower(email) as email,idnumber,id
+                 from {user} where email = ? ", array($data->username));
                 if (isset($ownerrow->email)) {
                     $teachers[$ownerrow->email] = $ownerrow->firstname . " " . $ownerrow->lastname;
                     if ($teacherszero > 0) {
