@@ -903,7 +903,8 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 
             // Avoid share for related tg user.
             $idrelatedtguser = -1;
-            $idrelatedtguserquery = $DB->get_record_sql(" select id from {user} where email = ? ", array($data->tomagrade_username));
+            $idrelatedtguserquery = $DB->get_record_sql(" select id from {user} where email = ? ",
+             array($data->tomagrade_username));
             if (isset($idrelatedtguserquery->id)) {
                 $idrelatedtguser  = $idrelatedtguserquery->id;
             }
