@@ -1546,14 +1546,14 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             if (count($teachersemailtoidinmoodle) > 0) {
                 $mform->addElement('static', 'tomagradeshareaddioionalteachers', get_string('tomagrade_shareAddioionalTeachersTitle', 'plagiarism_tomagrade'), null);
 
-                foreach ($teachersemailtoidinmoodle as $email => $idInMoodle) {
+                foreach ($teachersemailtoidinmoodle as $email => $idinmoodle) {
                     $label = $teachers[$email];
                     $options = array('class' => 'checkboxgroup1');
                     if (isset($teachersthatexistsintm[$email]) == false && $iscreateusers == false) {
                         $label = $label . " - " .  get_string('user_does_not_exists_in_tomagrade', 'plagiarism_tomagrade');
                         $options = array('class' => 'checkboxgroup1', 'disabled' => 'disabled');
                     }
-                    $mform->addElement('checkbox', "tomagrade_shareTeacher_".$idInMoodle, $label, null, $options);
+                    $mform->addElement('checkbox', "tomagrade_shareTeacher_".$idinmoodle, $label, null, $options);
                 }
             }
 
