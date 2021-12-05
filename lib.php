@@ -1576,9 +1576,9 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 }
 
                 if (isset($data->share_teachers)) {
-                    $share_teachers = explode(",", $data->share_teachers);
+                    $shareteachers = explode(",", $data->share_teachers);
 
-                    foreach ($share_teachers as $id) {
+                    foreach ($shareteachers as $id) {
 
                         $mform->setDefault('tomagrade_shareTeacher_'.$id, true);
                     }
