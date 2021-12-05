@@ -1105,7 +1105,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 AND cxt.contextlevel =50
                 AND cxt.instanceid = c.id
                 AND c.id = :instanceid
-                AND roleid in  ($config->tomagrade_userRolesToDisplayRelatedAssign)  ", array('instanceid' => $context->instanceid));
+                AND roleid in  ($config->tomagrade_userRolesToDisplayRelatedAssign)  ",
+                 array('instanceid' => $context->instanceid));
 
                 $idnumbertohuji = array();
 
