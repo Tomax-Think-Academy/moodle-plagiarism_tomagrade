@@ -2307,7 +2307,7 @@ class tomagrade_connection
 
 
 
-    function get_courses() {
+    public function get_courses() {
         $response = $this->get_request("GetCourses", "");
         $response = json_decode($response, true);
         return $response;
