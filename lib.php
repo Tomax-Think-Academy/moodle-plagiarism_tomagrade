@@ -1884,7 +1884,9 @@ function new_event_file_uploaded($eventdata) {
             }
 
             if ($printerrmsg) {
-                \core\notification::error("The file you have submitted has been uploaded but cannot be checked by the teacher.The files that will be able to be checked with the teacher are: doc, docx, pdf, ttp, ttpx, xls, xlsx, rtf, ppt, jpeg, jpg, png.");
+                \core\notification::error("The file you have submitted has been uploaded
+                 but cannot be checked by the teacher.The files that will be able to be checked with the teacher are:
+                     doc, docx, pdf, ttp, ttpx, xls, xlsx, rtf, ppt, jpeg, jpg, png.");
             }
         }
     }
