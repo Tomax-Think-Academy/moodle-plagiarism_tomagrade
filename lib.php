@@ -2335,7 +2335,10 @@ class tomagrade_connection
 
         if ($response->Response != "Failed") {
             foreach ($response->CourseParticipant as $value) {
-                if ($value->ParGrade != "" || isset($value->ParGrade) || $value->ParGradeNoFactor != "" || isset($value->ParGradeNoFactor)) {
+                if ($value->ParGrade != "" ||
+                 isset($value->ParGrade) ||
+                  $value->ParGradeNoFactor != "" ||
+                   isset($value->ParGradeNoFactor)) {
                     $current = plagiarism_plugin_tomagrade::get_user_id_by_identifier($value->OriginalFileName);
                     if ($current == false) {
                         $current = plagiarism_plugin_tomagrade::get_user_id_by_group_identifier($value->OriginalFileName);
