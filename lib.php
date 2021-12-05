@@ -461,7 +461,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
             thead.insertBefore(th,thead.children[location])
             // th.insertAfter(x)
             let y = document.querySelectorAll("tr");
-            let users = JSON.parse(`' . JSON_ENCODE($userids) . '`)
+            let users = JSON.parse(`' . json_encode($userids) . '`)
             console.log(users)
 
             y.forEach((tr,index) => {
