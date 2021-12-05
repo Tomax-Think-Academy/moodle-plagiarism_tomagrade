@@ -359,7 +359,9 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
                 $ishiddengrades = is_hidden_grades($cmid);
                 if ( $status->finishrender) { // Check if i can show the new file to the students.
                     if (($matalasettings->blindmarking == "0" || $matalasettings->revealidentities == "1") && !$ishiddengrades) {
-                         $result = $result . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/getfile.php' . $urlbuild, "<br>". get_string('Press_here_to_view_the_graded_exam', 'plagiarism_tomagrade'), array("target" => "_blank", "class" => "linkgetfile"));
+                         $result = $result . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/getfile.php' . $urlbuild, "<br>".
+                          get_string('Press_here_to_view_the_graded_exam', 'plagiarism_tomagrade'),
+                           array("target" => "_blank", "class" => "linkgetfile"));
                     }
                 }
                 return $result;
