@@ -380,7 +380,9 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin
                 $urlbuild = "?cmid=$cmid&filehash=$hash";
 
                 if (self::check_if_good_file($ext) == false) {
-                    return "<br> " . get_string('invalid_file_type_for_TomaGrade', 'plagiarism_tomagrade') . "<br> " . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php' . $urlbuild, get_string('Upload_to_TomaGrade_again', 'plagiarism_tomagrade'), array("target" => "_blank"));
+                    return "<br> " . get_string('invalid_file_type_for_TomaGrade', 'plagiarism_tomagrade') . "<br> "
+                    . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php' . $urlbuild,
+                     get_string('Upload_to_TomaGrade_again', 'plagiarism_tomagrade'), array("target" => "_blank"));
                 }
 
                 return "<br> " . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php' . $urlbuild, "Submit to Toma Grade ", array("target" => "_blank"));
