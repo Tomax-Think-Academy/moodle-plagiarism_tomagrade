@@ -1366,18 +1366,18 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                             }
                             $courses[$exam['ExamID']] = $stringforexam;
 
-                            $teacherEmailInMoodle = "";
+                            $teacheremailinmoodle = "";
                             if (isset($exam['Email']) && $identifybyemail == true) {
-                                $teacherEmailInMoodle = $exam['Email'];
+                                $teacheremailinmoodle = $exam['Email'];
                             } else if (isset($exam['TeacherCode']) && $identifybyemail == false) {
-                                $teacherEmailInMoodle = $teachercodetoemail[$exam['TeacherCode']];
+                                $teacheremailinmoodle = $teachercodetoemail[$exam['TeacherCode']];
                             }
 
-                            if ($teacherEmailInMoodle != "") {
-                                if (isset($examsbyteachersmap[$teacherEmailInMoodle]) == false) {
-                                    $examsbyteachersmap[$teacherEmailInMoodle] = array();
+                            if ($teacheremailinmoodle != "") {
+                                if (isset($examsbyteachersmap[$teacheremailinmoodle]) == false) {
+                                    $examsbyteachersmap[$teacheremailinmoodle] = array();
                                 }
-                                $examsbyteachersmap[$teacherEmailInMoodle][$exam['ExamID']] = $stringforexam;
+                                $examsbyteachersmap[$teacheremailinmoodle][$exam['ExamID']] = $stringforexam;
                             }
                         }
                     }
@@ -1429,12 +1429,12 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                             $courses[$data->idmatchontg] = $stringforexam;
 
                             if (isset($data->username)) {
-                                $teacherEmailInMoodle = $data->username;
+                                $teacheremailinmoodle = $data->username;
 
-                                if (isset($examsbyteachersmap[$teacherEmailInMoodle]) == false) {
-                                        $examsbyteachersmap[$teacherEmailInMoodle] = array();
+                                if (isset($examsbyteachersmap[$teacheremailinmoodle]) == false) {
+                                        $examsbyteachersmap[$teacheremailinmoodle] = array();
                                 }
-                                $examsbyteachersmap[$teacherEmailInMoodle][$data->idmatchontg] = $stringforexam;
+                                $examsbyteachersmap[$teacheremailinmoodle][$data->idmatchontg] = $stringforexam;
                             }
 
                         }
