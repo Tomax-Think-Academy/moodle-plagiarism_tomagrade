@@ -1915,7 +1915,8 @@ function set_grade($cmid, $userid, $grade, $grader) {
         $DB->insert_record('assign_grades', $data);
 
     } else {
-        $DB->execute("UPDATE {assign_grades} SET   grade = :grade WHERE assignment = :instance AND userid = :userid", array('grade' => $grade, 'instance' => $instance->instance, 'userid' => $userid));
+        $DB->execute("UPDATE {assign_grades} SET   grade = :grade WHERE assignment = :instance AND userid = :userid",
+         array('grade' => $grade, 'instance' => $instance->instance, 'userid' => $userid));
     }
 
     $matalasettings = $DB->get_record("assign", array("id" => $instance->instance));
