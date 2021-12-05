@@ -1276,7 +1276,9 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                             if ($config->tomagrade_MatchingDue > 0) {
 
                                 $duedatestring = $DB->get_records_sql("
-                                select a.duedate from {course_modules} c inner join {assign} a on c.instance = a.id where c.id = ?", array($cmid));
+                                select a.duedate from {course_modules} c
+                                 inner join {assign} a on c.instance = a.id where c.id = ?",
+                                  array($cmid));
                                 if (is_array($duedatestring)) {
                                     $duedate = reset($duedatestring);
                                     if (isset($duedate->duedate)) {
