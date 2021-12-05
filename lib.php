@@ -2128,7 +2128,9 @@ class tomagrade_connection
         try {
             $isexam = false;
             $matalainfo = tomagrade_get_instance_config($row->cmid);
-            if (isset($matalainfo->idmatchontg) && $matalainfo->idmatchontg != '0' && $matalainfo->idmatchontg != '' && is_null($matalainfo->idmatchontg) == false) {
+            if (isset($matalainfo->idmatchontg) &&
+             $matalainfo->idmatchontg != '0' &&
+              $matalainfo->idmatchontg != '' && is_null($matalainfo->idmatchontg) == false) {
                 $isexam = true;
             }
 
