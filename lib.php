@@ -1999,7 +1999,7 @@ class tomagrade_connection
         return 'success';
     }
 
-    function post_request($method, $postdata, $dontdecode=false, $parameters = "") {
+    public function post_request($method, $postdata, $dontdecode=false, $parameters = "") {
         global $CFG;
         $params = null;
         $config = $this->config;
