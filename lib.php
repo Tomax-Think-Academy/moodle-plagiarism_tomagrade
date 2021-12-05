@@ -2296,7 +2296,7 @@ class tomagrade_connection
         return $log;
     }
 
-    static public function format_group_name($groupid) {
+    public static function format_group_name($groupid) {
         global $DB;
 
         $group = $DB->get_record('groups', array('id' => $groupid));
