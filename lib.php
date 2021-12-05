@@ -535,7 +535,10 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                 $isexam = true;
             }
 
-            if ($oldinformation->new == true || (isset($oldinformation->idmatchontg) && isset($data->tomagrade_idmatchontg) && ($oldinformation->idmatchontg != $data->tomagrade_idmatchontg))) {
+            if ($oldinformation->new == true ||
+             (isset($oldinformation->idmatchontg) &&
+              isset($data->tomagrade_idmatchontg) &&
+               ($oldinformation->idmatchontg != $data->tomagrade_idmatchontg))) {
                 $examidintg = calc_exam_id_in_tg($cmid, isset($data->tomagrade_idmatchontg) ? $data->tomagrade_idmatchontg : "0");
 
                 if ($isexam == false) {
