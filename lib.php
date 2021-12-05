@@ -616,7 +616,9 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                 $response = $connection->get_request("MoodleGetExamDetails", "/$examidintg");
                 $responsedecoded = json_decode($response);
 
-                if (isset($responsedecoded->GetExamDetail->ExternalTeacherID) && isset($responsedecoded->GetExamDetail->ExamStatus) && $responsedecoded->GetExamDetail->ExamStatus > 0) {
+                if (isset($responsedecoded->GetExamDetail->ExternalTeacherID) &&
+                 isset($responsedecoded->GetExamDetail->ExamStatus) &&
+                  $responsedecoded->GetExamDetail->ExamStatus > 0) {
                     // Exam is already exists and in status > 0 , do not change the teacher code.
                     $id = $responsedecoded->GetExamDetail->ExternalTeacherID;
                     $donotchangeusername = true;
