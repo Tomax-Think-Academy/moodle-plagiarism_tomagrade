@@ -36,6 +36,10 @@ Go to "Site Administration" > "Plugins" > "Plagiarism" > "Tomagrade"
 7. Allow Tomagrade plugin - aloow the plugin on all site or by ACL 
 8. check the connection to your TomaGrade system if everything is ok a new wintdow/tab will be open and a popup message  will show indicating "Your system is well connected!"
 9. Save changes
+10. Go to Site administration > Server > Scheduled tasks
+	1. Search “TomaGrade” and make sure scheduled tasks are enabled for the plugin
+	2. Default: Sync every 15 minutes
+
 
 # Grading Moodle Assignment 
 please see https://tgsupport.tomaxltd.com/en/support/solutions/articles/249542-grading-moodle-assignment for more information
