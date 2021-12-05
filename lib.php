@@ -1925,10 +1925,10 @@ function set_grade($cmid, $userid, $grade, $grader)
         return;
     }
     // Final grade.
-    $gradeObj = array();
-    $gradeObj['userid'] = $userid;
-    $gradeObj['rawgrade'] = $grade;
-    grade_update('mod/assign', $instance->course, 'mod', 'assign', $instance->instance, 0, $gradeObj);
+    $gradeobj = array();
+    $gradeobj['userid'] = $userid;
+    $gradeobj['rawgrade'] = $grade;
+    grade_update('mod/assign', $instance->course, 'mod', 'assign', $instance->instance, 0, $gradeobj);
 
 }
 
