@@ -1654,7 +1654,7 @@ function get_teacher_codes_from_moodle_ids($teachers, $identifybyemail) {
 
     }
 
-    $teachersCodesToShare = array();
+    $teacherscodestoshare = array();
 
     if ($identifybyemail) {
         $postdata = array();
@@ -1666,14 +1666,14 @@ function get_teacher_codes_from_moodle_ids($teachers, $identifybyemail) {
         foreach ($arrayteachersemailsandteachercode as $teacher) {
             $teachercode = $teacher['ExternalTeacherID'];
 
-            array_push($teachersCodesToShare, $teachercode);
+            array_push($teacherscodestoshare, $teachercode);
         }
 
     } else {
-        $teachersCodesToShare = $teacherscodesarray;
+        $teacherscodestoshare = $teacherscodesarray;
     }
 
-    return $teachersCodesToShare;
+    return $teacherscodestoshare;
 }
 
 function share_teachers($teachers, $teacherstoremove, $identifybyemail, $examidintg) {
@@ -1693,12 +1693,12 @@ function share_teachers($teachers, $teacherstoremove, $identifybyemail, $examidi
     $postdata['usersSharedData'] = array();
 
     if (empty($teachers) == false) {
-        $teachersCodesToShare = get_teacher_codes_from_moodle_ids($teachers, $identifybyemail);
-        if ($teachersCodesToShare == false) {
+        $teacherscodestoshare = get_teacher_codes_from_moodle_ids($teachers, $identifybyemail);
+        if ($teacherscodestoshare == false) {
             return false;
         }
 
-        foreach ($teachersCodesToShare as $teacher) {
+        foreach ($teacherscodestoshare as $teacher) {
             $examinfo = array();
             $examinfo['ExamID'] = $examidintg;
             $examinfo['TeacherID'] = $teacher;
