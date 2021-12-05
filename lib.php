@@ -1235,7 +1235,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
             $isloggeduserexistsintm = true;
 
-            $select = $mform->createElement('select', 'tomagrade_username', get_string('Related_TomaGrade_User', 'plagiarism_tomagrade'));
+            $select = $mform->createElement('select', 'tomagrade_username',
+             get_string('Related_TomaGrade_User', 'plagiarism_tomagrade'));
 
             $iscreateusers = isset($config->tomagrade_createUsers) && $config->tomagrade_createUsers == 1;
 
