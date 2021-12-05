@@ -2315,7 +2315,7 @@ class tomagrade_connection
 
 
 
-    function check_course($examidintg) {
+    public function check_course($examidintg) {
         global $DB;
 
         $this->do_login();
