@@ -2270,7 +2270,8 @@ class tomagrade_connection
                     $response = json_decode($responsedecoded);
                     if ($response->Response == "OK") {
                         if (isset($row->id)) {
-                            $DB->execute('UPDATE {plagiarism_tomagrade} SET status = 1, updatestatus = 0 WHERE id = ?', array($row->id));
+                            $DB->execute('UPDATE {plagiarism_tomagrade} SET status = 1,
+                             updatestatus = 0 WHERE id = ?', array($row->id));
                         } else {
                             $data = new stdClass();
                             $data->status = 1;
