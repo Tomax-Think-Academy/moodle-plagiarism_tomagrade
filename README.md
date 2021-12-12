@@ -25,7 +25,7 @@ Exam scores are recorded in the system, and graded assignments and exams are sen
 Plagiarism plugins needs to be enabled before this plugin can be used.
 You can do this by going to "Site Administration" > "Advanced Features" ticking the "Enable plagiarism plugins" and save.
 
-# Setup
+## Setup
 Go to "Site Administration" > "Plugins" > "Plagiarism" > "Tomagrade"
 1. Enable the plugin 
 2. TomaGrade domain name - the domain name for your TomaGrade subscription e.g. demo
