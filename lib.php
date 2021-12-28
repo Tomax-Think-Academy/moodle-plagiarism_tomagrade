@@ -2266,10 +2266,10 @@ class tomagrade_connection
                 $tempdir = "TempDir_" . time();
                 if ($isexam == true) {
                     $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/libs/fileUploader/uploadManagerZip.php?Exam_ID="
-                     . $examidintg . "&TempDirName=" . $tempdir;
+                     . $examidintg . "&TempDirName=" . $tempdir. "&UserID=" . $config->tomagrade_username;
                 } else {
                     $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/libs/fileUploader/uploadManagerZip.php?Exam_ID="
-                     . $examidintg . "&TempDirName=" . $tempdir;
+                     . $examidintg . "&TempDirName=" . $tempdir. "&UserID=" . $config->tomagrade_username;
                 }
                 $ch = curl_init($url);
                 curl_setopt($ch, CURLOPT_URL, $url);
