@@ -1350,8 +1350,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                 if(isset($config->tomagrade_FieldNameForCourseFiltering) &&
                  isset($config->tomagrade_FieldValueForCourseFiltering)) {
-                    $postdata['fieldNameForCourseFiltering'] = $config->tomagrade_FieldNameForCourseFiltering;
-                    $postdata['fieldValueForCourseFiltering'] = $config->tomagrade_FieldValueForCourseFiltering;
+                    $postdata['filterFieldName'] = $config->tomagrade_FieldNameForCourseFiltering;
+                    $postdata['filterFieldValue'] = $config->tomagrade_FieldValueForCourseFiltering;
                  }
 
                 $response = $connection->post_request("MoodleGetExamsList", json_encode($postdata), true);
