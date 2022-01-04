@@ -1348,6 +1348,12 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                     $postdata['daysDisplayAfterExamDate'] = intval($config->tomagrade_DaysDisplayAfterExamDate);
                 }
 
+                if(isset($config->tomagrade_FieldNameForCourseFiltering) &&
+                 isset($config->tomagrade_FieldValueForCourseFiltering)) {
+                    $postdata['fieldNameForCourseFiltering'] = $config->tomagrade_FieldNameForCourseFiltering;
+                    $postdata['fieldValueForCourseFiltering'] = $config->tomagrade_FieldValueForCourseFiltering;
+                 }
+
                 $response = $connection->post_request("MoodleGetExamsList", json_encode($postdata), true);
 
                 $response = json_decode($response, true);
@@ -2074,8 +2080,8 @@ class tomagrade_connection
             $params = "TOKEN/" . $config->tomagrade_username;
         }
         $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/Server/php/WS.php/$method/" . $params . $parameters;
-        tomagrade_log("url : " . $url);
         tomagrade_log("postdata : " . json_encode($postdata));
+        tomagrade_log("url : " . $url);
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
