@@ -97,3 +97,5 @@ $string['tomagrade_contactAdmin'] = "הייתה שגיאה, יש ליצור קש
 $string['tomagrade_id_email_incorrect'] = "המזהה או האימייל לא נמצאו במערכת ה TomaGrade.";
 $string['tomagrade_exam_has_hidden_grades'] = "הציון כרגע מוסתר.";
 $string['privacy:metadata'] = "לא שומרת שום מידע פרטי על המשתמשים.";
+$string['tomagrade_FieldNameForCourseFiltering'] = "שם השדה ב TomaGrade עבור סינון רשימת קורסים ";
+$string['tomagrade_FieldValueForCourseFiltering'] = "ערך השדה ב TomaGrade עבור סינון רשימת קורסים";

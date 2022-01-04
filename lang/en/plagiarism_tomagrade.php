@@ -98,3 +98,5 @@ $string['tomagrade_contactAdmin'] = "There was an error, Please contact a system
 $string['tomagrade_id_email_incorrect'] = "ID number or Email is not identified in TomaGrade, Please contact support";
 $string['tomagrade_exam_has_hidden_grades'] = "The grade is currently hidden.";
 $string['privacy:metadata'] = "Does not store any personal information in the moodle store";
+$string['tomagrade_FieldNameForCourseFiltering'] = "Field name on TomaGrade for courses list filtering";
+$string['tomagrade_FieldValueForCourseFiltering'] = "Field value on TomaGrade for courses list filtering";
