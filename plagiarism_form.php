@@ -171,6 +171,14 @@ class plagiarism_setup_form extends moodleform {
          get_string('tomagrade_DaysDisplayAfterExamDate', 'plagiarism_tomagrade'));
         $mform->setType('tomagrade_DaysDisplayAfterExamDate', PARAM_TEXT);
 
+        $mform->addElement('text', 'tomagrade_FieldNameForCourseFiltering',
+        get_string('tomagrade_FieldNameForCourseFiltering', 'plagiarism_tomagrade'));
+        $mform->setType('tomagrade_FieldNameForCourseFiltering', PARAM_TEXT);
+
+        $mform->addElement('text', 'tomagrade_FieldValueForCourseFiltering',
+        get_string('tomagrade_FieldValueForCourseFiltering', 'plagiarism_tomagrade'));
+        $mform->setType('tomagrade_FieldValueForCourseFiltering', PARAM_TEXT);
+
         $mform->addElement('static', 'tomagrade_userRolesToDisplayRelatedAssign1',
          get_string('tomagrade_userRolesToDisplayRelatedAssign', 'plagiarism_tomagrade'), null);
 
