@@ -21,8 +21,9 @@
  * @copyright  2021 Tomax ltd <roy@tomax.co.il>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 namespace plagiarism_tomagrade\event;
-defined('MOODLE_INTERNAL') || die();
+
 /**
  * The EVENTNAME event class.
  *
@@ -47,6 +48,6 @@ class assigns_syncedWithTG extends \core\event\base {
     }
 
     public function get_description() {
-        return  $this->other;
+        return $this->other;
     }
 }

@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * assigns_savedInTG.php
  *
@@ -23,7 +24,7 @@
  */
 
 namespace plagiarism_tomagrade\event;
-defined('MOODLE_INTERNAL') || die();
+
 /**
  *
  * @package    plagiarism_tomagrade
@@ -42,6 +43,6 @@ class assigns_savedInTG extends \core\event\base {
     }
 
     public function get_description() {
-        return  $this->other;
+        return $this->other;
     }
 }
