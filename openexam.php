@@ -74,7 +74,10 @@ if ($isexam) {
 
 $json = $connection->teacher_login($USER->id);
 
-
+if ($json['LoginStatus'] == "Failed" || $json["UserID"] == $config->tomagrade_username) {
+    echo "Login to Tomagrade failed, Tomagrade user ID: " . $json["UserID"] . ", Moodle user ID: " .$USER->id;
+    return;
+}
 
 $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/Server/php/SAMLLogin.php/" .
  $json["Token"] . "/" . $json["UserID"] . "?coursename=" . $matalainfo->examid;
