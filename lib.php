@@ -835,9 +835,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     array_push($coursesdata, $coursesdataitem);
 
                     $postdata['CoursesData'] = $coursesdata;
-
                 $result = $connection->post_request("SaveCourses", json_encode($postdata));
-
                 $log = "the assign has been saved";
 
                 if (isset($result["Message"]) == false) {
@@ -1348,11 +1346,11 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                     $postdata['daysDisplayAfterExamDate'] = intval($config->tomagrade_DaysDisplayAfterExamDate);
                 }
 
-                if(isset($config->tomagrade_FieldNameForCourseFiltering) &&
+                if (isset($config->tomagrade_FieldNameForCourseFiltering) &&
                  isset($config->tomagrade_FieldValueForCourseFiltering)) {
                     $postdata['filterFieldName'] = $config->tomagrade_FieldNameForCourseFiltering;
                     $postdata['filterFieldValue'] = $config->tomagrade_FieldValueForCourseFiltering;
-                 }
+                }
 
                 $response = $connection->post_request("MoodleGetExamsList", json_encode($postdata), true);
 
