@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,18 +12,36 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
 /**
- * version.php - version information.
+ * checkConnection.php - Checks the connection using ApiKeys
  *
  * @package    plagiarism_tomagrade
  * @subpackage plagiarism
  * @copyright  2021 Tomax ltd <roy@tomax.co.il>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+require_once(dirname(dirname(__FILE__)) . '/../config.php');
+require_once($CFG->libdir . '/adminlib.php');
+require_once($CFG->libdir . '/plagiarismlib.php');
+require_once($CFG->dirroot . '/plagiarism/tomagrade/lib.php');
+require_once($CFG->dirroot . '/plagiarism/tomagrade/plagiarism_form.php');
+require_login();
+
 defined('MOODLE_INTERNAL') || die();
-$plugin->version = 2022012507;
-$plugin->requires = 2010042803;
-$plugin->component = 'plagiarism_tomagrade';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array('mod_assign' => ANY_VERSION);
+global $DB, $CFG;
+
+$logreader = new tomagrade_log_reader;
+$res = $logreader->read_tomagrade_log();
+if (isset($res)) {
+    write($res);
+} else {
+    write("we have an issue collecting the log");
+}
+
+
+function write($message) {
+    echo ($message);
+}

@@ -98,6 +98,8 @@ class plagiarism_setup_form extends moodleform {
         // Build form.
         $mform->addElement('html');
         $mform->addElement('checkbox', 'enabled', "Enable TomaGrade");
+        $mform->addElement('checkbox', 'tomagrade_log', "Enable debug log");
+        $mform->setDefault('tomagrade_log', 0);
 
         $mform->addElement('text', 'tomagrade_server',
          get_string('tomagradeserver', 'plagiarism_tomagrade'), array('size' => '40', 'style' => 'height: 33px'));
@@ -224,5 +226,14 @@ class plagiarism_setup_form extends moodleform {
         $checkconnection = $CFG->wwwroot . '/plagiarism/tomagrade/checkConnection.php';
         $mform->addElement('button', "onclick='asdfasfd'", "Check Connection",
          array("onclick" => "window.open('$checkconnection')"));
+
+        $checklogs = $CFG->wwwroot . '/plagiarism/tomagrade/showLogs.php';
+        $mform->addElement('button', "onclick='asdfasfd'", "Show logs",
+         array("onclick" => "window.open('$checklogs')"));
+
+        $clearlogs = $CFG->wwwroot . '/plagiarism/tomagrade/clearLogs.php';
+        $mform->addElement('button', "onclick='asdfasfd'", "Clear logs",
+         array("onclick" => "window.open('$clearlogs')"));
+
     }
 }

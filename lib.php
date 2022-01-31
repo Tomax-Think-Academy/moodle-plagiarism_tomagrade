@@ -56,8 +56,7 @@ function check_enabled() {
     return false;
 }
 
-class plagiarism_plugin_tomagrade extends plagiarism_plugin
-{
+class plagiarism_plugin_tomagrade extends plagiarism_plugin {
 
     const GOODEXTENSIONS = array(
         "pdf" => "application/pdf",
@@ -1347,7 +1346,9 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 }
 
                 if (isset($config->tomagrade_FieldNameForCourseFiltering) &&
-                 isset($config->tomagrade_FieldValueForCourseFiltering)) {
+                 !empty($config->tomagrade_FieldNameForCourseFiltering)  &&
+                 isset($config->tomagrade_FieldValueForCourseFiltering) &&
+                 !empty($config->tomagrade_FieldValueForCourseFiltering)) {
                     $postdata['filterFieldName'] = $config->tomagrade_FieldNameForCourseFiltering;
                     $postdata['filterFieldValue'] = $config->tomagrade_FieldValueForCourseFiltering;
                 }
@@ -1377,7 +1378,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                 $ischoosenexaminlist = false;
 
-                if (isset($response['Exams'])) {
+                if (isset($response['Exams']) && gettype($response['Exams']) != 'boolean') {
 
                     foreach ($response['Exams'] as $exam) {
                         $stringforexam = $exam['ExamID'];
@@ -1964,7 +1965,73 @@ function new_event_file_uploaded($eventdata) {
 
 function tomagrade_log($data) {
     global $CFG;
+    $config = get_config('plagiarism_tomagrade');
+    if (isset($config->tomagrade_log) && $config->tomagrade_log) {
+        $filename = "./Tomax_log.log";
+        if (!$fp = fopen($filename, 'a')) {
+            return;
+        }
+        fwrite($fp, date('Y/M/j H:i:s') . ' - ' . $data . "\n");
+        fclose($fp);
+    }
+}
 
+class tomagrade_log_reader {
+
+    const LOG_FILE_NAME = "Tomax_log.log";
+    const COURSE_LOG_LOCATION = "course";
+    const PLUGIN_LOG_LOCATION = "plagiarism/tomagrade";
+    const ADMIN_CLI_LOG_LOCATION = "admin/cli";
+
+    const LOCATIONS  = array("plagiarism/tomagrade", "course", "admin/cli");
+
+
+    public function read_tomagrade_log() {
+        $alllogs = "";
+        foreach (self::LOCATIONS as $location) {
+            $currentfilepath = $this->build_file_path($location);
+            $alllogs = $alllogs."<br><br>". $this->read_log($currentfilepath);
+        }
+        return $alllogs;
+    }
+
+    private function build_file_path($location) {
+        global $CFG;
+        $filepath = $CFG->dirroot."/".$location."/". self::LOG_FILE_NAME;
+        return $filepath;
+    }
+
+    private function read_log($filename) {
+        $details = "------- Log of : ".$filename;
+        if (!$fp = fopen($filename, 'r')) {
+            $details = $details . "<br> Error opening the file";
+            return $details;
+        }
+        $log = fread($fp, filesize($filename));
+        $log = str_replace("\n", "<br>", $log);
+        $details = $details . "<br>" . $log;
+        fclose($fp);
+        return $details;
+    }
+
+    public function delete_tomagrade_logs() {
+        $details = "<u> Attempting to delete log files </u> <br>";
+        foreach (self::LOCATIONS as $location) {
+            $currentfilepath = $this->build_file_path($location);
+            foreach (self::LOCATIONS as $location) {
+                $currentfilepath = $this->build_file_path($location);
+                if (is_writable($currentfilepath)){
+                    $deleted = unlink($currentfilepath);
+                    if ($deleted) {
+                        $details = $details . " Succefully deleted: " . $currentfilepath ."<br>";
+                    } else {
+                        $details = $details . " failed to delete: " . $currentfilepath ."<br>";
+                    }
+                }
+            }
+        }
+        return $details;
+    }
 }
 
 function set_grade($cmid, $userid, $grade, $grader) {
@@ -2024,8 +2091,7 @@ function get_grade_id($instance) {
 }
 
 
-class tomagrade_connection
-{
+class tomagrade_connection {
 
     const STATUS_NOT_STARTED = 0;
     const STATUS_WAITING = 1;
@@ -2166,6 +2232,7 @@ class tomagrade_connection
 
 
     public function upload_exam($contextid, $row, $sendmail = false) {
+        tomagrade_log("================== starting upload_exam ==================");
         $log = "";
         try {
             $isexam = false;
@@ -2261,7 +2328,6 @@ class tomagrade_connection
             $namefile = uniqid() . "-" . round(microtime(true)) . ".$extensionname"; // Add the identifier.
             $fields['file']->postname = $namefile;
             $fields['file']->mime = $mainfile->get_mimetype();
-
             $responsedecoded = $this->get_request("RestartExamStatus", "/$examidintg");
 
             $response = json_decode($responsedecoded);
@@ -2284,11 +2350,15 @@ class tomagrade_connection
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
                 $responsedecoded = curl_exec($ch);
+
                 $requestcontenttype = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
                 curl_close($ch);
 
                 $response = json_decode($responsedecoded);
+
+                tomagrade_log('response of uploadManagerZip: ' . json_encode($response));
                 if ($response->answer == "File transfer completed Success") {
                     // Post upload file.
                     $url = "https://$config->tomagrade_server.tomagrade.com/TomaGrade/Server/php/WS.php/PostUploadFile/TOKEN/"
@@ -2348,6 +2418,7 @@ class tomagrade_connection
                     curl_close($ch);
 
                     $response = json_decode($responsedecoded);
+                    tomagrade_log("response of PostUploadFile: " . json_encode($response));
                     if ($response->Response == "OK") {
                         if (isset($row->id)) {
                             $DB->execute('UPDATE {plagiarism_tomagrade} SET status = 1,
@@ -2362,18 +2433,23 @@ class tomagrade_connection
                             $DB->insert_record('plagiarism_tomagrade', $data);
                         }
                     } else {
+                        tomagrade_log('PostUploadFile Exception is:' . $responsedecoded);
                         throw new Exception('PostUploadFile Exception is:' . $responsedecoded);
                     }
                 } else {
+                    tomagrade_log('Upload Manager Zip Exception is:' . $responsedecoded);
                     throw new Exception('Upload Manager Zip Exception is:' . $responsedecoded);
                 }
             } else {
+                tomagrade_log('RestartExamStatus Exception is:' . $responsedecoded);
                 throw new Exception('RestartExamStatus Exception is:' . $responsedecoded);
             }
         } catch (Exception $e) {
             $log .= "There was a problem.";
             $log .= "$e";
+            tomagrade_log('Exception: ' . $responsedecoded);
         }
+        tomagrade_log("================== end upload_exam ==================");
         return $log;
     }
 
