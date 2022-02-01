@@ -227,13 +227,9 @@ class plagiarism_setup_form extends moodleform {
         $mform->addElement('button', "onclick='asdfasfd'", "Check Connection",
          array("onclick" => "window.open('$checkconnection')"));
 
-        $checklogs = $CFG->wwwroot . '/plagiarism/tomagrade/showLogs.php';
-        $mform->addElement('button', "onclick='asdfasfd'", "Show logs",
-         array("onclick" => "window.open('$checklogs')"));
-
-        $clearlogs = $CFG->wwwroot . '/plagiarism/tomagrade/clearLogs.php';
-        $mform->addElement('button', "onclick='asdfasfd'", "Clear logs",
-         array("onclick" => "window.open('$clearlogs')"));
+        $debug = $CFG->wwwroot . '/plagiarism/tomagrade/tomagrade_debug.php';
+        $mform->addElement('button', "onclick='asdfasfd'", "Debug form",
+         array("onclick" => "window.open('$debug')"));
 
     }
 }
