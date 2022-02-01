@@ -54,7 +54,7 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
     set_config('enabled', $data->tomagrade_use, 'plagiarism_tomagrade');
     if (isset($data->tomagrade_log)) {
         set_config('tomagrade_log', $data->tomagrade_log, 'plagiarism_tomagrade');
-    }else{
+    } else {
         set_config('tomagrade_log', false, 'plagiarism_tomagrade');
     }
 

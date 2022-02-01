@@ -2020,7 +2020,7 @@ class tomagrade_log_reader {
             $currentfilepath = $this->build_file_path($location);
             foreach (self::LOCATIONS as $location) {
                 $currentfilepath = $this->build_file_path($location);
-                if (is_writable($currentfilepath)){
+                if (is_writable($currentfilepath)) {
                     $deleted = unlink($currentfilepath);
                     if ($deleted) {
                         $details = $details . " Succefully deleted: " . $currentfilepath ."<br>";
