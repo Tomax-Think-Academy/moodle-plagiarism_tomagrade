@@ -55,6 +55,11 @@ class debug_form extends moodleform {
 
         $this->add_action_buttons($cancel = false, $submitlabel = "Check DB");
 
+        $htmlstring = '<div class="qheader"><h3> Fix tomagrade_use for Moodle version less than 3.9</h3></div>';
+        $mform->addElement('html', $htmlstring);
+        $fixuse = $CFG->wwwroot . '/plagiarism/tomagrade/fix_tomagrade_use.php';
+        $mform->addElement('button', "onclick='asdfasfd'", "Fix",
+         array("onclick" => "window.open('$fixuse')"));
     }
 
 }
