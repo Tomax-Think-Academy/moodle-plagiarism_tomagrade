@@ -33,17 +33,42 @@ require_login();
 defined('MOODLE_INTERNAL') || die();
 global $DB, $CFG;
 
-
 $records = $DB->get_records_sql("SELECT * FROM {config_plugins} where name LIKE 'tomagrade_use'");
+$plagiarismusepluginname = 'plagiarism';
+$foundplagiarismuse = false;
+
+$tomagradeusepluginname = 'plagiarism_tomagrade';
+$foundtomagradeuse = false;
 foreach ($records as $record) {
     $newdata = new stdClass();
     $newdata->id = $record->id;
     $newdata->plugin = $record->plugin;
     $newdata->name = $record->name;
     $newdata->value = 1;
+    echo ("updating ".$record->plugin." record...<br>");
+    if ($record->plugin == $tomagradeusepluginname) {
+        $foundtomagradeuse = true;
+    }
+    if ($record->plugin == $plagiarismusepluginname) {
+        $foundplagiarismuse = true;
+    }
 
-
-    $newdata->status = 0;
     $DB->update_record('config_plugins', $newdata);
+}
+if ($foundplagiarismuse == false ) {
+    echo ($plagiarismusepluginname." record is missing inserting ... <br>");
+    $newdata = new stdClass();
+    $newdata->plugin = $plagiarismusepluginname;
+    $newdata->name = 'tomagrade_use';
+    $newdata->value = 1;
+    $DB->insert_record('config_plugins', $newdata);
+}
+if ($foundtomagradeuse == false ) {
+    echo ($tomagradeusepluginname." record is missing inserting ... <br>");
+    $newdata = new stdClass();
+    $newdata->plugin = $tomagradeusepluginname;
+    $newdata->name = 'tomagrade_use';
+    $newdata->value = 1;
+    $DB->insert_record('config_plugins', $newdata);
 }
 echo ("Done, please recheck DB and go to Site administration-> Notifications and press on check for updates.");
