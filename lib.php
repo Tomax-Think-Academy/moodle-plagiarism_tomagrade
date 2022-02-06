@@ -1979,11 +1979,8 @@ function tomagrade_log($data) {
 class tomagrade_log_reader {
 
     const LOG_FILE_NAME = "Tomax_log.log";
-    const COURSE_LOG_LOCATION = "course";
-    const PLUGIN_LOG_LOCATION = "plagiarism/tomagrade";
-    const ADMIN_CLI_LOG_LOCATION = "admin/cli";
 
-    const LOCATIONS  = array("plagiarism/tomagrade", "course", "admin/cli");
+    const LOCATIONS  = array("plagiarism/tomagrade", "course", "admin/cli", "admin/tool/task");
 
 
     public function read_tomagrade_log() {
