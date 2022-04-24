@@ -375,18 +375,21 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
 
                 $mimetype = $linkarray["file"]->get_mimetype();
 
-                $ext = "";
+                $mimetypeext = "";
                 $arr = explode("/", $mimetype);
                 if (count($arr) == 2) {
                     if (isset($arr[1])) {
-                        $ext = strtolower($arr[1]);
+                        $mimetypeext = strtolower($arr[1]);
                     }
                 }
 
+                $filename = $linkarray["file"]->get_filename();
+                $fileext = pathinfo($filename, PATHINFO_EXTENSION);
+                tomagrade_log("----- file ext ".$fileext);
                 $hash = $linkarray["file"]->get_pathnamehash();
                 $urlbuild = "?cmid=$cmid&filehash=$hash";
 
-                if (self::check_if_good_file($ext) == false) {
+                if (self::check_if_good_file($mimetypeext) == false || self::check_if_good_file($fileext) == false ) {
                     return "<br> " . get_string('invalid_file_type_for_TomaGrade', 'plagiarism_tomagrade') . "<br> "
                     . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php' . $urlbuild,
                      get_string('Upload_to_TomaGrade_again', 'plagiarism_tomagrade'), array("target" => "_blank"));
@@ -1903,15 +1906,19 @@ function new_event_file_uploaded($eventdata) {
 
         $mimetype = $file->get_mimetype();
 
+
         $arr = explode("/", $mimetype);
-        $ext = "";
+        $mymeext = "";
         if (count($arr) == 2) {
             if (isset($arr[1])) {
-                $ext = strtolower($arr[1]);
+                $mymeext = strtolower($arr[1]);
             }
         }
+        $filename = $file->get_filename();
+        $fileext = pathinfo($filename, PATHINFO_EXTENSION);
 
-        if (plagiarism_plugin_tomagrade::check_if_good_file($ext) != false ||
+        if ((plagiarism_plugin_tomagrade::check_if_good_file($mymeext)  &&
+             plagiarism_plugin_tomagrade::check_if_good_file($fileext) )||
          plagiarism_plugin_tomagrade::check_if_good_file(pathinfo($file->get_filename(), PATHINFO_EXTENSION)) != false) {
             $data = new stdClass();
             $data->cmid = $eventdata["contextinstanceid"];
@@ -1954,7 +1961,8 @@ function new_event_file_uploaded($eventdata) {
 
             if ($printerrmsg) {
                 \core\notification::error("The file you have submitted has been uploaded
-                 but cannot be checked by the teacher.The files that will be able to be checked with the teacher are:
+                 but cannot be checked by the teacher, the file myme type is: '". $mymeext."' and the file extension is '".$fileext.
+                 "' The files that will be able to be checked with the teacher are:
                      doc, docx, pdf, ttp, ttpx, xls, xlsx, rtf, ppt, jpeg, jpg, png.");
             }
         }
@@ -1980,7 +1988,7 @@ class tomagrade_log_reader {
 
     const LOG_FILE_NAME = "Tomax_log.log";
 
-    const LOCATIONS  = array("plagiarism/tomagrade", "course", "admin/cli", "admin/tool/task");
+    const LOCATIONS  = array("plagiarism/tomagrade", "course", "admin/cli", "admin/tool/task", "mod/assign");
 
 
     public function read_tomagrade_log() {
