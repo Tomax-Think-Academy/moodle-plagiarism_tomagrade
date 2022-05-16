@@ -111,7 +111,5 @@ function xmldb_plagiarism_tomagrade_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2020220301, 'plagiarism', 'tomagrade');
     }
 
-    set_config('enabled', '1', 'plagiarism_tomagrade');
-    set_config('tomagrade_use', '1', 'plagiarism_tomagrade');
     return true;
 }
