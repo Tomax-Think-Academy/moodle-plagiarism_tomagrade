@@ -32,24 +32,25 @@ require_once($CFG->dirroot . '/plagiarism/tomagrade/lib.php');
 require_once($CFG->dirroot . '/plagiarism/tomagrade/plagiarism_form.php');
 require_login();
 
-defined('MOODLE_INTERNAL') || die();
+$cmid = required_param('cmid', PARAM_INT);
 
-$cmid = $_GET['cmid'];
+$studentid = optional_param('studentid', null, PARAM_INT);
+$groupid = optional_param('groupid', null, PARAM_INT);
+$filehash = optional_param('filehash', '' ,PARAM_RAW);
 
 $connection = new tomagrade_connection;
 $connection->do_login();
 $contextid = context_module::instance($cmid)->id;
-if (isset($_GET['studentid'])) {
-    $student = $_GET['studentid'];
-    $data = $DB->get_record("plagiarism_tomagrade", array("cmid" => $cmid, "userid" => $student));
-} else if (isset($_GET['groupid'])) {
-    $group = $_GET['groupid'];
-    $data = $DB->get_record("plagiarism_tomagrade", array("cmid" => $cmid, "groupid" => $group));
+
+if (!is_null($studentid)) {
+    $data = $DB->get_record("plagiarism_tomagrade", array("cmid" => $cmid, "userid" => $studentid));
+} else if (!is_null($groupid)) {
+    $data = $DB->get_record("plagiarism_tomagrade", array("cmid" => $cmid, "groupid" => $groupid));
 }
 if (!isset($data) || is_null($data) || $data == false) {
     $data = new stdClass();
     $data->cmid = $cmid;
-    $data->filehash = $_GET['filehash'];
+    $data->filehash = $filehash;
 
     $fs = get_file_storage();
     $file = $fs->get_file_by_hash($data->filehash);
