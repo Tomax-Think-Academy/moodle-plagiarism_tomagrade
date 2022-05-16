@@ -32,7 +32,6 @@ require_once($CFG->dirroot.'/plagiarism/tomagrade/plagiarism_form.php');
 
 require_login();
 
-defined('MOODLE_INTERNAL') || die();
 
  require_login();
 if ($CFG->version < 2011120100) {

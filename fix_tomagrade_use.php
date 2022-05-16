@@ -30,7 +30,6 @@ require_once($CFG->dirroot . '/plagiarism/tomagrade/lib.php');
 require_once($CFG->dirroot . '/plagiarism/tomagrade/plagiarism_form.php');
 require_login();
 
-defined('MOODLE_INTERNAL') || die();
 global $DB, $CFG;
 
 $records = $DB->get_records_sql("SELECT * FROM {config_plugins} where name LIKE 'tomagrade_use'");
