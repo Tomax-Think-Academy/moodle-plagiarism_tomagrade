@@ -33,21 +33,24 @@ require_once($CFG->dirroot . '/plagiarism/tomagrade/plagiarism_form.php');
 
 require_login();
 
-$context = get_context_from_cmid($_GET['cmid']);
+$cmid= required_param('cmid', PARAM_INT);
+
+$userid = optional_param('userid',NULL, PARAM_INT);
+$group = optional_param('group',NULL, PARAM_INT);
+
+$context = get_context_from_cmid($cmid);
 // DISABLED DUE TO PERMISSIONS ISSUES!!!
 $config = get_config('plagiarism_tomagrade');
 
-
-
 $permission = false;
-if (isset($_GET['userid'])) {
-    $id = plagiarism_plugin_tomagrade::get_user_identifier($_GET['userid']);
-    if ($_GET['userid'] == $USER->id) {
+if (!is_null($userid)) {
+    $id = plagiarism_plugin_tomagrade::get_user_identifier($userid);
+    if ($userid == $USER->id) {
         $permission = true;
 
     }
-} else if (isset($_GET['group'])) {
-    $id = tomagrade_connection::format_group_name($_GET['group']);
+} else if (!is_null($group)) {
+    $id = tomagrade_connection::format_group_name($group);
     $permission = in_array($USER->id, plagiarism_plugin_tomagrade::get_user_id_by_group_identifier($id));
 }
 if ($permission == false) {
@@ -79,8 +82,7 @@ if ($permission === false) {
 $connection = new tomagrade_connection;
 $connection->do_login();
 
-if (isset($_GET['cmid'])) {
-    $cmid = $_GET['cmid'];
+if (!is_null($cmid)) {
 
     $matalasettings = tomagrade_get_instance_config($cmid);
 
@@ -125,7 +127,7 @@ if (isset($_GET['cmid'])) {
             }
 
         } else {
-            $user = $DB->get_record('user', array('id' => $_GET['userid']));
+            $user = $DB->get_record('user', array('id' => $userid));
 
             $id = $id . " --- " . strip_tags($user->firstname) . " " . strip_tags($user->lastname);
 
