@@ -30,23 +30,23 @@ require_once($CFG->dirroot . '/plagiarism/tomagrade/lib.php');
 require_once($CFG->dirroot . '/plagiarism/tomagrade/plagiarism_form.php');
 require_login();
 
-defined('MOODLE_INTERNAL') || die();
 global $DB, $CFG, $USER;
+
+$cmid = required_param('cmid', PARAM_INT);
+$studentid = optional_param('studentid', null, PARAM_INT);
+$groupid = optional_param('groupid', null, PARAM_INT);
+
+
 if ($CFG->version < 2011120100) {
     $context = get_context_instance(CONTEXT_SYSTEM);
 } else {
     $context = context_system::instance();
 }
 
-if (!isset($_GET['cmid'])) {
-    echo ("<script>alert('".get_string('tomagrade_contactAdmin', 'plagiarism_tomagrade').");</script>");
-    echo ("<script>window.close();</script>");
-}
-if (!isset($_GET['studentid']) && !isset($_GET['groupid']) ) {
+if (is_null($studentid) && is_null($groupid) ) {
     echo ("<script>alert('".get_string('tomagrade_contactAdmin', 'plagiarism_tomagrade')."');</script>");
     echo ("<script>window.close();</script>");
 }
-$cmid = $_GET['cmid'];
 $config = get_config('plagiarism_tomagrade');
 
 $isexam = false;
@@ -61,13 +61,11 @@ if (isset($matalainfo->idmatchontg) &&
 $connection = new tomagrade_connection;
 
 if ($isexam) {
-    $studentidintg = plagiarism_plugin_tomagrade::get_taodat_zaot($_GET['studentid']);
+    $studentidintg = plagiarism_plugin_tomagrade::get_taodat_zaot($studentid);
 } else {
-    if (!isset($_GET['groupid'])) {
-        $studentid = $_GET['studentid'];
+    if (is_null($groupid)) {
         $studentidintg = plagiarism_plugin_tomagrade::get_user_identifier($studentid);
     } else {
-        $groupid = $_GET['groupid'];
         $studentidintg = tomagrade_connection::format_group_name($groupid);
     }
 }

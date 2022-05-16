@@ -35,8 +35,8 @@ require_login();
 
 $cmid= required_param('cmid', PARAM_INT);
 
-$userid = optional_param('userid',NULL, PARAM_INT);
-$group = optional_param('group',NULL, PARAM_INT);
+$userid = optional_param('userid',null, PARAM_INT);
+$group = optional_param('group',null, PARAM_INT);
 
 $context = get_context_from_cmid($cmid);
 // DISABLED DUE TO PERMISSIONS ISSUES!!!
