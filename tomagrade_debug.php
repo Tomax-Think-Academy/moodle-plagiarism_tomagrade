@@ -30,7 +30,6 @@ require_once($CFG->dirroot . '/plagiarism/tomagrade/lib.php');
 require_once($CFG->dirroot . '/plagiarism/tomagrade/debug_form.php');
 require_login();
 
-defined('MOODLE_INTERNAL') || die();
 global $DB, $CFG;$PAGE;
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
@@ -66,6 +65,7 @@ function check_exam($assignid) {
     <th>complete</th>
     <th>share_teachers</th>
     <th>userid</th>
+    <th>groupid</th>
     <th>status</th>
     <th>updatestatus</th>
     <th>finishrender</th>
@@ -81,6 +81,7 @@ function check_exam($assignid) {
         $table = $table."<td>".$record->complete."</td>";
         $table = $table."<td>".$record->share_teachers."</td>";
         $table = $table."<td>".$record->userid."</td>";
+        $table = $table."<td>".$record->groupid."</td>";
         $table = $table."<td>".$record->status."</td>";
         $table = $table."<td>".$record->updatestatus."</td>";
         $table = $table."<td>".$record->finishrender."</td>";

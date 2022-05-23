@@ -1810,7 +1810,8 @@ function share_teachers($teachers, $teacherstoremove, $identifybyemail, $examidi
 
 function is_hidden_grades($cmid) {
     global $DB;
-    $current = $DB->get_record('grade_items', array('id' => $cmid));
+    $cmoudule = $DB->get_record('course_modules', array('id' => $cmid));
+    $current = $DB->get_record('grade_items', array('iteminstance' => $cmoudule->instance));
     if ($current) {
         if ($current->hidden == "1") {
             return true;
@@ -1975,7 +1976,7 @@ function tomagrade_log($data) {
     global $CFG;
     $config = get_config('plagiarism_tomagrade');
     if (isset($config->tomagrade_log) && $config->tomagrade_log) {
-        $filename = "./Tomax_log.log";
+        $filename = $CFG->dirroot."/plagiarism/tomagrade/Tomax_log.log";
         if (!$fp = fopen($filename, 'a')) {
             return;
         }
@@ -1988,7 +1989,8 @@ class tomagrade_log_reader {
 
     const LOG_FILE_NAME = "Tomax_log.log";
 
-    const LOCATIONS  = array("plagiarism/tomagrade", "course", "admin/cli", "admin/tool/task", "mod/assign");
+    // const LOCATIONS  = array("plagiarism/tomagrade", "course", "admin/cli", "admin/tool/task", "mod/assign");
+    const LOCATIONS  = array("plagiarism/tomagrade");
 
 
     public function read_tomagrade_log() {
