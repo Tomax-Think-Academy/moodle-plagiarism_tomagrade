@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
-$plugin->version = 2022040901;
+$plugin->version = 2022052301;
 $plugin->requires = 2010042803;
 $plugin->component = 'plagiarism_tomagrade';
 $plugin->maturity = MATURITY_STABLE;
