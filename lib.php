@@ -361,7 +361,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                 }
                 $instance = $DB->get_record('course_modules', array('id' => $cmid));
                 $matalasettings = $DB->get_record("assign", array("id" => $instance->instance));
-                $ishiddengrades = is_hidden_grades($cmid);
+                $ishiddengrades = plagiarism_tomagrade_is_hidden_grades($cmid);
                 if ( $status->finishrender) { // Check if i can show the new file to the students.
                     if (($matalasettings->blindmarking == "0" || $matalasettings->revealidentities == "1") && !$ishiddengrades) {
                          $result = $result . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/getfile.php' . $urlbuild, "<br>".
@@ -1808,7 +1808,7 @@ function plagiarism_tomagrade_share_teachers($teachers, $teacherstoremove, $iden
 
 }
 
-function is_hidden_grades($cmid) {
+function plagiarism_tomagrade_is_hidden_grades($cmid) {
     global $DB;
     $cmoudule = $DB->get_record('course_modules', array('id' => $cmid));
     $current = $DB->get_record('grade_items', array('iteminstance' => $cmoudule->instance));

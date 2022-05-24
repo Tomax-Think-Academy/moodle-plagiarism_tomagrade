@@ -86,7 +86,7 @@ if (!is_null($cmid)) {
 
     $matalasettings = tomagrade_get_instance_config($cmid);
 
-    $ishiddenhrades = is_hidden_grades($cmid);
+    $ishiddenhrades = plagiarism_tomagrade_is_hidden_grades($cmid);
 
     if ($ishiddenhrades) {
         $message = get_string('tomagrade_exam_has_hidden_grades', 'plagiarism_tomagrade');
