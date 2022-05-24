@@ -36,12 +36,12 @@ $connection = new tomagrade_connection;
 $res = $connection->get_courses();
 if (isset($res)) {
     if ($res["IsTokenActive"] == true) {
-        write("Your system is well connected!");
+        write(get_string('well_connected' , 'plagiarism_tomagrade'));
     } else {
-        write("Please check your APIKey and UserID.");
+        write(get_string('connection_auth_error' , 'plagiarism_tomagrade'));
     }
 } else {
-    write("It seems you do not have an open connection to TomaGrade");
+    write(get_string('no_open_connection' , 'plagiarism_tomagrade'));
 }
 echo ("<script>window.close();</script>");
 

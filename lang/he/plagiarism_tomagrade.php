@@ -100,3 +100,6 @@ $string['privacy:metadata'] = "לא שומרת שום מידע פרטי על ה�
 $string['tomagrade_FieldNameForCourseFiltering'] = "שם השדה ב TomaGrade עבור סינון רשימת קורסים ";
 $string['tomagrade_FieldValueForCourseFiltering'] = "ערך השדה ב TomaGrade עבור סינון רשימת קורסים";
 $string['error_filehash'] = "הקובץ הנבחר לא שייך למשימה";
+$string['well_connected'] = "המערכת מחוברת!";
+$string['connection_auth_error'] = "טעות בפרטי ההזדהות";
+$string['no_open_connection'] = "לא קיים חיבור ";

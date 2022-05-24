@@ -101,3 +101,7 @@ $string['privacy:metadata'] = "Does not store any personal information in the mo
 $string['tomagrade_FieldNameForCourseFiltering'] = "Field name on TomaGrade for courses list filtering";
 $string['tomagrade_FieldValueForCourseFiltering'] = "Field value on TomaGrade for courses list filtering";
 $string['error_filehash'] = "The provided filehash is not part of this assignment";
+$string['well_connected'] = "Your system is well connected!";
+$string['connection_auth_error'] = "Please check your APIKey and UserID";
+$string['no_open_connection'] = "It seems you do not have an open connection to TomaGrade";
+
