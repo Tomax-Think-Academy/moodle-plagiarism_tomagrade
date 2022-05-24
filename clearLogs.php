@@ -37,7 +37,7 @@ $res = $logreader->delete_tomagrade_logs();
 if (isset($res)) {
     write($res);
 } else {
-    write("we have an issue deleting the log");
+    write(get_string('error_deleting_log' , 'plagiarism_tomagrade'));
 }
 
 function write($message) {

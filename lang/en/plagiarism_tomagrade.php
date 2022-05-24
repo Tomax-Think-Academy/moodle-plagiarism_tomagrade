@@ -104,4 +104,5 @@ $string['error_filehash'] = "The provided filehash is not part of this assignmen
 $string['well_connected'] = "Your system is well connected!";
 $string['connection_auth_error'] = "Please check your APIKey and UserID";
 $string['no_open_connection'] = "It seems you do not have an open connection to TomaGrade";
+$string['error_deleting_log'] = "we have an issue deleting the log";
 

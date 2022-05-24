@@ -103,3 +103,4 @@ $string['error_filehash'] = "הקובץ הנבחר לא שייך למשימה";
 $string['well_connected'] = "המערכת מחוברת!";
 $string['connection_auth_error'] = "טעות בפרטי ההזדהות";
 $string['no_open_connection'] = "לא קיים חיבור ";
+$string['error_deleting_log'] = "שגיאה במחיקת הלוג";
