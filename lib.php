@@ -979,7 +979,7 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 
                 // Share teachers.
                 if (empty($tomagradeshareaddioionalteachers) == false || empty($teacherstodeletestr) == false) {
-                    $errorinshareteachersync = share_teachers($tomagradeshareaddioionalteachers,
+                    $errorinshareteachersync = plagiarism_tomagrade_share_teachers($tomagradeshareaddioionalteachers,
                      $teacherstodeletestr, $identifybyemail, $examidintg);
                     $errorinshareteachersync = !$errorinshareteachersync;
                 }
@@ -1743,7 +1743,7 @@ function plagiarism_tomagrade_get_teacher_codes_from_moodle_ids($teachers, $iden
     return $teacherscodestoshare;
 }
 
-function share_teachers($teachers, $teacherstoremove, $identifybyemail, $examidintg) {
+function plagiarism_tomagrade_share_teachers($teachers, $teacherstoremove, $identifybyemail, $examidintg) {
 
     if (empty($teachers) && empty($teacherstoremove)) {
         return false;
