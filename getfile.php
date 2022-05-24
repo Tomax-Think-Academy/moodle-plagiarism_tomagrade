@@ -38,7 +38,7 @@ $cmid= required_param('cmid', PARAM_INT);
 $userid = optional_param('userid',null, PARAM_INT);
 $group = optional_param('group',null, PARAM_INT);
 
-$context = get_context_from_cmid($cmid);
+$context = plagiarism_tomagrade_get_context_from_cmid($cmid);
 // DISABLED DUE TO PERMISSIONS ISSUES!!!
 $config = get_config('plagiarism_tomagrade');
 

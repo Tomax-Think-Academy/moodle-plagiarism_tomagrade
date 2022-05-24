@@ -36,7 +36,7 @@ require_once($CFG->libdir.'/gradelib.php');
 
 // TomaGrade Class.
 
-function get_context_from_cmid($cmid) {
+function plagiarism_tomagrade_get_context_from_cmid($cmid) {
     try {
         $context = context_module::instance($cmid);
     } catch (Exception $e) {
@@ -2081,7 +2081,7 @@ function set_grade($cmid, $userid, $grade, $grader) {
 function reset_main_grades($cmid) {
     global $DB;
     $instance = get_instance_id($cmid);
-    $gradeid = get_grade_id($instance);
+    $gradeid = tomagrade_get_grade_id($instance);
     $DB->execute('UPDATE {grade_grades} SET finalgrade = null WHERE itemid = ?', array($gradeid));
 }
 
@@ -2091,7 +2091,7 @@ function get_instance_id($cmid) {
     return $instance->instance;
 }
 
-function get_grade_id($instance) {
+function tomagrade_get_grade_id($instance) {
     global $DB;
     $result = $DB->get_record_sql('SELECT id FROM {grade_items} WHERE iteminstance = ?', array($instance));
     return $result->id;
