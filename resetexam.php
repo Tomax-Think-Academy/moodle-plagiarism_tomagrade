@@ -42,6 +42,6 @@ $data = tomagrade_get_instance_config($cmid);
 
 if ($data->complete > 0) {
     $DB->execute('UPDATE {plagiarism_tomagrade_config} SET complete = 0 WHERE cm = ?', array($cmid));
-    reset_main_grades($cmid);
+    plagiarism_tomagrade_reset_main_grades($cmid);
 }
 echo "<script>window.close();</script>";

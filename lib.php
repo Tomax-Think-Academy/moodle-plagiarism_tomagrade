@@ -2041,7 +2041,7 @@ class tomagrade_log_reader {
     }
 }
 
-function set_grade($cmid, $userid, $grade, $grader) {
+function plagiarism_tomagrade_set_grade($cmid, $userid, $grade, $grader) {
     global $DB;
     $instance = $DB->get_record('course_modules', array('id' => $cmid));
 
@@ -2078,14 +2078,14 @@ function set_grade($cmid, $userid, $grade, $grader) {
 
 
 
-function reset_main_grades($cmid) {
+function plagiarism_tomagrade_reset_main_grades($cmid) {
     global $DB;
-    $instance = get_instance_id($cmid);
+    $instance = plagiarism_tomagrade_get_instance_id($cmid);
     $gradeid = tomagrade_get_grade_id($instance);
     $DB->execute('UPDATE {grade_grades} SET finalgrade = null WHERE itemid = ?', array($gradeid));
 }
 
-function get_instance_id($cmid) {
+function plagiarism_tomagrade_get_instance_id($cmid) {
     global $DB;
     $instance = $DB->get_record('course_modules', array('id' => $cmid));
     return $instance->instance;
@@ -2510,9 +2510,9 @@ class tomagrade_connection {
                     if ($current != false && $value->ParExamStatus == 2) {
                         foreach ($current as $currentuserid) {
                             if (isset($value->ParGrade)) {
-                                set_grade($cmidexam, $currentuserid, $value->ParGrade, $grader);
+                                plagiarism_tomagrade_set_grade($cmidexam, $currentuserid, $value->ParGrade, $grader);
                             } else {
-                                set_grade($cmidexam, $currentuserid, $value->ParGradeNoFactor, $grader);
+                                plagiarism_tomagrade_set_grade($cmidexam, $currentuserid, $value->ParGradeNoFactor, $grader);
                             }
                         }
                     }
