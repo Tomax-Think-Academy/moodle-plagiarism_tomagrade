@@ -47,7 +47,7 @@ function plagiarism_tomagrade_get_context_from_cmid($cmid) {
     }
     return $context;
 }
-function check_enabled() {
+function plagiarism_tomagrade_check_enabled() {
 
     $cfg = get_config('plagiarism_tomagrade');
     if (isset($cfg->enabled) && $cfg->enabled) {
@@ -338,7 +338,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
         }
 
         global $DB, $USER, $CFG;
-        if (check_enabled() &&
+        if (plagiarism_tomagrade_check_enabled() &&
          !isset($linkarray["forum"]) &&
           isset($linkarray['file']) &&
            isset($linkarray['cmid']) && isset($linkarray['userid'])) {
@@ -424,7 +424,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
         }
         $exams = $DB->get_records('plagiarism_tomagrade', array('cmid' => $cm->id));
         $userids = new stdClass();
-        if (check_enabled()) {
+        if (plagiarism_tomagrade_check_enabled()) {
             foreach ($exams as $exam) {
                 if ($exam->groupid != null) {
                     $groupsmemebers = $DB->get_records('groups_members', array('groupid' => $exam->groupid));
@@ -527,7 +527,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
     */
 function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
     global $DB, $USER;
-    if (check_enabled()) {
+    if (plagiarism_tomagrade_check_enabled()) {
 
         $config = get_config('plagiarism_tomagrade');
 
@@ -1026,7 +1026,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
     $context = context_course::instance($formwrapper->get_course()->id);
     $modulename = isset($formwrapper->get_current()->modulename) ? 'mod_'.$formwrapper->get_current()->modulename : '';
     global $DB, $USER, $CFG;
-    if (check_enabled()) {
+    if (plagiarism_tomagrade_check_enabled()) {
         if ($modulename == 'mod_assign') {
             $course = $DB->get_record('course', array("id" => $context->instanceid));
             $courseid = $course->idnumber;
@@ -1892,7 +1892,7 @@ function new_event_file_uploaded($eventdata) {
     global $DB;
     $result = true;
 
-    if (check_enabled()) {
+    if (plagiarism_tomagrade_check_enabled()) {
         $eventdata = $eventdata->get_data();
 
         $matalaid = $eventdata['contextinstanceid'];

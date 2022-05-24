@@ -43,7 +43,7 @@ function logandprint($msg, &$log) {
 }
 
 
-if (check_enabled()) {
+if (plagiarism_tomagrade_check_enabled()) {
 
     $connection = new tomagrade_connection;
 
