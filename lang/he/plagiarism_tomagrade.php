@@ -99,3 +99,4 @@ $string['tomagrade_exam_has_hidden_grades'] = "הציון כרגע מוסתר.";
 $string['privacy:metadata'] = "לא שומרת שום מידע פרטי על המשתמשים.";
 $string['tomagrade_FieldNameForCourseFiltering'] = "שם השדה ב TomaGrade עבור סינון רשימת קורסים ";
 $string['tomagrade_FieldValueForCourseFiltering'] = "ערך השדה ב TomaGrade עבור סינון רשימת קורסים";
+$string['error_filehash'] = "הקובץ הנבחר לא שייך למשימה";

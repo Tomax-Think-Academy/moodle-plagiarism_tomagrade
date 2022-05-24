@@ -100,3 +100,4 @@ $string['tomagrade_exam_has_hidden_grades'] = "The grade is currently hidden.";
 $string['privacy:metadata'] = "Does not store any personal information in the moodle store";
 $string['tomagrade_FieldNameForCourseFiltering'] = "Field name on TomaGrade for courses list filtering";
 $string['tomagrade_FieldValueForCourseFiltering'] = "Field value on TomaGrade for courses list filtering";
+$string['error_filehash'] = "The provided filehash is not part of this assignment";

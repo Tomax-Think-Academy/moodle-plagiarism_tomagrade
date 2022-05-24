@@ -48,6 +48,11 @@ if (!is_null($studentid)) {
     $data = $DB->get_record("plagiarism_tomagrade", array("cmid" => $cmid, "groupid" => $groupid));
 }
 if (!isset($data) || is_null($data) || $data == false) {
+    $record = $DB->get_record("plagiarism_tomagrade", array("cmid" => $cmid, "filehash" => $groupid));
+    if (!isset($record) || is_null($record) || $record == false) {
+        \core\notification::error(get_string('error_filehash' , 'plagiarism_tomagrade'));
+        echo "<script>window.close();</script>";
+    }
     $data = new stdClass();
     $data->cmid = $cmid;
     $data->filehash = $filehash;
