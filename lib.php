@@ -556,14 +556,14 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
              (isset($oldinformation->idmatchontg) &&
               isset($data->tomagrade_idmatchontg) &&
                ($oldinformation->idmatchontg != $data->tomagrade_idmatchontg))) {
-                $examidintg = calc_exam_id_in_tg($cmid, isset($data->tomagrade_idmatchontg) ? $data->tomagrade_idmatchontg : "0");
+                $examidintg = plagiarism_tomagrade_calc_exam_id_in_tg($cmid, isset($data->tomagrade_idmatchontg) ? $data->tomagrade_idmatchontg : "0");
 
                 if ($isexam == false) {
-                    $isexamidtafus = is_exam_exists_in_tg($examidintg);
+                    $isexamidtafus = plagiarism_tomagrade_is_exam_exists_in_tg($examidintg);
                     if ($isexamidtafus) {
-                        $examidintg = calc_exam_id_in_tg($cmid, $data->tomagrade_idmatchontg);
+                        $examidintg = plagiarism_tomagrade_calc_exam_id_in_tg($cmid, $data->tomagrade_idmatchontg);
 
-                        $isexamidtafus = is_exam_exists_in_tg($examidintg);
+                        $isexamidtafus = plagiarism_tomagrade_is_exam_exists_in_tg($examidintg);
                         if ($isexamidtafus) {
                             \core\notification::error('Tomagrade error, try again later');
                             return $data;
@@ -1834,7 +1834,7 @@ function tomagrade_set_instance_config($cmid, $data) {
     }
 }
 
-function calc_exam_id_in_tg($cmid, $idmatchontg) {
+function plagiarism_tomagrade_calc_exam_id_in_tg($cmid, $idmatchontg) {
     global $DB;
     $examidintg = "";
 
@@ -1854,7 +1854,7 @@ function calc_exam_id_in_tg($cmid, $idmatchontg) {
     return $examidintg;
 }
 
-function is_exam_exists_in_tg($examid) {
+function plagiarism_tomagrade_is_exam_exists_in_tg($examid) {
     $connection = new tomagrade_connection;
 
     $isexamexistsrequest = $connection->get_request("MoodleGetExamDetails", "/$examid");
@@ -1888,7 +1888,7 @@ function tomagrade_get_instance_config($cmid) {
     return $default;
 }
 
-function new_event_file_uploaded($eventdata) {
+function plagiarism_tomagrade_new_event_file_uploaded($eventdata) {
     global $DB;
     $result = true;
 
@@ -2289,7 +2289,7 @@ class tomagrade_connection {
 
             $examidintg = $matalainfo->examid;
 
-            $isexamexist = is_exam_exists_in_tg($examidintg);
+            $isexamexist = plagiarism_tomagrade_is_exam_exists_in_tg($examidintg);
 
             if ($isexamexist == -1) {
                 $log .= '######### skipped, error in tomagrade or tomagrade is not responding right now ';
