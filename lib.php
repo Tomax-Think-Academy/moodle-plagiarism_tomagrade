@@ -330,13 +330,17 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
      *
      */
     public function get_links($linkarray) {
-
+        tomagrade_log("================== get_links ====================");
         if (isset($linkarray['file'])) {
             if ($linkarray['file']->get_filearea() == "introattachment") {
+                tomagrade_log("================== get_links returning ====================");
                 return;
             }
         }
 
+        tomagrade_log("========= get_links link -linkarray[forum]  ".$linkarray["forum"]." ====================");
+        tomagrade_log("========= get_links link -linkarray[cmid]  ".$linkarray["cmid"]." ====================");
+        tomagrade_log("========= get_links link -linkarray[cmid]  ".$linkarray["userid"]." ====================");
         global $DB, $USER, $CFG;
         if (plagiarism_tomagrade_check_enabled() &&
          !isset($linkarray["forum"]) &&
@@ -353,15 +357,28 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
             }
             $status = $DB->get_record("plagiarism_tomagrade", array('cmid' => $cmid, "filehash" => $file->get_pathnamehash()));
             $result = "";
+
             if ($status != false) {
                 if ($status->groupid != null) {
                     $urlbuild = "?cmid=$cmid&group=$status->groupid";
                 } else {
                     $urlbuild = "?cmid=$cmid&userid=$userid";
                 }
+                tomagrade_log("========= get_links  status != false ====================");
+                tomagrade_log("========= get_links status->finishrender ".$status->finishrender."====================");
                 $instance = $DB->get_record('course_modules', array('id' => $cmid));
                 $matalasettings = $DB->get_record("assign", array("id" => $instance->instance));
+                tomagrade_log("========= get_links matalasettings->blindmarking ".$matalasettings->blindmarking."====================");
+                tomagrade_log("========= get_links matalasettings->revealidentities ".$matalasettings->revealidentities."====================");
+
                 $ishiddengrades = plagiarism_tomagrade_is_hidden_grades($cmid);
+                if($ishiddengrades){
+                    tomagrade_log("========= get_links ishiddengrades true====================");
+                }else{
+                    tomagrade_log("========= get_links ishiddengrades false====================");
+                }
+
+
                 if ( $status->finishrender) { // Check if i can show the new file to the students.
                     if (($matalasettings->blindmarking == "0" || $matalasettings->revealidentities == "1") && !$ishiddengrades) {
                          $result = $result . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/getfile.php' . $urlbuild, "<br>".
@@ -372,7 +389,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                 return $result;
             } else {
                 // Uploaded but not when moodle was activated.
-
+                tomagrade_log("========= get_links  status = false ====================");
                 $mimetype = $linkarray["file"]->get_mimetype();
 
                 $mimetypeext = "";
@@ -398,6 +415,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                 return "<br> " . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php' . $urlbuild, "Submit to Toma Grade ", array("target" => "_blank"));
             }
         }
+        tomagrade_log("================== end of get_links ====================");
     }
 
     /**
@@ -1811,7 +1829,7 @@ function plagiarism_tomagrade_share_teachers($teachers, $teacherstoremove, $iden
 function plagiarism_tomagrade_is_hidden_grades($cmid) {
     global $DB;
     $cmoudule = $DB->get_record('course_modules', array('id' => $cmid));
-    $current = $DB->get_record('grade_items', array('iteminstance' => $cmoudule->instance));
+    $current = $DB->get_record('grade_items', array('iteminstance' => $cmoudule->instance, 'courseid' => $cmoudule->course, 'itemmodule'=>"assign" ));
     if ($current) {
         if ($current->hidden == "1") {
             return true;
