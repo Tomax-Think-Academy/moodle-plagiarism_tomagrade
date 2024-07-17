@@ -1051,7 +1051,10 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
             $config = get_config('plagiarism_tomagrade');
             $courselist = explode("\r\n", $config->ACL_COURSE);
             $categorylist = explode("\r\n", $config->ACL_CATEGORY);
-            $categoryid = $DB->get_record('course_categories', array("id" => $course->category))->idnumber;
+
+            $categoryid = $course->category;
+            tomagrade_log("categoryid: ".$categoryid);
+            tomagrade_log("categorylist: ".$categorylist);
             if ($config->tomagrade_ACL == "1") {
                 if ($courseid == "" && count($courselist) > 0) {
                     return;
