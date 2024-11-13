@@ -23,29 +23,29 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-    require_once(dirname(dirname(__FILE__)) . '/../config.php');
-    require_once($CFG->libdir.'/adminlib.php');
-    require_once($CFG->libdir.'/plagiarismlib.php');
-    require_once($CFG->dirroot.'/plagiarism/tomagrade/lib.php');
-    require_once($CFG->dirroot.'/plagiarism/tomagrade/plagiarism_form.php');
+require_once(dirname(dirname(__FILE__)) . '/../config.php');
+require_once($CFG->libdir . '/adminlib.php');
+require_once($CFG->libdir . '/plagiarismlib.php');
+require_once($CFG->dirroot . '/plagiarism/tomagrade/lib.php');
+require_once($CFG->dirroot . '/plagiarism/tomagrade/plagiarism_form.php');
 
-    require_login();
-    admin_externalpage_setup('plagiarismtomagrade');
+require_login();
+admin_externalpage_setup('plagiarismtomagrade');
 if ($CFG->version < 2011120100) {
     $context = get_context_instance(CONTEXT_SYSTEM);
 } else {
     $context = context_system::instance();
 }
-    require_capability('moodle/site:config', $context, $USER->id, true, "nopermissions");
+require_capability('moodle/site:config', $context, $USER->id, true, "nopermissions");
 
-    $mform = new plagiarism_setup_form();
-    $plagiarismsettings = (array)get_config('plagiarism_tomagrade');
+$mform = new plagiarism_setup_form();
+$plagiarismsettings = (array) get_config('plagiarism_tomagrade');
 
 if ($mform->is_cancelled()) {
     redirect(new moodle_url('/plagiarism/tomagrade/settings.php'));
 }
 
-    echo $OUTPUT->header();
+echo $OUTPUT->header();
 
 if (($data = $mform->get_data()) && confirm_sesskey()) {
     if (!isset($data->tomagrade_use)) {
@@ -53,11 +53,14 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
     }
     set_config('enabled', $data->tomagrade_use, 'plagiarism_tomagrade');
     if (isset($data->tomagrade_log)) {
+        $dirpermissions = !isset($CFG->directorypermissions) ? 02777 : $CFG->directorypermissions;
+        if (!is_dir($CFG->dataroot . "/plagiarism/tomagrade")) {
+            mkdir($CFG->dataroot . "/plagiarism/tomagrade", $dirpermissions, true);
+        }
         set_config('tomagrade_log', $data->tomagrade_log, 'plagiarism_tomagrade');
     } else {
         set_config('tomagrade_log', false, 'plagiarism_tomagrade');
     }
-
 
     $tomagradeuserrolestodisplayrelatedassign = "";
     $tomagradeuserrolestodisplayrelatedassignisfirst = true;
@@ -71,20 +74,17 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
             continue; // Setting unchanged!
         }
 
-
-
-
         if (strpos($field, 'role_') !== false) {
             $roleid = str_replace("role_", "", $field);
             if (is_numeric($roleid) == false) {
-                 continue;
+                continue;
             }
 
             if ($tomagradeuserrolestodisplayrelatedassignisfirst) {
                 $tomagradeuserrolestodisplayrelatedassign = $roleid;
                 $tomagradeuserrolestodisplayrelatedassignisfirst = false;
             } else {
-                $tomagradeuserrolestodisplayrelatedassign = $tomagradeuserrolestodisplayrelatedassign . ",". $roleid;
+                $tomagradeuserrolestodisplayrelatedassign = $tomagradeuserrolestodisplayrelatedassign . "," . $roleid;
             }
             continue;
         }
@@ -99,20 +99,18 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
                 $tomagradeuserrolespermissiongradedexam = $roleid;
                 $tomagradeuserrolespermissiongradedexamisfirst = false;
             } else {
-                $tomagradeuserrolespermissiongradedexam = $tomagradeuserrolespermissiongradedexam . ",". $roleid;
+                $tomagradeuserrolespermissiongradedexam = $tomagradeuserrolespermissiongradedexam . "," . $roleid;
             }
             continue;
         }
-
-
 
         // Save the setting!
         set_config($field, $value, 'plagiarism_tomagrade');
 
         if (strpos($field, 'tomagrade') === 0) {
-            if ($tiiconfigfield = $DB->get_record('config_plugins', array('name' => $field, 'plugin' => 'plagiarism'))) {
+            if ($tiiconfigfield = $DB->get_record('config_plugins', ['name' => $field, 'plugin' => 'plagiarism'])) {
                 $tiiconfigfield->value = $value;
-                if (! $DB->update_record('config_plugins', $tiiconfigfield)) {
+                if (!$DB->update_record('config_plugins', $tiiconfigfield)) {
                     error("errorupdating");
                 }
             } else {
@@ -120,7 +118,7 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
                 $tiiconfigfield->value = $value;
                 $tiiconfigfield->plugin = 'plagiarism';
                 $tiiconfigfield->name = $field;
-                if (! $DB->insert_record('config_plugins', $tiiconfigfield)) {
+                if (!$DB->insert_record('config_plugins', $tiiconfigfield)) {
                     error("errorinserting");
                 }
             }
@@ -133,15 +131,13 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
     $plagiarismsettings['tomagrade_userRolesPermissionGradedExam'] = $tomagradeuserrolespermissiongradedexam;
     set_config('tomagrade_userRolesPermissionGradedExam', $tomagradeuserrolespermissiongradedexam, 'plagiarism_tomagrade');
 
-
     echo $OUTPUT->notification(get_string('savedconfigsuccess', 'plagiarism_tomagrade'), 'notifysuccess');
 }
 
+$settingskeys = array_keys($plagiarismsettings);
 
-    $settingskeys = array_keys($plagiarismsettings);
-
-    $rolesarrrelateduser = array();
-    $rolesarrpermissiongradedexam = array();
+$rolesarrrelateduser = [];
+$rolesarrpermissiongradedexam = [];
 if (in_array('tomagrade_userRolesToDisplayRelatedAssign', $settingskeys)) {
     $rolesarrrelateduser = explode(",", $plagiarismsettings['tomagrade_userRolesToDisplayRelatedAssign']);
 }
@@ -150,21 +146,18 @@ if (in_array('tomagrade_userRolesPermissionGradedExam', $settingskeys)) {
     $rolesarrpermissiongradedexam = explode(",", $plagiarismsettings['tomagrade_userRolesPermissionGradedExam']);
 }
 
-
 foreach ($rolesarrrelateduser as $role) {
-    $plagiarismsettings["role_".$role] = true;
+    $plagiarismsettings["role_" . $role] = true;
 }
 
 foreach ($rolesarrpermissiongradedexam as $role) {
-    $plagiarismsettings["rolePermissionGradedExam_".$role] = true;
+    $plagiarismsettings["rolePermissionGradedExam_" . $role] = true;
 }
 
+$mform->set_data($plagiarismsettings);
 
+echo $OUTPUT->box_start('generalbox boxaligncenter', 'intro');
+$mform->display();
 
-    $mform->set_data($plagiarismsettings);
-
-    echo $OUTPUT->box_start('generalbox boxaligncenter', 'intro');
-    $mform->display();
-
-    echo $OUTPUT->box_end();
-    echo $OUTPUT->footer();
+echo $OUTPUT->box_end();
+echo $OUTPUT->footer();
