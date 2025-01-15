@@ -338,18 +338,18 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
             }
         }
 
-        tomagrade_log("========= get_links link -linkarray[forum]  ".$linkarray["forum"]." ====================");
         tomagrade_log("========= get_links link -linkarray[cmid]  ".$linkarray["cmid"]." ====================");
-        tomagrade_log("========= get_links link -linkarray[cmid]  ".$linkarray["userid"]." ====================");
+        tomagrade_log("========= get_links link -linkarray[userid]  ".$linkarray["userid"]." ====================");
         global $DB, $USER, $CFG;
         if (plagiarism_tomagrade_check_enabled() &&
-         !isset($linkarray["forum"]) &&
           isset($linkarray['file']) &&
            isset($linkarray['cmid']) && isset($linkarray['userid'])) {
 
             $cmid = $linkarray['cmid'];
             $userid = $linkarray['userid']; // Who uploaded -- could be admin.
             $file = $linkarray['file'];
+            $tgcolscript = self::get_tg_col_script($cmid);
+            $tgcolscript = $tgcolscript ? $tgcolscript : "";
 
             $config = tomagrade_get_instance_config($cmid);
             if ($config->upload == 0) {
@@ -357,7 +357,9 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
             }
             $status = $DB->get_record("plagiarism_tomagrade", array('cmid' => $cmid, "filehash" => $file->get_pathnamehash()));
             $result = "";
-
+            $statusString = print_r($status, true);
+            tomagrade_log("========= get_links link -status  ".$statusString. "====================");
+            tomagrade_log("========= get_links link -status->updatestatus  ".$status->updatestatus. "====================");
             if ($status != false) {
                 if ($status->groupid != null) {
                     $urlbuild = "?cmid=$cmid&group=$status->groupid";
@@ -386,7 +388,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                            array("target" => "_blank", "class" => "linkgetfile"));
                     }
                 }
-                return $result;
+                return "" . $tgcolscript . $result;
             } else {
                 // Uploaded but not when moodle was activated.
                 tomagrade_log("========= get_links  status = false ====================");
@@ -407,12 +409,12 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                 $urlbuild = "?cmid=$cmid&filehash=$hash";
 
                 if (self::check_if_good_file($mimetypeext) == false || self::check_if_good_file($fileext) == false ) {
-                    return "<br> " . get_string('invalid_file_type_for_TomaGrade', 'plagiarism_tomagrade') . "<br> "
+                    return "" . $tgcolscript . "<br> " . get_string('invalid_file_type_for_TomaGrade', 'plagiarism_tomagrade') . "<br> "
                     . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php' . $urlbuild,
                      get_string('Upload_to_TomaGrade_again', 'plagiarism_tomagrade'), array("target" => "_blank"));
                 }
 
-                return "<br> " . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php' . $urlbuild, "Submit to Toma Grade ", array("target" => "_blank"));
+                return "" . $tgcolscript . "<br> " . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php' . $urlbuild, "Submit to Toma Grade ", array("target" => "_blank"));
             }
         }
         tomagrade_log("================== end of get_links ====================");
@@ -427,8 +429,121 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
         global $OUTPUT;
     }
 
+    private function get_tg_col_script($cmid) {
+        global $CFG, $DB;
+        tomagrade_log("========= get_tg_col_script start ====================");
+        $config = tomagrade_get_instance_config($cmid);
+        if ($config->upload == 0) {
+            return false;
+        }
+        $exams = $DB->get_records('plagiarism_tomagrade', array('cmid' => $cmid));
+        $userids = new stdClass();
+        if (plagiarism_tomagrade_check_enabled()) {
+            foreach ($exams as $exam) {
+                if ($exam->groupid != null) {
+                    $groupsmemebers = $DB->get_records('groups_members', array('groupid' => $exam->groupid));
+                    foreach ($groupsmemebers as $group) {
+                        $userids->{$group->userid} = $exam;
+                    }
+                } else {
+                    $userids->{$exam->userid} = $exam;
+                }
+            }
+            $urlopenexam = $CFG->wwwroot . '/plagiarism/tomagrade/openexam.php';
+            $urlreupload = $CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php';
+            return '
+                <style>
+                    .link{
+                        text-decoration:none;
+                        color:green;
+                    }
+                    .link:hover{
+                        text-decoration:none;
+                        color:green;
+                    }
+                    .linkgetfile{
+                        color:black;
+                    }
+                    .tgname{
+                        font-size: 105%;
+                    }
+                    </style>
+                <script>
+                setTimeout(function(){
+                    let urlopenexam = "' . $urlopenexam . '"
+                    let urlreupload = "' . $urlreupload . '"
+                    let cmid = ' . $cmid . '
+                    let location = 5;
+                    let x = document.querySelectorAll("tr");
+                    let thead = document.getElementsByTagName("table")[0].tHead.children[0];
+                    th = document.createElement("th");
+                    th.id = "tg-col-header"
+                    th.className = "header c"+(x.length + 2)
+                    th.innerHTML = "TomaGrade";
+                    // // thead.appendChild(th);
+                    if (document.getElementById("tg-col-header")) {
+                        // if column already exist do nothing
+                        return
+                    }
+                    thead.insertBefore(th,thead.children[location])
+                    // th.insertAfter(x)
+                    let y = document.querySelectorAll("tr");
+                    let users = JSON.parse(`' . json_encode($userids) . '`)
+                    console.log(users)
+
+                    y.forEach((tr,index) => {
+                        let tbody = y[index];
+                        td = document.createElement("td");
+                        td.className = "";
+                        if (index != 0){
+                            let className = tr.className;
+                            let userID = className.split(" ")[0].substring(4);
+                            if (isNaN(userID)) return;
+                            let currentUser = users[userID];
+                            console.log(userID);
+                            if (currentUser){
+                                let preHTML = ""
+                                let urlToOpenGrade = urlopenexam + "?cmid="+cmid
+                                let urlreuploadTG = urlreupload + "?cmid="+cmid
+                                if(currentUser.groupid != null){
+                                    urlToOpenGrade += "&groupid="+currentUser.groupid;
+                                    urlreuploadTG += "&groupid="+currentUser.groupid;
+                                }else{
+                                    urlToOpenGrade += "&studentid="+currentUser.userid;
+                                    urlreuploadTG += "&studentid="+currentUser.userid;
+                                }
+                                let textToReUpload = "'. get_string('Upload_to_TomaGrade', 'plagiarism_tomagrade') . '";
+                                if (currentUser["status"] == 0){
+
+                                }else{
+                                    preHTML = \'<div id="TomaGrade"><br><a class="link" href=\'+ urlToOpenGrade +\' target="_blank" >'
+                                    . get_string('Check_with', 'plagiarism_tomagrade') .'<img style="padding-bottom:15px;" src="' . $CFG->wwwroot .
+                                    '/plagiarism/tomagrade/pix/icon.png" alt="Go to TomaGrade!"></a></div>\'
+                                    textToReUpload = "'. get_string('Upload_to_TomaGrade_again', 'plagiarism_tomagrade') .'"
+                                }
+                                preHTML+= \'<div> <a target="_blank" href="\' + urlreuploadTG + \'">\' + textToReUpload + \' </a> </div>\'
+                                td.innerHTML = preHTML;
+                                // thead.appendChild(td);
+                            }else{
+                                td.innerHTML = "<p>'.  get_string('TomaGrade_did_not_recognise_any_file', 'plagiarism_tomagrade')  .'</p>";
+                            }
+                            tbody.insertBefore(td,tbody.children[location])
+                        }
+
+                    })
+                    // for(let i = 0; i < x.length; i++){
+                    //     if(x[i].className.indexOf("user") != -1 && x[i].className.indexOf("checked") == -1){
+                    //         x[i].childNodes[5].insertAdjacentHTML("beforeend","<p>The grade has not been submitted yet.</p>");
+                    //     }
+                    // }
+                },1000)
+                </script>';
+        }
+    }
+
     /**
      * hook to allow status of submitted files to be updated - called on grading/report pages.
+     * DEPRECATED - moved this logic to get_links->get_tg_col_script
      *
      * @param object $course - full Course object
      * @param object $cm - full cm object
@@ -476,14 +591,19 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
         setTimeout(function(){
             let urlopenexam = "' . $urlopenexam . '"
             let urlreupload = "' . $urlreupload . '"
-            let cmid = ' . $cm->id . '
+            let cmid = ' . $cmid . '
             let location = 5;
             let x = document.querySelectorAll("tr");
             let thead = document.getElementsByTagName("table")[0].tHead.children[0];
             th = document.createElement("th");
+            th.id = "tg-col-header"
             th.className = "header c"+(x.length + 2)
             th.innerHTML = "TomaGrade";
             // // thead.appendChild(th);
+            if (document.getElementById("tg-col-header")) {
+                // if column already exist do nothing
+                return
+            }
             thead.insertBefore(th,thead.children[location])
             // th.insertAfter(x)
             let y = document.querySelectorAll("tr");
