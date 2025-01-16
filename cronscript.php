@@ -116,7 +116,7 @@ if (plagiarism_tomagrade_check_enabled()) {
     update {plagiarism_tomagrade}  set finishrender = 1 where id in (  select id from
     ( select student.id as id  from {plagiarism_tomagrade_config} as config
      inner join {plagiarism_tomagrade} as student on config.cm = student.cmid
-     where cmid in ($examscmidscist) ) as x ) ");
+     where cmid in ($examscmidscist) and student.status=1 ) as x ) ");
 
         if ($notrendered == true) {
 
