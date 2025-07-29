@@ -1163,9 +1163,10 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
 function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mform) {
     $context = context_course::instance($formwrapper->get_course()->id);
     $modulename = isset($formwrapper->get_current()->modulename) ? 'mod_'.$formwrapper->get_current()->modulename : '';
-    global $DB, $USER, $CFG;
+    global $DB, $USER, $CFG, $PAGE;
     if (plagiarism_tomagrade_check_enabled()) {
         if ($modulename == 'mod_assign') {
+
             $course = $DB->get_record('course', array("id" => $context->instanceid));
             $courseid = $course->idnumber;
             $config = get_config('plagiarism_tomagrade');
@@ -1174,7 +1175,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
             $categoryid = $course->category;
             tomagrade_log("categoryid: ".$categoryid);
-            tomagrade_log("categorylist: ".$categorylist);
+
             if ($config->tomagrade_ACL == "1") {
                 if ($courseid == "" && count($courselist) > 0) {
                     return;
@@ -1662,7 +1663,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                     $defaultoptionexam = "'".$data->idmatchontg."'";
                 }
 
-                echo ("<script>
+                $PAGE->requires->js_init_code("
                 var teachersHashMap = {};
                 var defaultoptionexam = $defaultoptionexam;
 
@@ -1742,7 +1743,7 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
                 }
 
-                </script>");
+                ");
 
             }
 
@@ -1761,9 +1762,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 }
             }
 
-            echo "<style>
-            .checkboxgroup1 { margin-top:0 !important;  margin-bottom:0 !important; }
-            </style>";
+
+            $PAGE->requires->css(new moodle_url('/plagiarism/tomagrade/styles/tomagrade.css'));
 
             if (isset($data)) {
                 if (isset($data->examid)) {
