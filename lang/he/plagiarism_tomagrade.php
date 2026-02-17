@@ -61,6 +61,7 @@ $string['Start_it_manual'] = "העלאה ידנית של הגשות";
 $string['Click_here'] = "לחץ כאן";
 $string['TomaGrade_did_not_recognise_any_file'] = "לא זוהה קובץ עבור TomaGrade";
 $string['Press_here_to_view_the_graded_exam'] = "לחץ כאן לצפיה בהגשה הבדוקה";
+$string['Feedback_Files'] = "משובים בקבצים";
 $string['Check_with'] = "עבור לבדיקה";
 $string['Upload_to_TomaGrade_again'] = "העלאה חוזרת ל TomaGrade";
 $string['Upload_to_TomaGrade'] = "העלאה ל TomaGrade";
