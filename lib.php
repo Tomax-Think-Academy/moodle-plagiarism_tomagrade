@@ -453,7 +453,6 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
             $urlopenexam = $CFG->wwwroot . '/plagiarism/tomagrade/openexam.php';
             $urlreupload = $CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php';
 
-            $gradedExamLink = isset($gradedExamLink) ? $gradedExamLink : false;
             return '
                 <style>
                     .link{
@@ -473,7 +472,6 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                     </style>
                 <script>
                 function addGradedLinkToFeedbackTable(feedbackTable, content) {
-                    console.log("addGradedLinkToFeedbackTable");
                     tr = document.createElement("tr");
                     th = document.createElement("th");
                     th.id = "graded-col-header"
@@ -563,7 +561,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                     const feedbackTable = document
                         .getElementsByClassName("feedbacktable")[0]
                         ?.getElementsByClassName("generaltable")[0];
-                    if (' . isset($gradedExamLink) . ' && !!feedbackTable) {
+                    if (' . (isset($gradedExamLink) ? 'true' : 'false') . ' && !!feedbackTable) {
                         addGradedLinkToFeedbackTable(feedbackTable, \'' . $gradedExamLink . '\');
                     }
                 },1000)
