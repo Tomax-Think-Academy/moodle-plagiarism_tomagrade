@@ -478,7 +478,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                     th = document.createElement("th");
                     th.id = "graded-col-header"
                     th.className = "cell c0"
-                    th.innerHTML = "'. get_string('Graded_Submission', 'plagiarism_tomagrade') . '";
+                    th.innerHTML = "'. get_string('Feedback_Files', 'plagiarism_tomagrade') . '";
                     tr.appendChild(th);
                     td = document.createElement("td");
                     td.className = "cell c1 lastcol"
