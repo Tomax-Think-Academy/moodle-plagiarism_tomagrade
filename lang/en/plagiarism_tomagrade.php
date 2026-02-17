@@ -61,6 +61,7 @@ $string['Start_it_manual'] = "Manually submissions upload";
 $string['Click_here'] = "Click here";
 $string['TomaGrade_did_not_recognise_any_file'] = "TomaGrade did not recognise any file";
 $string['Press_here_to_view_the_graded_exam'] = "Press here to view the graded submission";
+$string['Graded_Submission'] = "Graded Submission";
 $string['Check_with'] = "Check with";
 $string['again'] = "again";
 $string['Upload_to_TomaGrade'] = "Upload to TomaGrade";

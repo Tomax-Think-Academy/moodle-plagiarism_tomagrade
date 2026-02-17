@@ -348,15 +348,12 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
             $cmid = $linkarray['cmid'];
             $userid = $linkarray['userid']; // Who uploaded -- could be admin.
             $file = $linkarray['file'];
-            $tgcolscript = self::get_tg_col_script($cmid);
-            $tgcolscript = $tgcolscript ? $tgcolscript : "";
 
             $config = tomagrade_get_instance_config($cmid);
             if ($config->upload == 0) {
                 return false;
             }
             $status = $DB->get_record("plagiarism_tomagrade", array('cmid' => $cmid, "filehash" => $file->get_pathnamehash()));
-            $result = "";
             $statusString = print_r($status, true);
             tomagrade_log("========= get_links link -status  ".$statusString. "====================");
             tomagrade_log("========= get_links link -status->updatestatus  ".$status->updatestatus. "====================");
@@ -381,14 +378,17 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                 }
 
 
-                if ( $status->finishrender) { // Check if i can show the new file to the students.
+                if ($status->finishrender) { // Check if i can show the new file to the students.
                     if (($matalasettings->blindmarking == "0" || $matalasettings->revealidentities == "1") && !$ishiddengrades) {
-                         $result = $result . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/getfile.php' . $urlbuild, "<br>".
-                          get_string('Press_here_to_view_the_graded_exam', 'plagiarism_tomagrade'),
-                           array("target" => "_blank", "class" => "linkgetfile"));
+                        $gradedExamLink = html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/getfile.php' . $urlbuild,
+                            get_string('Press_here_to_view_the_graded_exam', 'plagiarism_tomagrade'),
+                            array("target" => "_blank"));
+                        $tgcolscript = self::get_tg_col_script($cmid, $gradedExamLink) ?? "";
+                        return $tgcolscript;
                     }
                 }
-                return "" . $tgcolscript . $result;
+                $tgcolscript = self::get_tg_col_script($cmid) ?? "";
+                return $tgcolscript;
             } else {
                 // Uploaded but not when moodle was activated.
                 tomagrade_log("========= get_links  status = false ====================");
@@ -408,6 +408,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                 $hash = $linkarray["file"]->get_pathnamehash();
                 $urlbuild = "?cmid=$cmid&filehash=$hash";
 
+                $tgcolscript = self::get_tg_col_script($cmid) ?? "";
                 if (self::check_if_good_file($mimetypeext) == false || self::check_if_good_file($fileext) == false ) {
                     return "" . $tgcolscript . "<br> " . get_string('invalid_file_type_for_TomaGrade', 'plagiarism_tomagrade') . "<br> "
                     . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php' . $urlbuild,
@@ -429,7 +430,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
         global $OUTPUT;
     }
 
-    private function get_tg_col_script($cmid) {
+    private function get_tg_col_script($cmid, $gradedExamLink) {
         global $CFG, $DB;
         tomagrade_log("========= get_tg_col_script start ====================");
         $config = tomagrade_get_instance_config($cmid);
@@ -451,6 +452,8 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
             }
             $urlopenexam = $CFG->wwwroot . '/plagiarism/tomagrade/openexam.php';
             $urlreupload = $CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php';
+
+            $gradedExamLink = isset($gradedExamLink) ? $gradedExamLink : false;
             return '
                 <style>
                     .link{
@@ -469,13 +472,27 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                     }
                     </style>
                 <script>
-                setTimeout(function(){
+                function addGradedLinkToFeedbackTable(feedbackTable, content) {
+                    console.log("addGradedLinkToFeedbackTable");
+                    tr = document.createElement("tr");
+                    th = document.createElement("th");
+                    th.id = "graded-col-header"
+                    th.className = "cell c0"
+                    th.innerHTML = "'. get_string('Graded_Submission', 'plagiarism_tomagrade') . '";
+                    tr.appendChild(th);
+                    td = document.createElement("td");
+                    td.className = "cell c1 lastcol"
+                    td.innerHTML = content;
+                    tr.appendChild(td);
+                    feedbackTable.getElementsByTagName("tbody")[0].appendChild(tr);
+                }
+                function manipulateSubmissionsTable() {
                     let urlopenexam = "' . $urlopenexam . '"
                     let urlreupload = "' . $urlreupload . '"
                     let cmid = ' . $cmid . '
                     let location = 5;
                     let x = document.querySelectorAll("tr");
-                    let thead = document.getElementsByTagName("table")[0].tHead.children[0];
+                    let thead = document.getElementById("submissions").tHead.children[0];
                     th = document.createElement("th");
                     th.id = "tg-col-header"
                     th.className = "header c"+(x.length + 2)
@@ -536,6 +553,19 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                     //         x[i].childNodes[5].insertAdjacentHTML("beforeend","<p>The grade has not been submitted yet.</p>");
                     //     }
                     // }
+
+                }
+
+                setTimeout(function() {
+                    if (document.getElementById("submissions")) {
+                        manipulateSubmissionsTable();
+                    }
+                    const feedbackTable = document
+                        .getElementsByClassName("feedbacktable")[0]
+                        ?.getElementsByClassName("generaltable")[0];
+                    if (' . isset($gradedExamLink) . ' && !!feedbackTable) {
+                        addGradedLinkToFeedbackTable(feedbackTable, \'' . $gradedExamLink . '\');
+                    }
                 },1000)
                 </script>';
         }
@@ -588,7 +618,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
             }
             </style>
         <script>
-        setTimeout(function(){
+        setTimeout(function() {
             let urlopenexam = "' . $urlopenexam . '"
             let urlreupload = "' . $urlreupload . '"
             let cmid = ' . $cmid . '
