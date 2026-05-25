@@ -387,7 +387,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                         return $tgcolscript;
                     }
                 }
-                $tgcolscript = self::get_tg_col_script($cmid) ?? "";
+                $tgcolscript = self::get_tg_col_script($cmid, null) ?? "";
                 return $tgcolscript;
             } else {
                 // Uploaded but not when moodle was activated.
@@ -408,7 +408,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                 $hash = $linkarray["file"]->get_pathnamehash();
                 $urlbuild = "?cmid=$cmid&filehash=$hash";
 
-                $tgcolscript = self::get_tg_col_script($cmid) ?? "";
+                $tgcolscript = self::get_tg_col_script($cmid, null) ?? "";
                 if (self::check_if_good_file($mimetypeext) == false || self::check_if_good_file($fileext) == false ) {
                     return "" . $tgcolscript . "<br> " . get_string('invalid_file_type_for_TomaGrade', 'plagiarism_tomagrade') . "<br> "
                     . html_writer::link($CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php' . $urlbuild,
