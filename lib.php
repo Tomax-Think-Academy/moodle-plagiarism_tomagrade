@@ -2119,7 +2119,10 @@ function plagiarism_tomagrade_new_event_file_uploaded($eventdata) {
             } else {
                 $DB->insert_record('plagiarism_tomagrade', $data);
             }
-            $DB->execute('UPDATE {plagiarism_tomagrade_config} SET complete = "0" WHERE cm = "' . $eventdata["contextinstanceid"] . '"');
+            $DB->execute(
+                'UPDATE {plagiarism_tomagrade_config} SET complete = 0 WHERE cm = ?',
+                [$eventdata["contextinstanceid"]]
+            );
             // Check completed.
             return $result;
         } else {
