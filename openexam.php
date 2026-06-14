@@ -33,15 +33,11 @@ require_login();
 global $DB, $CFG, $USER;
 
 $cmid = required_param('cmid', PARAM_INT);
+$context = context_module::instance($cmid);
+require_capability('mod/assign:grade', $context);
+
 $studentid = optional_param('studentid', null, PARAM_INT);
 $groupid = optional_param('groupid', null, PARAM_INT);
-
-
-if ($CFG->version < 2011120100) {
-    $context = get_context_instance(CONTEXT_SYSTEM);
-} else {
-    $context = context_system::instance();
-}
 
 if (is_null($studentid) && is_null($groupid) ) {
     echo ("<script>alert('".get_string('tomagrade_contactAdmin', 'plagiarism_tomagrade')."');</script>");
