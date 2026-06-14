@@ -62,9 +62,6 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
     $tomagradeuserrolestodisplayrelatedassign = "";
     $tomagradeuserrolestodisplayrelatedassignisfirst = true;
 
-    $tomagradeuserrolespermissiongradedexam = "";
-    $tomagradeuserrolespermissiongradedexamisfirst = true;
-
     foreach ($data as $field => $value) {
         if (isset($plagiarismsettings->$field) && $plagiarismsettings->$field == $value) {
             // Local property copy is equal to submitted property!
@@ -88,23 +85,6 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
             }
             continue;
         }
-
-        if (strpos($field, 'rolePermissionGradedExam_') !== false) {
-            $roleid = str_replace("rolePermissionGradedExam_", "", $field);
-            if (is_numeric($roleid) == false) {
-                continue;
-            }
-
-            if ($tomagradeuserrolespermissiongradedexamisfirst) {
-                $tomagradeuserrolespermissiongradedexam = $roleid;
-                $tomagradeuserrolespermissiongradedexamisfirst = false;
-            } else {
-                $tomagradeuserrolespermissiongradedexam = $tomagradeuserrolespermissiongradedexam . ",". $roleid;
-            }
-            continue;
-        }
-
-
 
         // Save the setting!
         set_config($field, $value, 'plagiarism_tomagrade');
@@ -130,10 +110,6 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
     $plagiarismsettings['tomagrade_userRolesToDisplayRelatedAssign'] = $tomagradeuserrolestodisplayrelatedassign;
     set_config('tomagrade_userRolesToDisplayRelatedAssign', $tomagradeuserrolestodisplayrelatedassign, 'plagiarism_tomagrade');
 
-    $plagiarismsettings['tomagrade_userRolesPermissionGradedExam'] = $tomagradeuserrolespermissiongradedexam;
-    set_config('tomagrade_userRolesPermissionGradedExam', $tomagradeuserrolespermissiongradedexam, 'plagiarism_tomagrade');
-
-
     echo $OUTPUT->notification(get_string('savedconfigsuccess', 'plagiarism_tomagrade'), 'notifysuccess');
 }
 
@@ -141,22 +117,12 @@ if (($data = $mform->get_data()) && confirm_sesskey()) {
     $settingskeys = array_keys($plagiarismsettings);
 
     $rolesarrrelateduser = array();
-    $rolesarrpermissiongradedexam = array();
 if (in_array('tomagrade_userRolesToDisplayRelatedAssign', $settingskeys)) {
     $rolesarrrelateduser = explode(",", $plagiarismsettings['tomagrade_userRolesToDisplayRelatedAssign']);
 }
 
-if (in_array('tomagrade_userRolesPermissionGradedExam', $settingskeys)) {
-    $rolesarrpermissiongradedexam = explode(",", $plagiarismsettings['tomagrade_userRolesPermissionGradedExam']);
-}
-
-
 foreach ($rolesarrrelateduser as $role) {
     $plagiarismsettings["role_".$role] = true;
-}
-
-foreach ($rolesarrpermissiongradedexam as $role) {
-    $plagiarismsettings["rolePermissionGradedExam_".$role] = true;
 }
 
 
