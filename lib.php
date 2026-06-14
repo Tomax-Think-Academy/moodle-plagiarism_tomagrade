@@ -2188,7 +2188,9 @@ class tomagrade_log_reader {
     }
 
     private function read_log($filename) {
-        $details = "------- Log of : ".$filename;
+        global $CFG;
+        $displaypath = str_replace($CFG->dirroot, '', $filename);
+        $details = "------- Log of : " . $displaypath;
         if (!$fp = fopen($filename, 'r')) {
             $details = $details . "<br> Error opening the file";
             return $details;
@@ -2201,6 +2203,7 @@ class tomagrade_log_reader {
     }
 
     public function delete_tomagrade_logs() {
+        global $CFG;
         $details = "<u> Attempting to delete log files </u> <br>";
         foreach (self::LOCATIONS as $location) {
             $currentfilepath = $this->build_file_path($location);
@@ -2208,10 +2211,11 @@ class tomagrade_log_reader {
                 $currentfilepath = $this->build_file_path($location);
                 if (is_writable($currentfilepath)) {
                     $deleted = unlink($currentfilepath);
+                    $displaypath = str_replace($CFG->dirroot, '', $currentfilepath);
                     if ($deleted) {
-                        $details = $details . " Succefully deleted: " . $currentfilepath ."<br>";
+                        $details = $details . " Succefully deleted: " . $displaypath . "<br>";
                     } else {
-                        $details = $details . " failed to delete: " . $currentfilepath ."<br>";
+                        $details = $details . " failed to delete: " . $displaypath . "<br>";
                     }
                 }
             }
