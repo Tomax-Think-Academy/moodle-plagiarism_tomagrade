@@ -38,42 +38,29 @@ $cmid= required_param('cmid', PARAM_INT);
 $userid = optional_param('userid',null, PARAM_INT);
 $group = optional_param('group',null, PARAM_INT);
 
-$context = plagiarism_tomagrade_get_context_from_cmid($cmid);
-// DISABLED DUE TO PERMISSIONS ISSUES!!!
-$config = get_config('plagiarism_tomagrade');
+$context = context_module::instance($cmid);
 
 $permission = false;
-if (!is_null($userid)) {
+// Students may view their own graded file; teachers/graders may view any file via has_capability below.
+if ($userid === $USER->id) {
     $id = plagiarism_plugin_tomagrade::get_user_identifier($userid);
-    if ($userid == $USER->id) {
-        $permission = true;
-
-    }
+    $permission = true;
 } else if (!is_null($group)) {
     $id = tomagrade_connection::format_group_name($group);
-    $permission = in_array($USER->id, plagiarism_plugin_tomagrade::get_user_id_by_group_identifier($id));
-}
-if ($permission == false) {
-    if (isset($config->tomagrade_userRolesPermissionGradedExam) == true && $config->tomagrade_userRolesPermissionGradedExam != "") {
-
-        // Check roles on course level.
-        $teachersarr = $DB->get_records_sql("
-        SELECT DISTINCT   u.id, u.username, u.firstname, u.lastname, u.email, u.idnumber
-        FROM {role_assignments} ra, {user} u, {course} c, {context} cxt
-        WHERE ra.userid = u.id
-        AND ra.contextid = cxt.id
-        AND cxt.contextlevel =50
-        AND cxt.instanceid = c.id
-        AND c.id = (SELECT course FROM {course_modules} WHERE id = '$context->instanceid')
-        AND u.id = '$USER->id'
-        AND roleid in ($config->tomagrade_userRolesPermissionGradedExam); ");
-
-
-        if (count($teachersarr) > 0) {
-            $permission = true;
-        }
+    if (in_array($USER->id, plagiarism_plugin_tomagrade::get_user_id_by_group_identifier($id))) {
+        $permission = true;
     }
 }
+if ($permission === false) {
+    if (!is_null($userid) && has_capability('mod/assign:grade', $context)) {
+        $id = plagiarism_plugin_tomagrade::get_user_identifier($userid);
+        $permission = true;
+    } else if (!is_null($group) && has_capability('mod/assign:grade', $context)) {
+        $id = tomagrade_connection::format_group_name($group);
+        $permission = true;
+    }
+}
+
 if ($permission === false) {
     echo ("<script>alert('".get_string('tomagrade_notAllowedToView', 'plagiarism_tomagrade')."');</script>");
     echo ("<script>window.close();</script>");
