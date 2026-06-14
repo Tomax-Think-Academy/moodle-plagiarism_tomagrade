@@ -54,11 +54,14 @@ if ($fromform = $mform->get_data()) {
 
 
 function check_exam($assignid) {
-    $sql = "select * from {plagiarism_tomagrade_config} inner join {plagiarism_tomagrade}
-   on {plagiarism_tomagrade_config}.cm = {plagiarism_tomagrade}.cmid  where {plagiarism_tomagrade_config}.examid = '".$assignid."'";
-
     global $DB;
-    $records = $DB->get_records_sql($sql);
+    $records = $DB->get_records_sql(
+        "SELECT * FROM {plagiarism_tomagrade_config}
+         INNER JOIN {plagiarism_tomagrade}
+             ON {plagiarism_tomagrade_config}.cm = {plagiarism_tomagrade}.cmid
+         WHERE {plagiarism_tomagrade_config}.examid = ?",
+        [$assignid]
+    );
     $table = "<table border='1'><tr>
     <th>cm</th>
     <th>examid</th>
