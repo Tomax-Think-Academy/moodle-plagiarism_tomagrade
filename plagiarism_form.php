@@ -220,9 +220,6 @@ class plagiarism_setup_form extends moodleform {
         $mform->addElement('button', "onclick='asdfasfd'", "Check Connection",
          array("onclick" => "window.open('$checkconnection')"));
 
-        $debug = $CFG->wwwroot . '/plagiarism/tomagrade/tomagrade_debug.php';
-        $mform->addElement('button', "onclick='asdfasfd'", "Debug form",
-         array("onclick" => "window.open('$debug')"));
 
     }
 }
