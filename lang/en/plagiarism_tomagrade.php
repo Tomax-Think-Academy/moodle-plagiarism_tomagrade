@@ -78,7 +78,6 @@ $string['tomagrade_zeroCompleteTeacher'] = "Number of digits to complete Teacher
 $string['tomagrade_zeroCompleteTeacher_help'] = "For Teachers authentication on TomaGrade";
 $string['assigns_syncedWithTG'] = "Assigns were synced";
 $string['invalid_file_type_for_TomaGrade'] = "Invalid file type for TomaGrade";
-$string['tomagrade_userRolesPermissionGradedExam'] = "View permission for graded exam";
 $string['tomagrade_shareAddioionalTeachersTitle'] = "Share additional teachers on TomaGrade";
 $string['tomagrade_moodleServerID'] = "Moodle Server ID";
 $string['tomagrade_currentExamIDonTomaGrade'] = "Current ExamID on TomaGrade";
