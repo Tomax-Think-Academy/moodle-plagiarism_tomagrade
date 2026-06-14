@@ -78,48 +78,41 @@ if (plagiarism_tomagrade_check_enabled()) {
 
 
 
-        $examscmidscist = "";
+        $examscmidsarray = [];
         $examsidsincurrentmoodlesserver = array();
     if (count($moodleassignsarr) > 0) {
-        $moodleassignsstr = "";
-        $isfirst = true;
-        foreach ($moodleassignsarr as $examid) {
-            if ($isfirst) {
-                $moodleassignsstr .= "'".$examid."'";
-                $isfirst = false;
-            } else {
-                $moodleassignsstr .= ",'".$examid."'";
-            }
-        }
-
-        $examsinthismoodle = $DB->get_records_sql(" select cm,examid from {plagiarism_tomagrade_config}
-            where examid in ($moodleassignsstr) ");
-        $isfirst = true;
-        foreach ($examsinthismoodle as $key => $value) {
-            if ($isfirst) {
-                $examscmidscist .= "'".$value->cm."'";
-                $isfirst = false;
-            } else {
-                $examscmidscist .= ",'".$value->cm."'";
-            }
-                array_push($examsidsincurrentmoodlesserver, $value->examid);
+        list($insql, $params) = $DB->get_in_or_equal($moodleassignsarr);
+        $examsinthismoodle = $DB->get_records_sql(
+            "SELECT cm, examid FROM {plagiarism_tomagrade_config} WHERE examid $insql",
+            $params
+        );
+        foreach ($examsinthismoodle as $value) {
+            $examscmidsarray[] = $value->cm;
+            $examsidsincurrentmoodlesserver[] = $value->examid;
         }
     }
 
 
 
 
-    if (empty($examscmidscist) == false) {
-
-        $notrendered = $DB->execute("
-    update {plagiarism_tomagrade}  set finishrender = 1 where id in (  select id from
-    ( select student.id as id  from {plagiarism_tomagrade_config} as config
-     inner join {plagiarism_tomagrade} as student on config.cm = student.cmid
-     where cmid in ($examscmidscist) and student.status=1 ) as x ) ");
+    if (!empty($examscmidsarray)) {
+        list($insql, $params) = $DB->get_in_or_equal($examscmidsarray);
+        $notrendered = $DB->execute(
+            "UPDATE {plagiarism_tomagrade} SET finishrender = 1
+             WHERE id IN (
+                 SELECT id FROM (
+                     SELECT student.id AS id
+                     FROM {plagiarism_tomagrade_config} AS config
+                     INNER JOIN {plagiarism_tomagrade} AS student ON config.cm = student.cmid
+                     WHERE cmid $insql AND student.status = 1
+                 ) x
+             )",
+            $params
+        );
 
         if ($notrendered == true) {
 
-                logandprint("all the exams $examscmidscist has been synced and rendered", $log);
+                logandprint("all the exams have been synced and rendered", $log);
 
             foreach ($examsidsincurrentmoodlesserver as $exam) {
                 try {
