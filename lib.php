@@ -1885,6 +1885,8 @@ function plagiarism_tomagrade_get_teacher_codes_from_moodle_ids($teachers, $iden
     }
 
     if ($config->tomagrade_DefaultIdentifier_TEACHER == 4) {
+        // Institution-specific cross-database query (huji.userdata). Not parameterized —
+        // Moodle placeholders cannot be used reliably across database boundaries here.
         $selectedteacherstoshare2 = $DB->get_records_sql(" select tz,hujiid from huji.userdata where tz in (". implode(",", $tempteacherscodearr) .")");
 
         $teacherscodesarray = array();
