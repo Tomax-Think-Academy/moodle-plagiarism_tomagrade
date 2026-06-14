@@ -1867,7 +1867,12 @@ function plagiarism_tomagrade_get_teacher_codes_from_moodle_ids($teachers, $iden
 
     $config = get_config('plagiarism_tomagrade');
 
-    $selectedteacherstoshare = $DB->get_records_sql(" select id,email,idnumber,username from {user} where id in ($teachers)");
+    $teachersarr = array_filter(array_map('intval', explode(',', $teachers)));
+    list($insql, $params) = $DB->get_in_or_equal($teachersarr);
+    $selectedteacherstoshare = $DB->get_records_sql(
+        "SELECT id, email, idnumber, username FROM {user} WHERE id $insql",
+        $params
+    );
 
     foreach ($selectedteacherstoshare as $teacher) {
         array_push($teachersemailsarray, $teacher->email);
