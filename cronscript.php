@@ -29,7 +29,6 @@ mtrace("Define INTERNAL");
 global $DB, $CFG;
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/plagiarism/tomagrade/lib.php');
-require_login();
 mtrace("Starting the TomaGrade cron");
 
 
