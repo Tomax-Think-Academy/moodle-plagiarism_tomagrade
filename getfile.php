@@ -42,7 +42,7 @@ $context = context_module::instance($cmid);
 
 $permission = false;
 // Students may view their own graded file; teachers/graders may view any file via has_capability below.
-if ($userid === $USER->id) {
+if (!is_null($userid) && $userid == $USER->id) {
     $id = plagiarism_plugin_tomagrade::get_user_identifier($userid);
     $permission = true;
 } else if (!is_null($group)) {
