@@ -31,13 +31,7 @@ require_once($CFG->dirroot.'/plagiarism/tomagrade/plagiarism_form.php');
 
 
 require_login();
-
-
- require_login();
-if ($CFG->version < 2011120100) {
-    $context = get_context_instance(CONTEXT_SYSTEM);
-} else {
-    $context = context_system::instance();
-}
+$context = context_system::instance();
+require_capability('moodle/site:config', $context);
 
 echo($USER->id);

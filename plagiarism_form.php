@@ -194,13 +194,6 @@ class plagiarism_setup_form extends moodleform {
 .checkboxgroup1 { margin-top:0 !important;  margin-bottom:0 !important; }
 </style>";
 
-        $mform->addElement('static', 'tomagrade_userRolesPermissionGradedExam1',
-         get_string('tomagrade_userRolesPermissionGradedExam', 'plagiarism_tomagrade'), null);
-
-        foreach ($roles as $id => $name) {
-            $mform->addElement('checkbox', "rolePermissionGradedExam_".$id, $name, null, array('class' => 'checkboxgroup1'));
-        }
-
         $mform->addElement('select', 'tomagrade_createUsers',
          get_string('tomagrade_createUsers', 'plagiarism_tomagrade'), $createusersoptions);
 
@@ -227,9 +220,6 @@ class plagiarism_setup_form extends moodleform {
         $mform->addElement('button', "onclick='asdfasfd'", "Check Connection",
          array("onclick" => "window.open('$checkconnection')"));
 
-        $debug = $CFG->wwwroot . '/plagiarism/tomagrade/tomagrade_debug.php';
-        $mform->addElement('button', "onclick='asdfasfd'", "Debug form",
-         array("onclick" => "window.open('$debug')"));
 
     }
 }

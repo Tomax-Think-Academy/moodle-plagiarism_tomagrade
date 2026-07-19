@@ -33,6 +33,8 @@ require_once($CFG->dirroot . '/plagiarism/tomagrade/plagiarism_form.php');
 require_login();
 
 $cmid = required_param('cmid', PARAM_INT);
+$context = context_module::instance($cmid);
+require_capability('mod/assign:grade', $context);
 
 $studentid = optional_param('studentid', null, PARAM_INT);
 $groupid = optional_param('groupid', null, PARAM_INT);
@@ -40,7 +42,7 @@ $filehash = optional_param('filehash', '' ,PARAM_RAW);
 
 $connection = new tomagrade_connection;
 $connection->do_login();
-$contextid = context_module::instance($cmid)->id;
+$contextid = $context->id;
 
 if (!is_null($studentid)) {
     $data = $DB->get_record("plagiarism_tomagrade", array("cmid" => $cmid, "userid" => $studentid));

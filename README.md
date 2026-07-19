@@ -54,5 +54,20 @@ Receive a free trial with full access to all Tomax’s features.
 For more information please contact us at sales@tomaxltd.com
 for experiencing with a demo version you can use
 
+# Upgrading
+
+## Upgrading to version 2026061404 or later
+
+Run the standard Moodle upgrade procedure (Site Administration > Notifications).
+
+**Breaking change — graded file access permissions:**  
+The plugin-specific "Roles permitted to view graded exam" setting (`tomagrade_userRolesPermissionGradedExam`) has been removed. Access to graded files is now controlled by the standard Moodle capability `mod/assign:grade`.
+
+- **Default role configurations (Teacher, Non-editing teacher):** No action required — these roles already hold `mod/assign:grade` by default.
+- **Custom or modified roles:** If your institution previously listed custom roles in the removed setting, verify that those roles are assigned the `mod/assign:grade` capability in your Moodle role configuration (Site Administration > Users > Permissions > Define roles).
+
+**Removed debug page:**  
+`/plagiarism/tomagrade/tomagrade_debug.php` has been removed. Any bookmarks or links to this URL should be deleted.
+
 # Dependencies
 The assignment module.

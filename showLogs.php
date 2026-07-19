@@ -29,6 +29,8 @@ require_once($CFG->libdir . '/plagiarismlib.php');
 require_once($CFG->dirroot . '/plagiarism/tomagrade/lib.php');
 require_once($CFG->dirroot . '/plagiarism/tomagrade/plagiarism_form.php');
 require_login();
+$context = context_system::instance();
+require_capability('moodle/site:config', $context);
 
 defined('MOODLE_INTERNAL') || die();
 global $DB, $CFG;
