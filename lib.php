@@ -832,15 +832,15 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     $teachersissarray = array();
 
                     $idinmoddle = $DB->get_record_sql(" select id from {user} where email = ? ", array($data->tomagrade_username));
-                    $idinmoddle = $idinmoddle->id;
-                    array_push($checkidsexists, "'".$idinmoddle."'");
+                    $idinmoddle = (int)$idinmoddle->id;
+                    array_push($checkidsexists, $idinmoddle);
                     foreach ($data as $field => $value) {
                         if (strpos($field, 'tomagrade_shareTeacher_') !== false) {
                             $teacherid = str_replace("tomagrade_shareTeacher_", "", $field);
                             if (is_numeric($teacherid) == false) {
                                 continue;
                             }
-                            array_push($checkidsexists, "'".$teacherid."'");
+                            array_push($checkidsexists, (int)$teacherid);
                         }
                     }
 
@@ -848,16 +848,24 @@ function plagiarism_tomagrade_coursemodule_edit_post_actions($data, $course) {
                     $emailtodetails = array();
 
                     if (count($checkidsexists) > 0) {
+                        list($insql, $params) = $DB->get_in_or_equal($checkidsexists);
 
                         if ($config->tomagrade_DefaultIdentifier_TEACHER != 4) {
-                            $teachersarr = $DB->get_records_sql("
-                            SELECT email,idnumber,firstname,lastname,lang,username
-                             from {user} where id in (". implode(",", $checkidsexists) .") ");
+                            $teachersarr = $DB->get_records_sql(
+                                "SELECT email,idnumber,firstname,lastname,lang,username
+                                 FROM {user} WHERE id $insql",
+                                $params
+                            );
                         } else {
-                            $teachersarr = $DB->get_records_sql("
-                            SELECT email,firstname,lastname,lang,username,hujiid as idnumber
-                             from {user} u inner join huji.userdata h on u.idnumber=h.tz
-                              where u.id in (". implode(",", $checkidsexists) .") ");
+                            // Institution-specific join to huji.userdata (cross-database). The id filter
+                            // uses parameterized $insql/$params; only the table reference is raw because
+                            // Moodle's {tablename} brace syntax cannot be used across database boundaries.
+                            $teachersarr = $DB->get_records_sql(
+                                "SELECT email,firstname,lastname,lang,username,hujiid as idnumber
+                                 FROM {user} u INNER JOIN huji.userdata h ON u.idnumber=h.tz
+                                 WHERE u.id $insql",
+                                $params
+                            );
                         }
 
                         foreach ($teachersarr as $row) {
@@ -1287,6 +1295,8 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
 
             if (isset($config->tomagrade_userRolesToDisplayRelatedAssign) == true &&
              $config->tomagrade_userRolesToDisplayRelatedAssign != "") {
+                $roleids = array_filter(array_map('intval', explode(',', $config->tomagrade_userRolesToDisplayRelatedAssign)));
+                list($rolesql, $roleparams) = $DB->get_in_or_equal($roleids);
                 $teachersarr = $DB->get_records_sql("
                 SELECT DISTINCT   u.id, u.username, u.firstname, u.lastname, lower(u.email) as email, u.idnumber
                 FROM {role_assignments} ra, {user} u, {course} c, {context} cxt
@@ -1295,24 +1305,22 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 AND cxt.contextlevel =50
                 AND cxt.instanceid = c.id
                 AND c.id = :instanceid
-                AND roleid in  ($config->tomagrade_userRolesToDisplayRelatedAssign)  ",
-                 array('instanceid' => $context->instanceid));
+                AND roleid $rolesql",
+                array_merge(['instanceid' => $context->instanceid], $roleparams));
 
                 $idnumbertohuji = array();
 
                 if ($config->tomagrade_DefaultIdentifier_TEACHER == 4) {
-                    $arrteachersids = array();
-
+                    // Institution-specific cross-database table (huji.userdata). {tablename} brace syntax
+                    // cannot be used across DB boundaries; each row is looked up with a parameterized query.
                     foreach ($teachersarr as $teacher) {
-                        array_push($arrteachersids, '"'.$teacher->idnumber.'"');
-                    }
-
-                    $hujiarr = $DB->get_records_sql("
-                    SELECT tz, hujiid FROM  huji.userdata where tz in (". implode(",", $arrteachersids) ." )");
-
-                    foreach ($hujiarr as $huji) {
-                        $idnumbertohuji[$huji->tz] = $huji->hujiid;
-
+                        $huji = $DB->get_record_sql(
+                            "SELECT tz, hujiid FROM huji.userdata WHERE tz = ?",
+                            [$teacher->idnumber]
+                        );
+                        if ($huji) {
+                            $idnumbertohuji[$huji->tz] = $huji->hujiid;
+                        }
                     }
 
                 }
@@ -1859,7 +1867,6 @@ function plagiarism_tomagrade_get_teacher_codes_from_moodle_ids($teachers, $iden
 
     $teachersemailsarray = array();
     $teacherscodesarray = array();
-    $tempteacherscodearr = array();
 
     if (empty($teachers)) {
         return false;
@@ -1881,18 +1888,21 @@ function plagiarism_tomagrade_get_teacher_codes_from_moodle_ids($teachers, $iden
         } else {
             array_push($teacherscodesarray, $teacher->idnumber);
         }
-        array_push($tempteacherscodearr, '"'.$teacher->idnumber.'"');
     }
 
     if ($config->tomagrade_DefaultIdentifier_TEACHER == 4) {
-        // Institution-specific cross-database query (huji.userdata). Not parameterized —
-        // Moodle placeholders cannot be used reliably across database boundaries here.
-        $selectedteacherstoshare2 = $DB->get_records_sql(" select tz,hujiid from huji.userdata where tz in (". implode(",", $tempteacherscodearr) .")");
-
+        // Institution-specific cross-database table (huji.userdata). {tablename} brace syntax
+        // cannot be used across DB boundaries; each row is looked up with a parameterized query.
         $teacherscodesarray = array();
 
-        foreach ($selectedteacherstoshare2 as $teacher) {
-            array_push($teacherscodesarray, $teacher->hujiid);
+        foreach ($selectedteacherstoshare as $teacher) {
+            $huji = $DB->get_record_sql(
+                "SELECT tz, hujiid FROM huji.userdata WHERE tz = ?",
+                [$teacher->idnumber]
+            );
+            if ($huji) {
+                array_push($teacherscodesarray, $huji->hujiid);
+            }
         }
 
     }
@@ -2189,13 +2199,14 @@ class tomagrade_log_reader {
 
     private function read_log($filename) {
         global $CFG;
-        $displaypath = str_replace($CFG->dirroot, '', $filename);
+        $displaypath = htmlspecialchars(str_replace($CFG->dirroot, '', $filename), ENT_QUOTES, 'UTF-8');
         $details = "------- Log of : " . $displaypath;
         if (!$fp = fopen($filename, 'r')) {
             $details = $details . "<br> Error opening the file";
             return $details;
         }
         $log = fread($fp, filesize($filename));
+        $log = htmlspecialchars($log, ENT_QUOTES, 'UTF-8');
         $log = str_replace("\n", "<br>", $log);
         $details = $details . "<br>" . $log;
         fclose($fp);
@@ -2211,7 +2222,7 @@ class tomagrade_log_reader {
                 $currentfilepath = $this->build_file_path($location);
                 if (is_writable($currentfilepath)) {
                     $deleted = unlink($currentfilepath);
-                    $displaypath = str_replace($CFG->dirroot, '', $currentfilepath);
+                    $displaypath = htmlspecialchars(str_replace($CFG->dirroot, '', $currentfilepath), ENT_QUOTES, 'UTF-8');
                     if ($deleted) {
                         $details = $details . " Succefully deleted: " . $displaypath . "<br>";
                     } else {
