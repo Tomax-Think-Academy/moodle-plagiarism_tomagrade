@@ -1304,9 +1304,9 @@ function plagiarism_tomagrade_coursemodule_standard_elements($formwrapper, $mfor
                 AND ra.contextid = cxt.id
                 AND cxt.contextlevel =50
                 AND cxt.instanceid = c.id
-                AND c.id = :instanceid
+                AND c.id = ?
                 AND roleid $rolesql",
-                array_merge(['instanceid' => $context->instanceid], $roleparams));
+                array_merge([$context->instanceid], $roleparams));
 
                 $idnumbertohuji = array();
 
