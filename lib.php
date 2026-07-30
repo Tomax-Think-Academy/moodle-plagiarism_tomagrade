@@ -453,6 +453,18 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
             $urlopenexam = $CFG->wwwroot . '/plagiarism/tomagrade/openexam.php';
             $urlreupload = $CFG->wwwroot . '/plagiarism/tomagrade/uploadFile.php';
 
+            // The graded link is for graders only, so it is never sent to a student -- hiding it
+            // in JS alone would still leave the URL readable in the page source. It is then
+            // rendered hidden because PHP cannot tell which page it is rendering into; the script
+            // below reveals it only on the grading page. Students keep getting the link through
+            // the feedback table instead.
+            $tggradedlinkhtml = "";
+            $context = plagiarism_tomagrade_get_context_from_cmid($cmid);
+            $canviewasteacher = ($context !== false) && has_capability('mod/assign:grade', $context);
+            if (isset($gradedExamLink) && $canviewasteacher) {
+                $tggradedlinkhtml = '<span class="tg-graded-link" style="display:none;"><br>' . $gradedExamLink . '</span>';
+            }
+
             return '
                 <style>
                     .link{
@@ -557,6 +569,11 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                 setTimeout(function() {
                     if (document.getElementById("submissions")) {
                         manipulateSubmissionsTable();
+                        // Only the grading page has a submissions table, so this is where
+                        // the graded link is meant for a teacher rather than a student.
+                        document.querySelectorAll(".tg-graded-link").forEach(function (gradedLink) {
+                            gradedLink.style.display = "";
+                        });
                     }
                     const feedbackTable = document
                         .getElementsByClassName("feedbacktable")[0]
@@ -565,7 +582,7 @@ class plagiarism_plugin_tomagrade extends plagiarism_plugin {
                         addGradedLinkToFeedbackTable(feedbackTable, \'' . $gradedExamLink . '\');
                     }
                 },1000)
-                </script>';
+                </script>' . $tggradedlinkhtml;
         }
     }
 
